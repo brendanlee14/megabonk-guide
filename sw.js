@@ -1,5 +1,11 @@
 const CACHE = 'megabonk-v1';
-const ASSETS = ['/', '/index.html', '/manifest.json'];
+const ASSETS = [
+  '/megabonk-guide/',
+  '/megabonk-guide/index.html',
+  '/megabonk-guide/manifest.json',
+  '/megabonk-guide/icon-192.png',
+  '/megabonk-guide/icon-512.png'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
