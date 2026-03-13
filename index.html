@@ -89,6 +89,38 @@
     .legend { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; padding:10px 14px; background:var(--surface); border-radius:10px; border:1px solid var(--border); }
     .legend-item { display:flex; align-items:center; gap:5px; font-size:.7rem; color:var(--muted); }
     .legend-rank { font-family:'Russo One',sans-serif; font-size:.85rem; }
+    /* --- PROGRESSION GUIDE --- */
+    .prog-section { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:13px; }
+    .prog-phases { display:flex; flex-direction:column; gap:10px; }
+    .phase-block { border-radius:10px; overflow:hidden; border:1px solid transparent; }
+    .phase-block.phase-1 { border-color:rgba(126,203,53,.25); }
+    .phase-block.phase-2 { border-color:rgba(255,215,0,.25); }
+    .phase-block.phase-3 { border-color:rgba(255,140,66,.25); }
+    .phase-block.phase-4 { border-color:rgba(255,77,109,.3); }
+    .phase-header { display:flex; align-items:center; gap:10px; padding:10px 14px; cursor:pointer; user-select:none; }
+    .phase-block.phase-1 .phase-header { background:rgba(126,203,53,.08); }
+    .phase-block.phase-2 .phase-header { background:rgba(255,215,0,.07); }
+    .phase-block.phase-3 .phase-header { background:rgba(255,140,66,.08); }
+    .phase-block.phase-4 .phase-header { background:rgba(255,77,109,.09); }
+    .phase-label { font-family:'Russo One',sans-serif; font-size:.78rem; letter-spacing:.5px; }
+    .phase-block.phase-1 .phase-label { color:var(--c); }
+    .phase-block.phase-2 .phase-label { color:var(--b); }
+    .phase-block.phase-3 .phase-label { color:var(--a); }
+    .phase-block.phase-4 .phase-label { color:var(--s); }
+    .phase-sublabel { font-size:.67rem; color:var(--muted); margin-left:auto; }
+    .phase-chevron { font-size:.7rem; color:var(--muted); transition:transform .2s; margin-left:4px; }
+    .phase-block.open .phase-chevron { transform:rotate(90deg); }
+    .phase-body { display:none; padding:12px 14px 14px; background:var(--surface2); }
+    .phase-block.open .phase-body { display:block; }
+    .phase-row { margin-bottom:10px; }
+    .phase-row:last-child { margin-bottom:0; }
+    .phase-row-title { font-size:.65rem; letter-spacing:1px; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:5px; }
+    .phase-chips { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:4px; }
+    .phase-chip { font-size:.7rem; padding:3px 9px; border-radius:12px; font-weight:600; }
+    .chip-weapon { background:rgba(255,77,109,.12); color:#ff8099; border:1px solid rgba(255,77,109,.25); }
+    .chip-tome { background:rgba(0,212,255,.1); color:#80e8ff; border:1px solid rgba(0,212,255,.2); }
+    .phase-tip { font-size:.72rem; color:var(--muted); line-height:1.5; padding-left:12px; position:relative; margin-top:3px; }
+    .phase-tip::before { content:'▸'; position:absolute; left:0; color:var(--accent3); }
     @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
     .animate-in { animation:fadeIn .22s ease-out forwards; }
     @media(max-width:480px){
@@ -651,10 +683,178 @@ function filterTier(tier,btn){
   document.querySelectorAll('.char-card').forEach(card=>{card.classList.toggle('hidden',tier!=='all'&&card.dataset.tier!==tier);});
 }
 
+// Progression guide data per character
+const PROG = {
+  dicehead:[
+    {label:'Levels 1–10',sublabel:'Survive & farm XP',weapons:['Dice'],tomes:['XP Tome','Luck Tome'],tips:['Stay at maximum range — you have low HP and Dice deals random damage. Pure survival mode.','Grab every XP shrine and magnet you see. The sooner you level the sooner dice rolls stack.']},
+    {label:'Levels 11–20',sublabel:'Start rolling 6s',weapons:['Dice','Revolver'],tomes:['XP Tome','Luck Tome','Precision Tome'],tips:['Add Revolver now for consistent DPS while waiting for dice procs.','Luck Tome should be maxing — aim for at least 3 stacks by level 20.','If Giant Fork drops from any source, take it immediately — it\'s the build-defining item.']},
+    {label:'Levels 21–35',sublabel:'Crit snowball begins',weapons:['Dice','Revolver','Katana','Bow'],tomes:['Precision Tome','Damage Tome','Luck Tome'],tips:['By now Crit Chance should be 30–50%+ from dice rolls. Precision Tome multiplies this massively.','Add Katana or Bow as a third weapon — both generate more crit opportunities per second.','Focus on staying alive: with high crit you can lifesteal via Demonic Blade if you found it.']},
+    {label:'Levels 35+',sublabel:'God mode engaged',weapons:['Dice','Revolver','Katana','Bow','Dexecutioner'],tomes:['Precision Tome','Damage Tome','Cooldown Tome'],tips:['You should be one-shotting most enemies. Add Dexecutioner to clean up anything that survives.','Stack Forbidden Juice if available — crit damage at 50%+ Crit Chance is obscene.','Cooldown Tome pushes all weapons to near-constant firing. The run is essentially won.']},
+  ],
+  bandit:[
+    {label:'Levels 1–10',sublabel:'Establish Dexecutioner',weapons:['Dexecutioner'],tomes:['XP Tome'],tips:['Dexecutioner is already your strongest weapon from level 1 — upgrade it every chance.','Stay aggressive; the execute mechanic one-shots weak enemies instantly.','XP Tome first to stack the attack speed passive faster.']},
+    {label:'Levels 11–20',sublabel:'Add speed & area coverage',weapons:['Dexecutioner','Aura'],tomes:['XP Tome','Cooldown Tome'],tips:['Add Aura now to handle enemies that swarm in from multiple directions.','Cooldown Tome starts compounding with the attack speed passive — grab it early.','Joe\'s Dagger from any source is a massive spike — prioritise it.']},
+    {label:'Levels 21–35',sublabel:'Full DPS loadout',weapons:['Dexecutioner','Aura','Revolver','Flamewalker'],tomes:['Cooldown Tome','Quantity Tome','Size Tome'],tips:['Revolver fills the mid-range gap that Aura and Dexecutioner leave.','Flamewalker adds free passive damage as you move between targets.','Size Tome on Dexecutioner and Aura dramatically increases clear radius.']},
+    {label:'Levels 35+',sublabel:'Attack speed ceiling',weapons:['Dexecutioner','Aura','Revolver','Flamewalker','Katana'],tomes:['Cooldown Tome','Quantity Tome','Damage Tome'],tips:['Attack speed from passive + Cooldown Tome should be near the cap by now.','Add Katana as a fifth weapon — fast melee to mop up stragglers.','Damage Tome in late game multiplies every weapon simultaneously.']},
+  ],
+  robinette:[
+    {label:'Levels 1–10',sublabel:'Build your gold hoard',weapons:['Bow'],tomes:['XP Tome'],tips:['Resist spending gold unless the item is exceptional. Your damage scales with gold HELD.','Bow starter is already strong — upgrade it every level.','Pick up every gold coin and prioritise any gold-generating shrines.']},
+    {label:'Levels 11–20',sublabel:'Stack projectiles',weapons:['Bow','Revolver'],tomes:['Quantity Tome','XP Tome'],tips:['Quantity Tome is the #1 priority once you have Bow established.','Add Revolver as a complementary projectile weapon — same upgrades benefit both.','Target 5,000+ gold by level 20. That\'s already +50% damage bonus.']},
+    {label:'Levels 21–35',sublabel:'Ramp gold damage',weapons:['Bow','Revolver','Sniper Rifle'],tomes:['Quantity Tome','Precision Tome','Damage Tome'],tips:['Sniper Rifle\'s 22 base damage is insane at this point with your gold multiplier on top.','Precision Tome adds crit chance to all projectiles — use manual aim on bosses for one-shots.','Hold 10,000+ gold. That\'s +100% damage. Don\'t spend unless the item is genuinely S-tier.']},
+    {label:'Levels 35+',sublabel:'Untouchable ranged god',weapons:['Bow','Revolver','Sniper Rifle','Dexecutioner'],tomes:['Precision Tome','Cooldown Tome','Damage Tome'],tips:['20,000+ gold = +200% bonus damage. This is when Robinette becomes truly broken.','Add Dexecutioner as a cleanup weapon for anything that survives the arrow storm.','Cooldown Tome lets you fire all ranged weapons near-continuously.']},
+  ],
+  vlad:[
+    {label:'Levels 1–10',sublabel:'Establish lifesteal base',weapons:['Blood Magic'],tomes:['Bloody Tome'],tips:['Bloody Tome first, no exceptions — without it Blood Magic is just a damage weapon.','Stay in melee range; Blood Magic only heals on direct hits.','Early game is dangerous — be cautious until Bloody Tome has 2+ stacks.']},
+    {label:'Levels 11–20',sublabel:'Build sustain engine',weapons:['Blood Magic','Aura'],tomes:['Bloody Tome','Quantity Tome'],tips:['Aura added now means you\'re lifesteal-ing from every enemy in 360° simultaneously.','Quantity Tome multiplies Blood Magic projectiles — each one heals independently.','With Leeching Crystal + Bloody Tome you should now be nearly unkillable.']},
+    {label:'Levels 21–35',sublabel:'Max damage output',weapons:['Blood Magic','Aura','Lightning Staff','Dexecutioner'],tomes:['Bloody Tome','Quantity Tome','Cooldown Tome'],tips:['Lightning Staff chains mean you heal from every enemy in the chain simultaneously.','Dexecutioner added for burst DPS — lifesteal from one-shot hits is a full heal.','Cooldown Tome makes weapon procs constant — you heal so fast HP bars barely move.']},
+    {label:'Levels 35+',sublabel:'Unkillable & dominant',weapons:['Blood Magic','Aura','Lightning Staff','Dexecutioner','Bananarang'],tomes:['Cooldown Tome','Damage Tome','XP Tome'],tips:['You should be healing faster than any damage can reach you. Be aggressive.','Damage Tome late game amplifies every hit which also amplifies every heal.','Add Bananarang as a fifth weapon — bouncing hits keep the heal cycle constant.']},
+  ],
+  sirchadwell:[
+    {label:'Levels 1–10',sublabel:'Accept the difficulty',weapons:['Cursed Sword'],tomes:['XP Tome','Size Tome'],tips:['Difficulty auto-scales but so do your drops — trust the process and farm aggressively.','Size Tome on Cursed Sword gives you huge sweep area even at low levels.','Prioritise chest and vendor visits — difficulty means legendary drops appear early.']},
+    {label:'Levels 11–20',sublabel:'Core combo online',weapons:['Cursed Sword','Aura'],tomes:['Size Tome','Cooldown Tome'],tips:['Aura + Cursed Sword is the core synergy. Size Tome makes both reach huge distances.','Cooldown Tome now means Cursed Sword procs extremely fast alongside Aura.','Buy defensive items — enemies are noticeably tougher than other characters face.']},
+    {label:'Levels 21–35',sublabel:'Loot snowball',weapons:['Cursed Sword','Aura','Katana','Dexecutioner'],tomes:['Size Tome','Cooldown Tome','Damage Tome'],tips:['By now difficulty is high enough that chests routinely drop legendary tier items.','Katana adds fast-swing melee between Cursed Sword cooldowns.','Dexecutioner handles the tankier enemies that difficulty has buffed up.']},
+    {label:'Levels 35+',sublabel:'Legendary stacked',weapons:['Cursed Sword','Aura','Katana','Dexecutioner','Aegis'],tomes:['Damage Tome','Quantity Tome','Cooldown Tome'],tips:['You should have 3–4 legendary items by now from the difficulty bonus drops.','Aegis rounds out the build defensively — boss attacks hit harder at this difficulty.','Damage Tome at this stage multiplies a massive base — every level is a huge spike.']},
+  ],
+  fox:[
+    {label:'Levels 1–10',sublabel:'Stack Luck early',weapons:['Firestaff'],tomes:['Luck Tome','XP Tome'],tips:['Luck Tome is your #1 priority — stack it immediately every time it appears.','Firestaff starter is reliable AoE. Upgrade it but don\'t chase other weapons yet.','Visit every vendor and Moai Shrine — high Luck means better items appear for sale.']},
+    {label:'Levels 11–20',sublabel:'Add Lightning Staff',weapons:['Firestaff','Lightning Staff'],tomes:['Luck Tome','Cooldown Tome'],tips:['Lightning Staff added now covers horde situations where Firestaff alone isn\'t enough.','Cooldown Tome makes both staffs proc rapidly — passive damage is constant.','Look for Clover and Credit Card (Green) in chests — they multiply the Luck passive.']},
+    {label:'Levels 21–35',sublabel:'Legendary hunt',weapons:['Firestaff','Lightning Staff','Dexecutioner','Aegis'],tomes:['Luck Tome','Cooldown Tome','Quantity Tome'],tips:['Luck should be very high now — Legendary items appear frequently. Buy everything.','Dexecutioner is priority when it appears in a vendor or chest.','Aegis handles boss ranged phases — don\'t skip it.','Quantity Tome pushes both staffs to insane projectile counts.']},
+    {label:'Levels 35+',sublabel:'Legendary carry',weapons:['Firestaff','Lightning Staff','Dexecutioner','Aegis','Bananarang'],tomes:['Quantity Tome','Damage Tome','Cooldown Tome'],tips:['Your Legendary item collection should be carrying the damage at this point.','Damage Tome stacks multiplicatively with all Legendary item bonuses.','Add Bananarang as a fifth weapon — great filler that benefits from all tome upgrades.']},
+  ],
+  calcium:[
+    {label:'Levels 1–10',sublabel:'Never stop moving',weapons:['Bone'],tomes:['Movement Speed Tome','XP Tome'],tips:['Movement Speed Tome first — it directly increases your damage from level 1.','Bone is your only weapon. Upgrade it every opportunity.','Practice wide circular routes — getting hit halves your speed and your damage.']},
+    {label:'Levels 11–20',sublabel:'Build the kite loop',weapons:['Bone','Revolver'],tomes:['Movement Speed Tome','Quantity Tome'],tips:['Add Revolver now — both are ranged and let you kite at max distance.','Quantity Tome doubles the projectiles from both weapons while you loop.','Turbo Socks found in a chest is a priority grab — immediately noticeable speed boost.']},
+    {label:'Levels 21–35',sublabel:'Speed & fire coverage',weapons:['Bone','Revolver','Flamewalker','Bow'],tomes:['Movement Speed Tome','Quantity Tome','Attack Speed Tome'],tips:['Flamewalker leaves fire trails — your circular kite route becomes a death spiral for enemies.','Bow added for piercing damage on dense swarms you pass through.','Attack Speed Tome means you fire faster on every pass through enemy groups.']},
+    {label:'Levels 35+',sublabel:'Untouchable speed damage',weapons:['Bone','Revolver','Flamewalker','Bow','Lightning Staff'],tomes:['Quantity Tome','Attack Speed Tome','Damage Tome'],tips:['Your movement speed should be extremely high — damage output is massive.','Lightning Staff added as final weapon — chains between enemies as you kite past.','Damage Tome now amplifies the already speed-boosted base — every hit hurts enormously.']},
+  ],
+  cl4nk:[
+    {label:'Levels 1–10',sublabel:'Crit foundation',weapons:['Revolver'],tomes:['Precision Tome','Quantity Tome'],tips:['Precision and Quantity are both mandatory early — grab them in any order they appear.','Revolver starter synergises perfectly with crit chance. Upgrade every level.','Stay mobile — CL4NK has low HP. Keep enemies at range.']},
+    {label:'Levels 11–20',sublabel:'Add secondary damage',weapons:['Revolver','Firestaff'],tomes:['Precision Tome','Quantity Tome','Cooldown Tome'],tips:['Firestaff adds AoE coverage — Revolver alone struggles with dense swarms.','Cooldown Tome now means both weapons proc near-constantly.','Look for Demonic Blade in chests — crit-heal sustain fixes CL4NK\'s fragility.']},
+    {label:'Levels 21–35',sublabel:'Multi-crit machine',weapons:['Revolver','Firestaff','Bananarang','Axe'],tomes:['Precision Tome','Quantity Tome','Cooldown Tome','Damage Tome'],tips:['Bananarang and Axe both benefit from all your tome upgrades — add them as slots open.','By now Crit Chance should be 30%+ from the passive. Precision multiplies this.','Demonic Blade should keep you fully healed if crits are hitting every few seconds.']},
+    {label:'Levels 35+',sublabel:'Crit spam ceiling',weapons:['Revolver','Firestaff','Bananarang','Axe','Lightning Staff'],tomes:['Precision Tome','Damage Tome','Cooldown Tome'],tips:['5 weapons all critting frequently is enormous DPS — enemies don\'t survive one rotation.','Damage Tome at this stage multiplies every crit hit significantly.','Lightning Staff chains crits through entire enemy groups simultaneously.']},
+  ],
+  ninja:[
+    {label:'Levels 1–10',sublabel:'Learn the dash rhythm',weapons:['Wireless Dagger'],tomes:['Cooldown Tome','Attack Speed Tome'],tips:['Cooldown Tome first — it reduces dash cooldown making you nearly untouchable.','Wireless Dagger upgrades fast with Attack Speed. Hit as many times as possible per dash.','Learn boss attack patterns early — dash through attacks, not away from them.']},
+    {label:'Levels 11–20',sublabel:'Melee burst combo',weapons:['Wireless Dagger','Katana'],tomes:['Cooldown Tome','Attack Speed Tome','Damage Tome'],tips:['Katana added now doubles melee damage output between dashes.','Damage Tome makes each rapid melee hit substantially more impactful.','Joe\'s Dagger from a chest or vendor is a massive attack speed spike — priority grab.']},
+    {label:'Levels 21–35',sublabel:'Hit-and-run mastery',weapons:['Wireless Dagger','Katana','Dexecutioner','Flamewalker'],tomes:['Cooldown Tome','Attack Speed Tome','Damage Tome','Agility Tome'],tips:['Dexecutioner added — dash in, execute, dash out. Lethal pattern.','Flamewalker creates fire trails through your dash path — free passive damage.','Agility Tome improves repositioning speed between dash windows.']},
+    {label:'Levels 35+',sublabel:'Full evasion DPS',weapons:['Wireless Dagger','Katana','Dexecutioner','Flamewalker','Aegis'],tomes:['Damage Tome','Cooldown Tome','Agility Tome'],tips:['Aegis rounds out defence against ranged boss attacks between dashes.','Cooldown Tome at high stacks means dash is almost always available.','You should be almost impossible to hit at this speed — play very aggressively.']},
+  ],
+  siroofie:[
+    {label:'Levels 1–10',sublabel:'Fast Sword & tank up',weapons:['Sword'],tomes:['Attack Speed Tome','HP Tome'],tips:['Attack Speed Tome first — fast Sword swings are your entire early damage output.','HP Tome scales the Reinforced passive multiplicatively. Stack it early.','Stand your ground in the centre of packs — you\'re built to absorb hits.']},
+    {label:'Levels 11–20',sublabel:'Add passive AoE',weapons:['Sword','Aura'],tomes:['Attack Speed Tome','HP Tome','Agility Tome'],tips:['Aura added now — between fast Sword hits and the passive ring, hordes melt.','Agility Tome lets you collect XP and items faster without taking extra damage.','Spiky Shield from a chest is excellent here — thorns damage while you stand and fight.']},
+    {label:'Levels 21–35',sublabel:'Ranged coverage',weapons:['Sword','Aura','Lightning Staff','Firestaff'],tomes:['Attack Speed Tome','Quantity Tome','Agility Tome'],tips:['Lightning Staff and Firestaff fill the ranged gap that melee leaves.','Quantity Tome boosts both staffs and slightly boosts Aura projectile count.','Gym Sauce from a vendor makes each fast Sword hit noticeably harder.']},
+    {label:'Levels 35+',sublabel:'Near-invincible tank',weapons:['Sword','Aura','Lightning Staff','Firestaff','Bone'],tomes:['Quantity Tome','Damage Tome','Armor Tome'],tips:['Armor Tome in late game pushes armor to near-100% damage reduction.','You should be borderline unkillable — start Cursed Shrine runs for more XP.','Damage Tome at high Sword attack speed is extraordinary DPS output.']},
+  ],
+  roberto:[
+    {label:'Levels 1–10',sublabel:'Chase cursed marks',weapons:['Scythe'],tomes:['XP Tome','Size Tome'],tips:['Always kill cursed-marked enemies first — bonus XP compounds levelling speed.','Size Tome on Scythe immediately from level 1 — wide sweeps catch multiple marked enemies.','XP Tome stacks with your passive bonus — you should be levelling noticeably faster than most characters.']},
+    {label:'Levels 11–20',sublabel:'Sweep & collect',weapons:['Scythe','Aura'],tomes:['XP Tome','Size Tome','Cooldown Tome'],tips:['Aura added so cursed enemies inside your orbit take damage even without active targeting.','Cooldown Tome means Scythe sweeps fast enough to consistently kill cursed marks before they expire.','You should have noticeably more items than other characters by now — use the advantage.']},
+    {label:'Levels 21–35',sublabel:'Exploit loot lead',weapons:['Scythe','Aura','Dexecutioner','Lightning Staff'],tomes:['Cooldown Tome','Damage Tome','Size Tome'],tips:['Dexecutioner added — execute cursed enemies instantly for guaranteed drops.','Lightning Staff chains mean one shot can hit and kill several cursed enemies simultaneously.','Damage Tome compounds with every item bonus you\'ve accumulated from cursed kills.']},
+    {label:'Levels 35+',sublabel:'Item-stacked powerhouse',weapons:['Scythe','Aura','Dexecutioner','Lightning Staff','Bananarang'],tomes:['Damage Tome','Cooldown Tome','Luck Tome'],tips:['Item advantage from cursed drops should be significant — you\'re outgearing the run.','Luck Tome in late game makes cursed enemy drops even higher quality.','Bananarang as a fifth weapon bounces between dense groups of cursed enemies — excellent.']},
+  ],
+  amog:[
+    {label:'Levels 1–10',sublabel:'Poison chain setup',weapons:['Poison Flask'],tomes:['Duration Tome','Bloody Tome'],tips:['Duration Tome first — longer poison ticks means enemies die slower, explode harder.','Bloody Tome second — lifesteal from poison keeps you alive while chains build up.','Let enemies group before firing. Lone targets waste the chain explosion passive.']},
+    {label:'Levels 11–20',sublabel:'Chain reactions online',weapons:['Poison Flask','Frostwalker'],tomes:['Duration Tome','Bloody Tome','XP Tome'],tips:['Frostwalker slows enemies giving poison even more time to tick before they scatter.','By now chain explosions should be clearing entire groups. Stay at the edge of packs.','Moldy Cheese from any source — stack as many as possible for passive DoT layers.']},
+    {label:'Levels 21–35',sublabel:'Full poison coverage',weapons:['Poison Flask','Frostwalker','Axe','Mines'],tomes:['Duration Tome','Bloody Tome','Damage Tome'],tips:['Axe and Mines both get extended duration — they linger longer dealing more damage.','Mines placed on choke points + Poison Flask = everything entering dies before reaching you.','Gas Mask if found at any point — immediately transforms the build to S-tier.']},
+    {label:'Levels 35+',sublabel:'Poison apocalypse',weapons:['Poison Flask','Frostwalker','Axe','Mines','Black Hole'],tomes:['Damage Tome','Duration Tome','Quantity Tome'],tips:['Black Hole pulls entire screens of enemies into a single point. Fire Poison Flask into it.','Damage Tome amplifies every poison tick and explosion simultaneously.','You should be clearing full screens with one Poison Flask proc at this stage.']},
+  ],
+  noelle:[
+    {label:'Levels 1–10',sublabel:'Level fast for passive',weapons:['Frostwalker'],tomes:['XP Tome','Chaos Tome'],tips:['XP Tome first — Noelle\'s passive stacks with every level. More levels = more size and damage.','Chaos Tome gives random stat bonuses; Noelle benefits from anything it rolls.','Frostwalker slows enemies creating a safe damage zone around you.']},
+    {label:'Levels 11–20',sublabel:'Core meta weapons',weapons:['Frostwalker','Dexecutioner'],tomes:['XP Tome','Chaos Tome','Cursed Tome'],tips:['Dexecutioner added — this is the best DPS weapon and Noelle\'s passive amplifies it.','Cursed Tome ramps difficulty but the Holy Trinity (XP+Cursed+Chaos/Luck) begins here.','Noelle\'s growing size means Frostwalker now covers a noticeably large area.']},
+    {label:'Levels 21–35',sublabel:'Holy Trinity scaling',weapons:['Frostwalker','Dexecutioner','Katana','Flamewalker'],tomes:['Cursed Tome','Chaos Tome','Precision Tome'],tips:['Katana and Flamewalker added — all four weapons benefit from Noelle\'s size and damage passive.','Precision Tome now since base damage and size are both high — crits are devastating.','Flamewalker fire trails scale with Noelle\'s size passive — covers enormous ground.']},
+    {label:'Levels 35+',sublabel:'Scaled-up powerhouse',weapons:['Dexecutioner','Katana','Flamewalker','Frostwalker','Aegis'],tomes:['Precision Tome','Damage Tome','Chaos Tome'],tips:['Noelle\'s passive at 35+ levels means Size and Damage are both enormous.','Damage Tome at this stage multiplies an already-huge passive bonus.','Aegis added defensively — you can afford a defence slot at this point.']},
+  ],
+  megachad:[
+    {label:'Levels 1–10',sublabel:'Grow the Aura',weapons:['Aura'],tomes:['Size Tome','XP Tome'],tips:['Size Tome first, always — bigger Aura radius means more enemies hit passively.','Stand in the centre of enemy groups. Flex passive stops damage periodically.','Don\'t rush forward — let enemies come to you and walk into the Aura.']},
+    {label:'Levels 11–20',sublabel:'Tank & damage combo',weapons:['Aura','Aegis'],tomes:['Size Tome','Damage Tome'],tips:['Aegis added now handles ranged enemies and boss projectiles that Aura can\'t.','Damage Tome makes Aura hits much more impactful — faster clears with the same passive playstyle.','Idle Juice from a chest is huge — you stand still anyway, doubles damage.']},
+    {label:'Levels 21–35',sublabel:'Banana Tornado unlocked',weapons:['Aura','Aegis','Bananarang','Revolver'],tomes:['Size Tome','Quantity Tome','Damage Tome'],tips:['Quantity Tome + Bananarang = the Banana Tornado. Everything near you dies.','Revolver handles enemies outside Aura range while you stand in place.','Cooldown Tome stacks with Flex passive — Aegis blocks nearly constantly.']},
+    {label:'Levels 35+',sublabel:'AFK death machine',weapons:['Aura','Aegis','Bananarang','Revolver','Lightning Staff'],tomes:['Quantity Tome','Cooldown Tome','Damage Tome'],tips:['Lightning Staff as a final weapon — chains between everything inside Aura range.','You should barely need to move. Banana Tornado + Aura + Lightning clears full screens.','Megachad and Athena are the best AFK challenge characters — this is why.']},
+  ],
+  birdo:[
+    {label:'Levels 1–10',sublabel:'Learn the knockback',weapons:['Tornado'],tomes:['Duration Tome','Size Tome'],tips:['Duration Tome first — longer Tornado means more sustained knockback per cast.','Practice aiming knockback AWAY from your escape routes, not toward them.','Flight lets you grab XP gems over obstacles — use it aggressively early.']},
+    {label:'Levels 11–20',sublabel:'Fire trail synergy',weapons:['Tornado','Flamewalker'],tomes:['Duration Tome','Size Tome','Damage Tome'],tips:['Flamewalker + Tornado is the core synergy — knock enemies into fire trails for massive damage.','Plan your movement so Tornado knocks enemies directly into your fire path.','Size Tome on Tornado covers wider ground — fewer gaps in knockback coverage.']},
+    {label:'Levels 21–35',sublabel:'AoE layering',weapons:['Tornado','Flamewalker','Aura','Lightning Staff'],tomes:['Duration Tome','Quantity Tome','Damage Tome'],tips:['Aura added — enemies that survive knockback walk straight into the Aura.','Lightning Staff cleans up grouped enemies that the Tornado pushed together.','Quantity Tome boosts both Tornado and Aura projectile count simultaneously.']},
+    {label:'Levels 35+',sublabel:'Aerial control master',weapons:['Tornado','Flamewalker','Aura','Lightning Staff','Bananarang'],tomes:['Damage Tome','Quantity Tome','Cooldown Tome'],tips:['Cooldown Tome means Tornado is off cooldown almost immediately every cast.','Bananarang bounces through knocked-back enemy groups for excellent value.','Use flight during Final Swarm — get above the horde and drop Tornadoes down into them.']},
+  ],
+  bush:[
+    {label:'Levels 1–10',sublabel:'Safe sniper positioning',weapons:['Sniper Rifle'],tomes:['Damage Tome','Quantity Tome'],tips:['Find a corner or wall to put your back against — reduce the angles enemies can approach.','Damage Tome for Sniper Rifle means it appears more frequently as an upgrade option.','Stand still occasionally to proc Camouflage passive and reduce enemy aggro temporarily.']},
+    {label:'Levels 11–20',sublabel:'Precision upgrades',weapons:['Sniper Rifle','Bow'],tomes:['Damage Tome','Quantity Tome','Precision Tome'],tips:['Bow added as a fast secondary — handles close enemies while Sniper Rifle reloads.','Precision Tome now gives crit chance on Sniper Rifle — one-shots become common.','Place Mines around your sniping position as a proximity defence layer.']},
+    {label:'Levels 21–35',sublabel:'Multi-range coverage',weapons:['Sniper Rifle','Bow','Revolver','Mines'],tomes:['Damage Tome','Precision Tome','Cooldown Tome'],tips:['Revolver covers mid-range gap between Bow and Sniper Rifle perfectly.','Cooldown Tome addresses Sniper Rifle\'s main weakness — slow fire rate.','Use manual aim to snipe boss weak points during phase transitions.']},
+    {label:'Levels 35+',sublabel:'Full sniper loadout',weapons:['Sniper Rifle','Bow','Revolver','Mines','Aegis'],tomes:['Precision Tome','Cooldown Tome','Damage Tome'],tips:['Aegis is essential now — enemies at high levels hit hard and you have limited mobility.','Sniper Rifle + Precision + Damage Tome at this level = instant kills on almost anything.','Camouflage passive is best exploited during lulls — stand still to reset aggro radius.']},
+  ],
+  tonymczoom:[
+    {label:'Levels 1–10',sublabel:'Build speed fast',weapons:['Hoverboard Zap'],tomes:['Agility Tome','Quantity Tome'],tips:['Agility Tome first — higher speed means more Hoverboard passive procs.','Keep moving constantly. The Hoverboard zap procs automatically so just focus on routing.','Circular routes through enemy clusters maximise passive zap hits.']},
+    {label:'Levels 11–20',sublabel:'Add projectile weapons',weapons:['Hoverboard Zap','Bananarang'],tomes:['Agility Tome','Quantity Tome','Precision Tome'],tips:['Bananarang bounces through enemies as you zoom past — excellent value in motion.','Precision Tome now gives crit chance on both Bananarang and Hoverboard procs.','Time Bracelet from a chest is excellent — attack speed boost compounds with speed movement.']},
+    {label:'Levels 21–35',sublabel:'Full speed loadout',weapons:['Hoverboard Zap','Bananarang','Lightning Staff','Aura'],tomes:['Precision Tome','Quantity Tome','Attack Speed Tome'],tips:['Lightning Staff chains between enemies you zoom past — huge passive damage.','Aura handles any enemies that get too close during your movement loops.','Attack Speed Tome adds weapon procs per second on top of movement-based procs.']},
+    {label:'Levels 35+',sublabel:'Speed DPS ceiling',weapons:['Hoverboard Zap','Bananarang','Lightning Staff','Aura','Aegis'],tomes:['Attack Speed Tome','Quantity Tome','Damage Tome'],tips:['Aegis added — even at high speed, boss projectiles can catch you.','Damage Tome amplifies every Hoverboard zap and weapon hit simultaneously.','You should be lapping the map constantly. Enemies die before reaching the centre of your loop.']},
+  ],
+  monke:[
+    {label:'Levels 1–10',sublabel:'Banana foundations',weapons:['Bananarang'],tomes:['Quantity Tome','HP Tome'],tips:['Quantity Tome immediately — more bounces means more hits and faster enemy clears.','HP Tome stacks with the passive HP-per-level for solid early tankiness.','Stand in the middle of groups; Bananarang bounces are most effective with dense packs.']},
+    {label:'Levels 11–20',sublabel:'Defensive buffer',weapons:['Bananarang','Aura'],tomes:['Quantity Tome','HP Tome','Damage Tome'],tips:['Aura added now — you\'re meant to be in melee range anyway. Double passive damage.','Damage Tome amplifies every banana bounce significantly.','Beefy Ring from a chest stacks nicely with HP Tome + passive HP scaling.']},
+    {label:'Levels 21–35',sublabel:'Banana Tornado',weapons:['Bananarang','Aura','Aegis','Lightning Staff'],tomes:['Quantity Tome','Damage Tome','Size Tome'],tips:['High Quantity Tome stacks + Bananarang = the Banana Tornado that fills the screen.','Size Tome increases Aura range and Bananarang hitbox — larger catch area.','Aegis added to protect against ranged attacks while you stand in the melee zone.']},
+    {label:'Levels 35+',sublabel:'Wall-climbing tank',weapons:['Bananarang','Aura','Aegis','Lightning Staff','Flamewalker'],tomes:['Damage Tome','Quantity Tome','Cooldown Tome'],tips:['Use wall climbing during Final Swarm to reposition above the horde unexpectedly.','Flamewalker as a fifth weapon — fire trails between standing positions.','Cooldown Tome makes Bananarang near-continuous. Tornado effect is permanent by now.']},
+  ],
+  ogre:[
+    {label:'Levels 1–10',sublabel:'Survive the weak start',weapons:['Axe'],tomes:['Damage Tome','XP Tome'],tips:['Ogre is weakest in early game. Play defensively and don\'t overextend.','Damage Tome stacks with the passive — grab it over everything else.','XP Tome gets you to the levels where the passive starts mattering faster.']},
+    {label:'Levels 11–20',sublabel:'Passive scaling begins',weapons:['Axe','Aura'],tomes:['Damage Tome','XP Tome','Quantity Tome'],tips:['By level 15 the +1.5% passive is becoming noticeable — get more aggressive.','Aura added now provides passive damage while Axe scales up.','Quantity Tome gives more Axe projectiles per throw — AoE coverage expands.']},
+    {label:'Levels 21–35',sublabel:'Damage passive is strong',weapons:['Axe','Aura','Dexecutioner','Lightning Staff'],tomes:['Damage Tome','Quantity Tome','HP Tome'],tips:['21+ levels means the passive has stacked 30%+ damage. Dexecutioner added for burst.','Lightning Staff handles fast-moving enemies the Axe can\'t catch.','HP Tome now since damage is sorted — compensate for the low base HP.']},
+    {label:'Levels 35+',sublabel:'Slow-burn payoff',weapons:['Axe','Aura','Dexecutioner','Lightning Staff','Aegis'],tomes:['Damage Tome','Quantity Tome','Cooldown Tome'],tips:['35+ levels = 52%+ passive damage bonus stacking with Damage Tome. Huge numbers.','Cooldown Tome makes Axe throws constant — passive damage applies every second.','Aegis rounds the build out — you\'re not the fastest but you hit very hard by now.']},
+  ],
+  athena:[
+    {label:'Levels 1–10',sublabel:'Shield cycling basics',weapons:['Aegis'],tomes:['Attack Speed Tome','Size Tome'],tips:['Attack Speed Tome first — the burst window when shields are down is your damage phase.','Size Tome expands Aegis coverage area — blocks more projectiles passively.','This is a low-damage early game. Focus on surviving, not killing fast.']},
+    {label:'Levels 11–20',sublabel:'Add passive damage',weapons:['Aegis','Aura'],tomes:['Attack Speed Tome','Size Tome','HP Tome'],tips:['Aura added — it deals damage even while you\'re in the passive shield-block phase.','HP Tome helps survive the shield-down windows where you take damage.','Idle Juice from a chest is excellent — standing still is your default behaviour anyway.']},
+    {label:'Levels 21–35',sublabel:'Burst window exploitation',weapons:['Aegis','Aura','Dexecutioner','Lightning Staff'],tomes:['Attack Speed Tome','Size Tome','Cooldown Tome'],tips:['Dexecutioner added — fire it during shield-down burst windows for massive DPS.','Cooldown Tome increases shield cycling speed — more burst windows per minute.','This is Athena\'s strongest phase once the attack speed burst window is well-timed.']},
+    {label:'Levels 35+',sublabel:'Challenge specialist',weapons:['Aegis','Aura','Dexecutioner','Lightning Staff','Flamewalker'],tomes:['Cooldown Tome','Damage Tome','HP Tome'],tips:['Flamewalker added — fire trails during movement between shield positions.','Athena excels in Pacifist and AFK challenges where the shield cycling wins games.','Damage Tome in late game amplifies every burst window hit simultaneously.']},
+  ],
+  spaceman:[
+    {label:'Levels 1–10',sublabel:'XP acceleration',weapons:['Black Hole'],tomes:['XP Tome'],tips:['XP Tome first — stacks with the passive XP bonus for fastest levelling in the game.','Black Hole is situational — save it for dense groups, not lone enemies.','You should be 2–3 levels ahead of other characters by level 10.']},
+    {label:'Levels 11–20',sublabel:'Exploit level lead',weapons:['Black Hole','Dexecutioner'],tomes:['XP Tome','Damage Tome'],tips:['Dexecutioner added — enemies pulled by Black Hole get executed instantly.','Damage Tome amplifies all the AoE damage you deal after a Black Hole pull.','Your level lead means more tome slots available earlier. Use the advantage.']},
+    {label:'Levels 21–35',sublabel:'Full crowd control build',weapons:['Black Hole','Dexecutioner','Lightning Staff','Aura'],tomes:['Damage Tome','Cooldown Tome','Quantity Tome'],tips:['Lightning Staff chains between enemies after Black Hole clusters them together.','Aura passively damages everything Black Hole pulls into melee range.','Cooldown Tome means Black Hole is available almost every 5–6 seconds.']},
+    {label:'Levels 35+',sublabel:'XP god & AoE destroyer',weapons:['Black Hole','Dexecutioner','Lightning Staff','Aura','Mines'],tomes:['Cooldown Tome','Damage Tome','Quantity Tome'],tips:['Mines placed on Black Hole landing points for instant cluster detonation.','Your XP passive means you\'ve had more upgrade choices than any other character.','Black Hole + Lightning Staff + Aura fires simultaneously — full screen clears every few seconds.']},
+  ],
+};
+
 const tagMap={dmg:['tag-dmg','DMG'],util:['tag-util','UTIL'],def:['tag-def','DEF'],luck:['tag-luck','LUCK'],speed:['tag-speed','SPEED'],aoe:['tag-aoe','AoE']};
 function tagHtml(tags){return tags.map(t=>tagMap[t]?`<span class="tag ${tagMap[t][0]}">${tagMap[t][1]}</span>`:'').join('');}
 function tc(r){return {S:'rank-S',A:'rank-A',B:'rank-B',C:'rank-C'}[r]||'rank-C';}
 function ri(items){return items.map(i=>`<div class="item-row"><span class="rank-badge ${tc(i.rank)}">${i.rank}</span><span class="item-emoji">${i.emoji}</span><div class="item-info"><div class="item-name">${i.name}</div><div class="item-desc">${i.desc}</div><div class="item-tags">${tagHtml(i.tags)}</div></div></div>`).join('');}
+
+function renderProgression(charId){
+  const phases=PROG[charId];
+  if(!phases)return'';
+  const phaseColors=['phase-1','phase-2','phase-3','phase-4'];
+  return`<div class="prog-section section animate-in" style="animation-delay:.25s">
+    <div class="section-title"><span>📈</span>How to Play — Level Progression</div>
+    <div class="prog-phases">
+      ${phases.map((p,i)=>`
+        <div class="phase-block ${phaseColors[i]}" onclick="togglePhase(this)">
+          <div class="phase-header">
+            <span class="phase-label">${p.label}</span>
+            <span class="phase-sublabel">${p.sublabel}</span>
+            <span class="phase-chevron">▶</span>
+          </div>
+          <div class="phase-body">
+            <div class="phase-row">
+              <div class="phase-row-title">⚔️ Priority Weapons</div>
+              <div class="phase-chips">${p.weapons.map(w=>`<span class="phase-chip chip-weapon">${w}</span>`).join('')}</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-row-title">📚 Priority Tomes</div>
+              <div class="phase-chips">${p.tomes.map(t=>`<span class="phase-chip chip-tome">${t}</span>`).join('')}</div>
+            </div>
+            <div class="phase-row">
+              <div class="phase-row-title">🎮 Playstyle</div>
+              ${p.tips.map(t=>`<div class="phase-tip">${t}</div>`).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function togglePhase(block){
+  block.classList.toggle('open');
+}
 
 function showBuild(charId){
   const char=C.find(c=>c.id===charId);
@@ -676,6 +876,7 @@ function showBuild(charId){
     <div class="section animate-in" style="animation-delay:.1s"><div class="section-title"><span>📚</span>Top Tomes</div><div class="item-list">${ri(char.tomes)}</div></div>
     <div class="section animate-in" style="animation-delay:.15s"><div class="section-title"><span>🎒</span>Top Items</div><div class="item-list">${ri(char.items)}</div></div>
     <div class="section tips-box animate-in" style="animation-delay:.2s"><div class="tips-title">💡 Pro Tips for ${char.name}</div><ul class="tips-list">${char.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+    ${renderProgression(char.id)}
     <div class="legend"><div class="legend-item"><span class="legend-rank rank-S">S</span> Must-have</div><div class="legend-item"><span class="legend-rank rank-A">A</span> Excellent</div><div class="legend-item"><span class="legend-rank rank-B">B</span> Strong</div><div class="legend-item"><span class="legend-rank rank-C">C</span> Situational</div></div>
   `;
   document.getElementById('char-select').style.display='none';
