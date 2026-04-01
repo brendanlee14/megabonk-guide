@@ -89,6 +89,12 @@
     .legend { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; padding:10px 14px; background:var(--surface); border-radius:10px; border:1px solid var(--border); }
     .legend-item { display:flex; align-items:center; gap:5px; font-size:.7rem; color:var(--muted); }
     .legend-rank { font-family:'Russo One',sans-serif; font-size:.85rem; }
+    /* --- BUILD TABS --- */
+    .build-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+    .build-tab { font-family:'Exo 2',sans-serif; font-size:.72rem; font-weight:700; padding:7px 16px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--muted); cursor:pointer; transition:all .2s; letter-spacing:.5px; }
+    .build-tab:hover { color:var(--text); border-color:var(--muted); }
+    .build-tab.active { background:rgba(0,212,255,.12); border-color:var(--accent3); color:var(--accent3); box-shadow:0 0 12px rgba(0,212,255,.15); }
+    .build-tab-label { font-size:.58rem; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; margin-top:2px; }
     /* --- PROGRESSION GUIDE --- */
     .prog-section { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:13px; }
     .prog-phases { display:flex; flex-direction:column; gap:10px; }
@@ -813,13 +819,170 @@ const PROG = {
   ],
 };
 
+const BUILDS2={
+  ninja:{
+    b1name:'Evasion Execute',b2name:'Size Scaling',
+    weapons:[
+      {rank:'S',emoji:'⚔️',name:'Katana',desc:'Core — with Size and Quantity stacking it becomes a screen-wide multi-hit blade that clears entire waves per swing.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'✨',name:'Aura',desc:'Size Tome makes Aura enormous — combined with Katana it creates overlapping AoE coverage across a massive area.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'⬛',name:'Black Hole',desc:'Pulls all enemies into one point — swing Katana into the cluster for devastating combined damage.',tags:['dmg','aoe','util']},
+      {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Handles elites and bosses that resist the AoE sweep.',tags:['dmg']},
+      {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defensive layer for boss projectiles when in melee range.',tags:['def']},
+    ],
+    tomes:[
+      {rank:'S',emoji:'📐',name:'Size Tome',desc:'#1 priority over everything including Evasion Tome — one stack visibly transforms Katana range. Core identity of this build.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'🔢',name:'Quantity Tome',desc:'More Katana slashes, more Aura hits, more Black Hole pulls — multiplies every weapon simultaneously.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Amplifies each swing of the already screen-wide Katana for enormous numbers.',tags:['dmg']},
+      {rank:'A',emoji:'📚',name:'XP Tome',desc:'Faster levelling stacks the Shadowstep passive even without Evasion Tome focus.',tags:['util']},
+      {rank:'B',emoji:'💨',name:'Agility Tome',desc:'Better movement to position inside the largest enemy groups for maximum Aura and Katana coverage.',tags:['speed','util']},
+    ],
+    items:[
+      {rank:'A',emoji:'👟',name:'Turbo Socks',desc:'Speed lets you stay centred in enemy groups for maximum Aura and Katana overlap.',tags:['speed','dmg']},
+      {rank:'A',emoji:'⏱️',name:'Time Bracelet',desc:'XP gain accelerates critical Size + Quantity tome levels.',tags:['util']},
+      {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage multiplied by each enormous Katana swing.',tags:['dmg']},
+      {rank:'B',emoji:'👻',name:'Phantom Shroud',desc:'With this build you\'re constantly killing — speed and damage buff from Shroud is near-permanent.',tags:['dmg','speed']},
+      {rank:'B',emoji:'💍',name:'Slippery Ring',desc:'Evasion still useful even without Evasion Tome focus.',tags:['def','util']},
+    ],
+    tips:['Size Tome first every time — skip Evasion Tome until Size is well established.','More forgiving than Evasion Execute — no precise dodge timing required.','Black Hole into full Katana swing is the core damage pattern. Master the pull-then-swing rhythm.','Aura + Katana at high Size stacks covers the full screen. Nothing survives one rotation.','Quantity Tome on Katana adds slashes that still proc Shadowstep — executes happen passively.'],
+    progression:[
+      {label:'Levels 1–10',sublabel:'Size priority from the start',weapons:['Katana'],tomes:['Size Tome','Damage Tome'],tips:['Size Tome first — even one stack visibly extends Katana reach.','Play more aggressively than Evasion build. You don\'t need precise dodges, just swing into groups.','Stay in the centre of enemy packs rather than the edges.']},
+      {label:'Levels 11–20',sublabel:'Aura added, AoE coverage begins',weapons:['Katana','Aura'],tomes:['Size Tome','Quantity Tome'],tips:['Add Aura now — it\'s the second core weapon. Together with Katana you have 360° melee coverage.','Quantity Tome added — more Katana slashes and Aura hits per second from here on.','Start looking for Black Hole in chests. It\'s an enormous spike when it arrives.']},
+      {label:'Levels 21–35',sublabel:'Black Hole online',weapons:['Katana','Aura','Black Hole','Dexecutioner'],tomes:['Size Tome','Quantity Tome','Damage Tome'],tips:['Black Hole clusters everything. Fire Katana swing immediately into the pull. This is your main damage pattern.','Damage Tome now — base size and quantity are established, time to amplify each hit.','Dexecutioner for elites and bosses that survive the AoE sweep.']},
+      {label:'Levels 35+',sublabel:'Screen-wide destruction',weapons:['Katana','Aura','Black Hole','Dexecutioner','Aegis'],tomes:['Size Tome','Quantity Tome','Damage Tome'],tips:['Katana at full Size should cover most of the screen per swing.','Aegis as final slot — you\'re in melee range constantly so projectile defence matters.','Black Hole into Katana swing at full stacks is essentially an instant screen clear.']},
+    ],
+  },
+  fox:{
+    b1name:'Luck Farm',b2name:'Holy Trinity',
+    weapons:[
+      {rank:'S',emoji:'🔥',name:'Firestaff',desc:'Core AoE — Cursed difficulty creates denser spawns which Firestaff hits more targets per shot.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'⚡',name:'Lightning Staff',desc:'Chains between the denser enemy groups that Cursed difficulty creates.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'✨',name:'Aura',desc:'Passive damage while managing the increased difficulty.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Essential — Cursed difficulty significantly buffs elite enemies.',tags:['dmg']},
+      {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Non-negotiable in this build — Cursed difficulty makes boss attacks significantly harder.',tags:['def']},
+    ],
+    tomes:[
+      {rank:'S',emoji:'📚',name:'XP Tome',desc:'#1 priority here (not Luck Tome) — faster levelling stacks Fox\'s Luck passive faster, compounding everything.',tags:['util','dmg']},
+      {rank:'S',emoji:'🍀',name:'Luck Tome',desc:'Stacks with the passive AND Cursed difficulty — harder game means more drops means more legendary items.',tags:['luck']},
+      {rank:'A',emoji:'☠️',name:'Cursed Tome',desc:'Added around level 12–15 once weapons and defence are established. Difficulty spikes but drop quality skyrockets.',tags:['util','luck']},
+      {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles to handle the increased enemy density from Curse.',tags:['dmg']},
+      {rank:'B',emoji:'⚔️',name:'Damage Tome',desc:'Once Holy Trinity is established, amplifies all the legendary items accumulated.',tags:['dmg']},
+    ],
+    items:[
+      {rank:'S',emoji:'💳',name:'Credit Card (Green)',desc:'Luck boost — with Cursed active this is even more impactful than in the Luck Farm build.',tags:['luck']},
+      {rank:'S',emoji:'🌿',name:'Clover',desc:'Direct Luck compound with Luck Tome + Cursed for maximum legendary rate.',tags:['luck']},
+      {rank:'A',emoji:'🔨',name:'Anvil',desc:'Rapidly upgrades weapons — critical when Cursed makes enemies significantly tankier.',tags:['util','dmg']},
+      {rank:'A',emoji:'📖',name:'Holy Book',desc:'Legendary stat boost — Holy Trinity generates enough drops that Holy Book appears frequently.',tags:['dmg','util']},
+      {rank:'B',emoji:'🛡️',name:'Shield',desc:'Defensive layer for the Cursed difficulty spike.',tags:['def']},
+    ],
+    tips:['XP Tome first in this build — faster levelling compounds everything. Different from the Luck Farm priority.','DO NOT add Cursed Tome before level 12. Weapons and Aegis must be established first or the difficulty kills you.','More enemies from Curse = more Firestaff hits, more Lightning chains, more drops. Everything scales together.','Aegis is non-negotiable in this build — Cursed boss attacks hit significantly harder than normal.','The difference from Luck Farm: Cursed Tome is intentional and central here, not just a situational bonus.'],
+    progression:[
+      {label:'Levels 1–10',sublabel:'Establish before cursing',weapons:['Firestaff'],tomes:['XP Tome','Luck Tome'],tips:['XP Tome first — do not add Cursed until you have 2 weapons and some defence.','Luck Tome second. Start the legendary generation engine before making the game harder.','Play safe. Firestaff covers AoE well alone. Do not overextend before the curse is active.']},
+      {label:'Levels 11–20',sublabel:'Activate Holy Trinity',weapons:['Firestaff','Lightning Staff'],tomes:['XP Tome','Luck Tome','Cursed Tome'],tips:['Add Cursed Tome at level 12–15 with Aegis or Aura already owned for safety.','Lightning Staff added to handle increased enemy density from Curse.','Legendary items start dropping noticeably more frequently. Pick up everything useful.']},
+      {label:'Levels 21–35',sublabel:'Legendary snowball',weapons:['Firestaff','Lightning Staff','Aura','Dexecutioner'],tomes:['Luck Tome','Quantity Tome','XP Tome'],tips:['Legendary items should appear very regularly by now. The Trinity is fully online.','Aura added to handle enemies from all directions in the dense Cursed spawns.','Quantity Tome added — more projectiles to handle the constant enemy density.']},
+      {label:'Levels 35+',sublabel:'Legendary stacked',weapons:['Firestaff','Lightning Staff','Aura','Dexecutioner','Aegis'],tomes:['Quantity Tome','Damage Tome','Luck Tome'],tips:['You should have 4–6 legendary items by now. The Trinity generates them constantly.','Damage Tome amplifies every legendary item bonus multiplicatively.','Aegis essential at this difficulty — Cursed bosses hit very hard. Do not skip it.']},
+    ],
+  },
+  cl4nk:{
+    b1name:'Crit Burst',b2name:'Lightning Chain',
+    weapons:[
+      {rank:'S',emoji:'⚡',name:'Lightning Staff',desc:'Core — chains between multiple enemies simultaneously. With Quantity Tome, chains entire screens at once.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'✨',name:'Aura',desc:'Passive ring — every enemy near CL4NK takes Aura hits which can crit from the passive, each tick triggering Thunder Mitts.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'🔫',name:'Revolver',desc:'Used here as a Thunder Mitts trigger rather than primary damage — each shot fires an extra lightning chain.',tags:['dmg']},
+      {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Each bounce independently triggers Thunder Mitts lightning procs — excellent chain multiplier.',tags:['dmg','aoe']},
+      {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defensive layer — CL4NK is fragile and this build keeps you at mid-range.',tags:['def']},
+    ],
+    tomes:[
+      {rank:'S',emoji:'🔢',name:'Quantity Tome',desc:'#1 priority — more Lightning Staff chains, more Aura hits, more Bananarang bounces. Everything multiplies.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'⏱️',name:'Cooldown Tome',desc:'Lightning Staff fires faster, Aura ticks faster — more Thunder Mitts procs per second across all weapons.',tags:['dmg','util']},
+      {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Each chain lightning hit and Aura tick deals more. Amplifies the entire passive damage engine.',tags:['dmg']},
+      {rank:'A',emoji:'🎯',name:'Precision Tome',desc:'CL4NK\'s crit passive means every Lightning chain is a potential crit — Precision amplifies this strongly.',tags:['dmg']},
+      {rank:'B',emoji:'📐',name:'Size Tome',desc:'Increases Aura radius and Lightning Staff reach — more ground covered by chain reactions.',tags:['dmg','aoe']},
+    ],
+    items:[
+      {rank:'S',emoji:'🥊',name:'Thunder Mitts',desc:'CORE ITEM — lightning proc on every weapon hit. Combined with CL4NK\'s crit passive, every crit fires an extra lightning chain.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'🔌',name:'Electric Plug',desc:'Defensive electric shocks when hit — keeps enemies at range while lightning chains do the work.',tags:['def','dmg']},
+      {rank:'A',emoji:'⚔️',name:'Demonic Blade',desc:'Heals on crit — with crits triggering Thunder Mitts chains, sustain is excellent.',tags:['dmg','def']},
+      {rank:'A',emoji:'🔋',name:'Battery',desc:'Reduces all cooldowns — all weapons fire faster, more Thunder Mitts procs per second.',tags:['util']},
+      {rank:'B',emoji:'💉',name:'Gym Sauce',desc:'Flat damage that amplifies each Lightning chain hit.',tags:['dmg']},
+    ],
+    tips:['Thunder Mitts is the build-defining item — without it this is just a generic Lightning build. Priority pick.','Quantity Tome first, not Precision — volume of hits matters more than per-hit crits in this build.','Every weapon hit triggers Thunder Mitts — Bananarang bouncing through a crowd fires dozens of lightning procs.','More forgiving than Crit Burst — Lightning chains hit automatically without precise aiming.','At high Quantity + Cooldown stacks with Thunder Mitts active, the screen is permanently lit with chain lightning.'],
+    progression:[
+      {label:'Levels 1–10',sublabel:'Lightning Staff first',weapons:['Revolver','Lightning Staff'],tomes:['Quantity Tome','Cooldown Tome'],tips:['Add Lightning Staff immediately alongside Revolver.','Quantity Tome first — more chains from the start.','Play mobile. You don\'t have Thunder Mitts yet so survivability relies on positioning.']},
+      {label:'Levels 11–20',sublabel:'Thunder Mitts is the spike',weapons:['Lightning Staff','Aura'],tomes:['Quantity Tome','Cooldown Tome','Damage Tome'],tips:['Thunder Mitts is your #1 priority item from any chest or vendor from this point on.','Add Aura now — it ticks constantly and each tick triggers Thunder Mitts independently.','Once Thunder Mitts is active the build transforms immediately — lightning fires from every hit.']},
+      {label:'Levels 21–35',sublabel:'Chain reaction engine online',weapons:['Lightning Staff','Aura','Bananarang','Revolver'],tomes:['Quantity Tome','Cooldown Tome','Precision Tome'],tips:['Bananarang added — each bounce triggers Thunder Mitts independently for chains through entire groups.','Precision Tome now that all weapons are established — CL4NK crits amplify every chain hit.','Electric Plug + Demonic Blade from items — survive mid-range playstyle comfortably.']},
+      {label:'Levels 35+',sublabel:'Permanent lightning storm',weapons:['Lightning Staff','Aura','Bananarang','Revolver','Aegis'],tomes:['Precision Tome','Damage Tome','Quantity Tome'],tips:['Aegis as final slot — mid-range play means boss projectiles are a consistent threat.','Screen should be permanently lit with chain lightning from every weapon firing.','Damage Tome at high Precision — crits multiply enormous base chain damage simultaneously.']},
+    ],
+  },
+  noelle:{
+    b1name:'Holy Trinity Scaling',b2name:'Freeze AoE',
+    weapons:[
+      {rank:'S',emoji:'❄️',name:'Frostwalker',desc:'Core — with Size Tome stacks the freeze zone becomes enormous. Frozen enemies can\'t escape and take more damage.',tags:['dmg','aoe','def']},
+      {rank:'S',emoji:'⚔️',name:'Katana',desc:'High melee damage on frozen targets. Noelle\'s passive grows Katana size further beyond Size Tome.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'✨',name:'Aura',desc:'360° passive ring damages everything inside the freeze zone while you position.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'🛡️',name:'Aegis',desc:'Defensive layer when ranged enemies stay outside freeze range.',tags:['def']},
+      {rank:'B',emoji:'⚡',name:'Lightning Staff',desc:'Chains between frozen clustered enemies — all targets are slowed so chains connect reliably.',tags:['dmg','aoe']},
+    ],
+    tomes:[
+      {rank:'S',emoji:'📐',name:'Size Tome',desc:'Priority — both Frostwalker and Katana scale with size. Large Frostwalker = massive freeze zone.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'📚',name:'XP Tome',desc:'More levels = more passive Size and Damage from Noelle\'s ability. Stacks multiplicatively with Size Tome.',tags:['util','dmg']},
+      {rank:'A',emoji:'🎯',name:'Precision Tome',desc:'Frozen enemies can\'t dodge — crit chance on slowed targets means enormous numbers late game.',tags:['dmg']},
+      {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More Frostwalker and Aura projectiles for wider freeze coverage across the zone.',tags:['dmg','aoe']},
+      {rank:'B',emoji:'⚔️',name:'Damage Tome',desc:'Amplifies the already-large Katana hits on frozen targets.',tags:['dmg']},
+    ],
+    items:[
+      {rank:'S',emoji:'🧀',name:'Moldy Cheese',desc:'Frozen enemies can\'t escape the poison DoT — they sit in it far longer than normal enemies.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'😷',name:'Gas Mask',desc:'Amplifies Moldy Cheese DoT — frozen enemies standing still take the full duration of amplified poison.',tags:['dmg']},
+      {rank:'A',emoji:'🔷',name:'Ice Crystal',desc:'Extends freeze duration — more time for Katana crits, more time in Aura, more Moldy Cheese ticking.',tags:['aoe','util']},
+      {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage multiplied by Noelle\'s passive and Katana size scaling.',tags:['dmg']},
+      {rank:'B',emoji:'🔨',name:'Anvil',desc:'Speeds up weapon scaling — gets Frostwalker and Katana to max faster.',tags:['util']},
+    ],
+    tips:['Size Tome first — the entire build revolves around a giant freeze zone. Get it large early.','Frozen enemies = free damage. Position so Aura, Moldy Cheese and Katana all overlap inside the freeze zone.','Safer than Holy Trinity — no Cursed Tome means consistent manageable difficulty throughout.','Gas Mask + Moldy Cheese on frozen enemies that can\'t move is the highest sustained DPS combo in this build.','Precision Tome turns frozen enemies into free one-shots late game — they literally cannot dodge your crits.'],
+    progression:[
+      {label:'Levels 1–10',sublabel:'Build the freeze zone',weapons:['Frostwalker'],tomes:['Size Tome','XP Tome'],tips:['Size Tome immediately — Frostwalker\'s freeze zone grows visibly with each stack.','XP Tome second — Noelle\'s passive gives Size and Damage per level. Stack levels fast.','Stay in the centre of enemy groups. The freeze zone surrounds you — let enemies walk into it.']},
+      {label:'Levels 11–20',sublabel:'Katana hits frozen targets',weapons:['Frostwalker','Katana'],tomes:['Size Tome','XP Tome','Precision Tome'],tips:['Katana added now — frozen enemies are easy to hit with auto-targeting melee.','Precision Tome starts here — frozen enemies make crits significantly more reliable.','Moldy Cheese from any chest is a priority — frozen enemies sit in poison longer than normal.']},
+      {label:'Levels 21–35',sublabel:'Full AoE freeze coverage',weapons:['Frostwalker','Katana','Aura','Lightning Staff'],tomes:['Size Tome','Quantity Tome','Precision Tome'],tips:['Aura added — 360° passive damage inside the freeze zone. Enemies walk in and die passively.','Lightning Staff chains between frozen enemies — they\'re slowed so chains connect every time.','Quantity Tome boosts both Frostwalker and Aura — freeze zone expands even further.']},
+      {label:'Levels 35+',sublabel:'Frozen fortress',weapons:['Frostwalker','Katana','Aura','Lightning Staff','Aegis'],tomes:['Precision Tome','Damage Tome','Quantity Tome'],tips:['Aegis added — ranged enemies outside the freeze zone still need a counter.','Frostwalker at max Size covers most of the screen. Everything is frozen and dying simultaneously.','Precision + Noelle\'s damage passive at this level means Katana crits one-shot even elite enemies.']},
+    ],
+  },
+  megachad:{
+    b1name:'Aura AFK',b2name:'Kevin+Mirror Immortal',
+    weapons:[
+      {rank:'S',emoji:'✨',name:'Aura',desc:'Core — continues dealing passive damage while you stand completely still during the Kevin+Mirror immortal loop.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'🛡️',name:'Aegis',desc:'Blocks incoming damage — more hits blocked means more Mirror invulnerability procs.',tags:['def','aoe']},
+      {rank:'A',emoji:'❄️',name:'Frostwalker',desc:'Slows approaching enemies — gives more time for Mirror invulnerability to cycle before enemies reach you.',tags:['dmg','aoe','def']},
+      {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Passive AoE that fires while you stand completely still in the immortal loop.',tags:['dmg','aoe']},
+      {rank:'B',emoji:'🔫',name:'Revolver',desc:'Long-range coverage for enemies outside Aura range while standing still.',tags:['dmg']},
+    ],
+    tomes:[
+      {rank:'S',emoji:'📚',name:'XP Tome',desc:'Faster levelling to find Kevin sooner — Kevin requires 3 Leeching Crystals which take time to locate.',tags:['util']},
+      {rank:'S',emoji:'🍀',name:'Luck Tome',desc:'Higher Luck means Leeching Crystals and Mirror appear more frequently in chests and vendors.',tags:['luck']},
+      {rank:'A',emoji:'⚡',name:'Attack Speed Tome',desc:'More attacks per second = Kevin procs Mirror faster = invulnerability windows overlap = full immortality.',tags:['dmg','util']},
+      {rank:'A',emoji:'☠️',name:'Cursed Tome',desc:'More enemies means Kevin procs more per second — speeds up the Mirror invulnerability cycle.',tags:['util']},
+      {rank:'B',emoji:'📐',name:'Size Tome',desc:'Expands Aura radius for more passive damage during the immortal loop.',tags:['dmg','aoe']},
+    ],
+    items:[
+      {rank:'S',emoji:'😈',name:'Kevin',desc:'CORE — requires 3 Leeching Crystals. Constantly damages you (can\'t kill) scaling with attack speed. Activates Mirror loop.',tags:['dmg','util']},
+      {rank:'S',emoji:'🪞',name:'Mirror',desc:'CORE — brief invulnerability when damaged. Kevin\'s constant damage procs Mirror repeatedly. At high speed, windows fully overlap.',tags:['def']},
+      {rank:'S',emoji:'💎',name:'Leeching Crystal',desc:'Collect all 3 — required to unlock Kevin. The entire run goal until acquired.',tags:['def','util']},
+      {rank:'A',emoji:'🧃',name:'Idle Juice',desc:'Damage boost for standing still — this build literally stands still. Free double damage.',tags:['dmg']},
+      {rank:'B',emoji:'💉',name:'Gym Sauce',desc:'Flat damage boost to Aura and Lightning Staff passive damage during the loop.',tags:['dmg']},
+    ],
+    tips:['Kevin requires 3 Leeching Crystals — finding all 3 IS the run until it happens. Every other item is secondary.','Once Kevin + Mirror are both active at high attack speed, you become unkillable. Stand still.','Use Luck Tome specifically to find Leeching Crystals faster from chests and vendors.','This build took players to 22-hour AFK runs. It was patched but remains the strongest Megachad strategy.','Idle Juice doubles damage while standing still — already your default playstyle in the immortal phase.'],
+    progression:[
+      {label:'Levels 1–10',sublabel:'Farm Leeching Crystals',weapons:['Aura'],tomes:['XP Tome','Luck Tome'],tips:['Your only real goal this phase is finding Leeching Crystals. Open every chest, visit every vendor.','XP + Luck Tomes first — faster levels and better item quality means Crystals appear sooner.','Aura handles early enemies passively. Don\'t get distracted unless the item is a Crystal, Mirror, or Kevin.']},
+      {label:'Levels 11–20',sublabel:'Build the safety net',weapons:['Aura','Aegis','Frostwalker'],tomes:['XP Tome','Luck Tome','Attack Speed Tome'],tips:['Add Aegis and Frostwalker — you need durability before Kevin starts dealing you damage.','Attack Speed Tome is critical — Kevin procs Mirror based on hits per second, not total damage.','Still no Kevin? Keep looking. This is still the priority above all else.']},
+      {label:'Levels 21–35',sublabel:'Kevin+Mirror activation',weapons:['Aura','Aegis','Frostwalker','Lightning Staff'],tomes:['Attack Speed Tome','Luck Tome','Cursed Tome'],tips:['The moment you have Kevin AND Mirror, equip both. The immortal loop begins immediately.','Cursed Tome added — denser spawns mean Kevin procs faster means more Mirror windows.','Lightning Staff as fourth weapon — fires passively while you stand still in the loop.']},
+      {label:'Levels 35+',sublabel:'Literally unkillable',weapons:['Aura','Aegis','Frostwalker','Lightning Staff','Revolver'],tomes:['Attack Speed Tome','Size Tome','Cursed Tome'],tips:['At full Attack Speed stacks + Kevin + Mirror, invulnerability windows fully overlap. You cannot die.','Size Tome expands Aura radius — more passive damage while standing still indefinitely.','You can AFK this run. Aura + Lightning + Revolver kill everything. Kevin+Mirror means nothing kills you.']},
+    ],
+  },
+};
+
 const tagMap={dmg:['tag-dmg','DMG'],util:['tag-util','UTIL'],def:['tag-def','DEF'],luck:['tag-luck','LUCK'],speed:['tag-speed','SPEED'],aoe:['tag-aoe','AoE']};
 function tagHtml(tags){return tags.map(t=>tagMap[t]?`<span class="tag ${tagMap[t][0]}">${tagMap[t][1]}</span>`:'').join('');}
 function tc(r){return {S:'rank-S',A:'rank-A',B:'rank-B',C:'rank-C'}[r]||'rank-C';}
 function ri(items){return items.map(i=>`<div class="item-row"><span class="rank-badge ${tc(i.rank)}">${i.rank}</span><span class="item-emoji">${i.emoji}</span><div class="item-info"><div class="item-name">${i.name}</div><div class="item-desc">${i.desc}</div><div class="item-tags">${tagHtml(i.tags)}</div></div></div>`).join('');}
 
-function renderProgression(charId){
-  const phases=PROG[charId];
+function renderProgSection(phases){
   if(!phases)return'';
   const phaseColors=['phase-1','phase-2','phase-3','phase-4'];
   return`<div class="prog-section section animate-in" style="animation-delay:.25s">
@@ -852,6 +1015,34 @@ function renderProgression(charId){
   </div>`;
 }
 
+function renderProgression(charId){return renderProgSection(PROG[charId]);}
+
+function renderBuildContent(char,buildIdx){
+  let weapons,tomes,items,tips,prog;
+  if(buildIdx===0){
+    weapons=char.weapons;tomes=char.tomes;items=char.items;tips=char.tips;
+    prog=PROG[char.id];
+  } else {
+    const b=BUILDS2[char.id];
+    weapons=b.weapons;tomes=b.tomes;items=b.items;tips=b.tips;
+    prog=b.progression;
+  }
+  return`
+    <div class="section animate-in" style="animation-delay:.05s"><div class="section-title"><span>⚔️</span>Top Weapons</div><div class="item-list">${ri(weapons)}</div></div>
+    <div class="section animate-in" style="animation-delay:.1s"><div class="section-title"><span>📚</span>Top Tomes</div><div class="item-list">${ri(tomes)}</div></div>
+    <div class="section animate-in" style="animation-delay:.15s"><div class="section-title"><span>🎒</span>Top Items</div><div class="item-list">${ri(items)}</div></div>
+    <div class="section tips-box animate-in" style="animation-delay:.2s"><div class="tips-title">💡 Pro Tips</div><ul class="tips-list">${tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+    ${renderProgSection(prog)}
+  `;
+}
+
+function switchBuildTab(charId,idx,btn){
+  document.querySelectorAll('.build-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const char=C.find(c=>c.id===charId);
+  document.getElementById('build-tab-content').innerHTML=renderBuildContent(char,idx);
+}
+
 function togglePhase(block){
   block.classList.toggle('open');
 }
@@ -859,6 +1050,14 @@ function togglePhase(block){
 function showBuild(charId){
   const char=C.find(c=>c.id===charId);
   if(!char)return;
+  const isMulti=charId in BUILDS2;
+  const b2=isMulti?BUILDS2[charId]:null;
+  const tabsHtml=isMulti?`
+    <div class="build-tab-label">BUILD STRATEGY</div>
+    <div class="build-tabs animate-in">
+      <button class="build-tab active" onclick="switchBuildTab('${charId}',0,this)">${b2.b1name}</button>
+      <button class="build-tab" onclick="switchBuildTab('${charId}',1,this)">${b2.b2name}</button>
+    </div>`:'';
   document.getElementById('build-content').innerHTML=`
     <div class="char-hero animate-in">
       <div class="char-hero-emoji">${char.emoji}</div>
@@ -872,11 +1071,8 @@ function showBuild(charId){
         </div>
       </div>
     </div>
-    <div class="section animate-in" style="animation-delay:.05s"><div class="section-title"><span>⚔️</span>Top Weapons</div><div class="item-list">${ri(char.weapons)}</div></div>
-    <div class="section animate-in" style="animation-delay:.1s"><div class="section-title"><span>📚</span>Top Tomes</div><div class="item-list">${ri(char.tomes)}</div></div>
-    <div class="section animate-in" style="animation-delay:.15s"><div class="section-title"><span>🎒</span>Top Items</div><div class="item-list">${ri(char.items)}</div></div>
-    <div class="section tips-box animate-in" style="animation-delay:.2s"><div class="tips-title">💡 Pro Tips for ${char.name}</div><ul class="tips-list">${char.tips.map(t=>`<li>${t}</li>`).join('')}</ul></div>
-    ${renderProgression(char.id)}
+    ${tabsHtml}
+    <div id="build-tab-content">${renderBuildContent(char,0)}</div>
     <div class="legend"><div class="legend-item"><span class="legend-rank rank-S">S</span> Must-have</div><div class="legend-item"><span class="legend-rank rank-A">A</span> Excellent</div><div class="legend-item"><span class="legend-rank rank-B">B</span> Strong</div><div class="legend-item"><span class="legend-rank rank-C">C</span> Situational</div></div>
   `;
   document.getElementById('char-select').style.display='none';
