@@ -125,6 +125,13 @@
     .phase-chip { font-size:.7rem; padding:3px 9px; border-radius:12px; font-weight:600; }
     .chip-weapon { background:rgba(255,77,109,.12); color:#ff8099; border:1px solid rgba(255,77,109,.25); }
     .chip-tome { background:rgba(0,212,255,.1); color:#80e8ff; border:1px solid rgba(0,212,255,.2); }
+    .chip-weapon.chip-new { background:rgba(255,77,109,.22); color:#ff5577; border:1px solid rgba(255,77,109,.5); font-weight:700; }
+    .chip-tome.chip-new { background:rgba(0,212,255,.2); color:#40d8ff; border:1px solid rgba(0,212,255,.45); font-weight:700; }
+    .chip-carry { opacity:.45; font-weight:400; }
+    .chip-num { font-size:.58rem; font-weight:900; background:rgba(255,255,255,.18); border-radius:50%; width:15px; height:15px; display:inline-flex; align-items:center; justify-content:center; margin-right:3px; flex-shrink:0; }
+    .chip-lv { font-size:.6rem; opacity:.75; margin-left:2px; }
+    .phase-add-label { font-size:.59rem; letter-spacing:.8px; text-transform:uppercase; color:var(--accent); font-weight:700; margin-bottom:4px; }
+    .phase-keep-label { font-size:.59rem; letter-spacing:.8px; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:4px; margin-top:7px; }
     .phase-tip { font-size:.72rem; color:var(--muted); line-height:1.5; padding-left:12px; position:relative; margin-top:3px; }
     .phase-tip::before { content:'▸'; position:absolute; left:0; color:var(--accent3); }
     @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
@@ -977,6 +984,42 @@ const BUILDS2={
   },
 };
 
+// Priority order + upgrade level targets per phase (new items only, in pickup priority order)
+const PO={
+dicehead:[[{n:'XP Tome',l:'max'},{n:'Luck Tome',l:'max'},{n:'Dice',l:'max'}],[{n:'Precision Tome',l:'3'},{n:'Revolver',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Katana',l:'3'},{n:'Bow',l:'2'}],[{n:'Cooldown Tome',l:'max'},{n:'Dexecutioner',l:'max'}]],
+bandit:[[{n:'Dexecutioner',l:'max'},{n:'XP Tome',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Quantity Tome',l:'3'},{n:'Size Tome',l:'3'},{n:'Revolver',l:'3'},{n:'Flamewalker',l:'2'}],[{n:'Damage Tome',l:'max'},{n:'Katana',l:'3'}]],
+robinette:[[{n:'Bow',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'3'}],[{n:'Precision Tome',l:'max'},{n:'Sniper Rifle',l:'max'},{n:'Damage Tome',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Dexecutioner',l:'max'}]],
+vlad:[[{n:'Bloody Tome',l:'max'},{n:'Blood Magic',l:'max'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Dexecutioner',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'},{n:'XP Tome',l:'2'}]],
+sirchadwell:[[{n:'Size Tome',l:'max'},{n:'Cursed Sword',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Dexecutioner',l:'3'},{n:'Katana',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aegis',l:'max'}]],
+fox:[[{n:'Luck Tome',l:'max'},{n:'XP Tome',l:'3'},{n:'Firestaff',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Dexecutioner',l:'max'},{n:'Aegis',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'}]],
+calcium:[[{n:'Movement Speed Tome',l:'max'},{n:'Bone',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'3'}],[{n:'Attack Speed Tome',l:'max'},{n:'Flamewalker',l:'3'},{n:'Bow',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Lightning Staff',l:'3'}]],
+cl4nk:[[{n:'Precision Tome',l:'max'},{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Firestaff',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'},{n:'Axe',l:'2'}],[{n:'Lightning Staff',l:'3'}]],
+ninja:[[{n:'Evasion Tome',l:'max'},{n:'Size Tome',l:'max'},{n:'Katana',l:'max'}],[{n:'Damage Tome',l:'3'},{n:'Aura',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Dexecutioner',l:'3'},{n:'Flamewalker',l:'2'}],[{n:'Agility Tome',l:'3'},{n:'Aegis',l:'3'}]],
+siroofie:[[{n:'Attack Speed Tome',l:'max'},{n:'Sword',l:'max'},{n:'HP Tome',l:'3'}],[{n:'Agility Tome',l:'2'},{n:'Aura',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Firestaff',l:'2'}],[{n:'Damage Tome',l:'max'},{n:'Armor Tome',l:'max'},{n:'Bone',l:'2'}]],
+roberto:[[{n:'XP Tome',l:'max'},{n:'Size Tome',l:'max'},{n:'Scythe',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Dexecutioner',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Luck Tome',l:'3'},{n:'Bananarang',l:'3'}]],
+amog:[[{n:'Duration Tome',l:'max'},{n:'Bloody Tome',l:'max'},{n:'Poison Flask',l:'max'}],[{n:'XP Tome',l:'3'},{n:'Frostwalker',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Axe',l:'3'},{n:'Mines',l:'2'}],[{n:'Quantity Tome',l:'max'},{n:'Black Hole',l:'max'}]],
+noelle:[[{n:'XP Tome',l:'max'},{n:'Chaos Tome',l:'max'},{n:'Frostwalker',l:'max'}],[{n:'Cursed Tome',l:'1'},{n:'Dexecutioner',l:'max'}],[{n:'Precision Tome',l:'max'},{n:'Katana',l:'3'},{n:'Flamewalker',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}]],
+megachad:[[{n:'Size Tome',l:'max'},{n:'Aura',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Bananarang',l:'max'},{n:'Revolver',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'}]],
+birdo:[[{n:'Duration Tome',l:'max'},{n:'Size Tome',l:'max'},{n:'Tornado',l:'max'}],[{n:'Damage Tome',l:'3'},{n:'Flamewalker',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'},{n:'Lightning Staff',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Bananarang',l:'3'}]],
+bush:[[{n:'Damage Tome',l:'max'},{n:'Sniper Rifle',l:'max'},{n:'Quantity Tome',l:'3'}],[{n:'Precision Tome',l:'max'},{n:'Bow',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Revolver',l:'3'},{n:'Mines',l:'2'}],[{n:'Aegis',l:'max'}]],
+tonymczoom:[[{n:'Agility Tome',l:'max'},{n:'Quantity Tome',l:'max'},{n:'Hoverboard Zap',l:'max'}],[{n:'Precision Tome',l:'max'},{n:'Bananarang',l:'3'}],[{n:'Attack Speed Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}]],
+monke:[[{n:'Quantity Tome',l:'max'},{n:'Bananarang',l:'max'},{n:'HP Tome',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Size Tome',l:'max'},{n:'Aegis',l:'3'},{n:'Lightning Staff',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Flamewalker',l:'3'}]],
+ogre:[[{n:'Damage Tome',l:'max'},{n:'Axe',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'HP Tome',l:'3'},{n:'Dexecutioner',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Aegis',l:'3'}]],
+athena:[[{n:'Attack Speed Tome',l:'max'},{n:'Size Tome',l:'max'},{n:'Aegis',l:'max'}],[{n:'HP Tome',l:'3'},{n:'Aura',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Dexecutioner',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Flamewalker',l:'3'}]],
+spaceman:[[{n:'XP Tome',l:'max'},{n:'Black Hole',l:'max'}],[{n:'Damage Tome',l:'max'},{n:'Dexecutioner',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Quantity Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Aura',l:'3'}],[{n:'Mines',l:'2'}]],
+};
+Object.keys(PO).forEach(id=>{if(PROG[id])PO[id].forEach((od,i)=>{if(PROG[id][i])PROG[id][i].order=od;});});
+
+// Priority order for BUILDS2 second-build progressions
+const PO2={
+ninja:[[{n:'Size Tome',l:'max'},{n:'Katana',l:'max'},{n:'Damage Tome',l:'2'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Black Hole',l:'max'},{n:'Dexecutioner',l:'3'}],[{n:'Aegis',l:'3'}]],
+fox:[[{n:'XP Tome',l:'max'},{n:'Luck Tome',l:'max'},{n:'Firestaff',l:'max'}],[{n:'Cursed Tome',l:'1'},{n:'Lightning Staff',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'},{n:'Dexecutioner',l:'max'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'max'}]],
+cl4nk:[[{n:'Quantity Tome',l:'max'},{n:'Lightning Staff',l:'max'},{n:'Cooldown Tome',l:'max'},{n:'Revolver',l:'3'}],[{n:'Damage Tome',l:'3'},{n:'Aura',l:'3'}],[{n:'Precision Tome',l:'max'},{n:'Bananarang',l:'max'},{n:'Revolver',l:'2'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}]],
+noelle:[[{n:'Size Tome',l:'max'},{n:'Frostwalker',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Precision Tome',l:'max'},{n:'Katana',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'},{n:'Lightning Staff',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}]],
+megachad:[[{n:'XP Tome',l:'max'},{n:'Luck Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Attack Speed Tome',l:'max'},{n:'Aegis',l:'3'},{n:'Frostwalker',l:'2'}],[{n:'Cursed Tome',l:'1'},{n:'Lightning Staff',l:'3'}],[{n:'Size Tome',l:'max'},{n:'Revolver',l:'2'}]],
+};
+Object.keys(PO2).forEach(id=>{if(BUILDS2[id]?.progression)PO2[id].forEach((od,i)=>{if(BUILDS2[id].progression[i])BUILDS2[id].progression[i].order=od;});});
+
 const tagMap={dmg:['tag-dmg','DMG'],util:['tag-util','UTIL'],def:['tag-def','DEF'],luck:['tag-luck','LUCK'],speed:['tag-speed','SPEED'],aoe:['tag-aoe','AoE']};
 function tagHtml(tags){return tags.map(t=>tagMap[t]?`<span class="tag ${tagMap[t][0]}">${tagMap[t][1]}</span>`:'').join('');}
 function tc(r){return {S:'rank-S',A:'rank-A',B:'rank-B',C:'rank-C'}[r]||'rank-C';}
@@ -988,7 +1031,29 @@ function renderProgSection(phases){
   return`<div class="prog-section section animate-in" style="animation-delay:.25s">
     <div class="section-title"><span>📈</span>How to Play — Level Progression</div>
     <div class="prog-phases">
-      ${phases.map((p,i)=>`
+      ${phases.map((p,i)=>{
+        const prev=i>0?phases[i-1]:{weapons:[],tomes:[]};
+        const newW=p.weapons.filter(w=>!prev.weapons.includes(w));
+        const keepW=p.weapons.filter(w=>prev.weapons.includes(w));
+        const newT=p.tomes.filter(t=>!prev.tomes.includes(t));
+        const keepT=p.tomes.filter(t=>prev.tomes.includes(t));
+        const om=new Map();
+        if(p.order)p.order.forEach((od,idx)=>om.set(od.n,{idx,l:od.l}));
+        const mkChip=(name,isNew,type)=>{
+          const cls=type==='w'?'chip-weapon':'chip-tome';
+          if(!isNew)return`<span class="phase-chip ${cls} chip-carry">↑ ${name}</span>`;
+          const od=om.get(name);
+          const num=od?`<span class="chip-num">${od.idx+1}</span> `:'';
+          const lv=od?` <span class="chip-lv">→ ${od.l==='max'?'max':'lv '+od.l}</span>`:'';
+          return`<span class="phase-chip ${cls} chip-new">${num}${name}${lv}</span>`;
+        };
+        const wHtml=`
+          ${newW.length?`<div class="phase-add-label">➕ Get this phase</div><div class="phase-chips">${newW.map(w=>mkChip(w,true,'w')).join('')}</div>`:''}
+          ${keepW.length?`<div class="phase-keep-label">↑ Keep upgrading</div><div class="phase-chips">${keepW.map(w=>mkChip(w,false,'w')).join('')}</div>`:''}`;
+        const tHtml=`
+          ${newT.length?`<div class="phase-add-label">➕ Get this phase</div><div class="phase-chips">${newT.map(t=>mkChip(t,true,'t')).join('')}</div>`:''}
+          ${keepT.length?`<div class="phase-keep-label">↑ Keep upgrading</div><div class="phase-chips">${keepT.map(t=>mkChip(t,false,'t')).join('')}</div>`:''}`;
+        return`
         <div class="phase-block ${phaseColors[i]}" onclick="togglePhase(this)">
           <div class="phase-header">
             <span class="phase-label">${p.label}</span>
@@ -996,21 +1061,12 @@ function renderProgSection(phases){
             <span class="phase-chevron">▶</span>
           </div>
           <div class="phase-body">
-            <div class="phase-row">
-              <div class="phase-row-title">⚔️ Priority Weapons</div>
-              <div class="phase-chips">${p.weapons.map(w=>`<span class="phase-chip chip-weapon">${w}</span>`).join('')}</div>
-            </div>
-            <div class="phase-row">
-              <div class="phase-row-title">📚 Priority Tomes</div>
-              <div class="phase-chips">${p.tomes.map(t=>`<span class="phase-chip chip-tome">${t}</span>`).join('')}</div>
-            </div>
-            <div class="phase-row">
-              <div class="phase-row-title">🎮 Playstyle</div>
-              ${p.tips.map(t=>`<div class="phase-tip">${t}</div>`).join('')}
-            </div>
+            <div class="phase-row"><div class="phase-row-title">⚔️ Weapons</div>${wHtml}</div>
+            <div class="phase-row"><div class="phase-row-title">📚 Tomes</div>${tHtml}</div>
+            <div class="phase-row"><div class="phase-row-title">🎮 Playstyle</div>${p.tips.map(t=>`<div class="phase-tip">${t}</div>`).join('')}</div>
           </div>
-        </div>
-      `).join('')}
+        </div>`;
+      }).join('')}
     </div>
   </div>`;
 }
