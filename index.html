@@ -204,7 +204,7 @@ const C=[
     {rank:'A',emoji:'✨',name:'Aura',desc:'360° passive damage ring — handles melee range while Dexecutioner handles everything else.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🔫',name:'Revolver',desc:'Long-range precision for elites and bosses. Benefits from attack speed passive.',tags:['dmg']},
     {rank:'A',emoji:'🔥',name:'Flamewalker',desc:'Passive fire trail DoT — stacks constant damage as you move between targets.',tags:['dmg','aoe']},
-    {rank:'B',emoji:'⚔️',name:'Katana',desc:'High-speed melee that synergizes with attack speed stacking.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🌀',name:'Wireless Dagger',desc:'Homing projectile — fires automatically and benefits massively from Bandit\'s attack speed passive stacking.',tags:['dmg']},
    ],
    tomes:[
     {rank:'S',emoji:'📚',name:'XP Tome',desc:'Levels you faster so the attack speed passive stacks up earlier in runs.',tags:['util']},
@@ -222,7 +222,7 @@ const C=[
    ],
    tips:['Dexecutioner is S-tier by itself — Bandit makes it even stronger.','Joe\'s Dagger + Time Bracelet + Cooldown Tome = absurd attack speed.','Aura handles close-range while Dexecutioner executes mid-range targets.','Bandit and Sir Chadwell are the best characters in the current meta.']},
 
-  {id:'robinette',name:'Robinette',emoji:'🏹',tier:'S',starter:'🏹 Bow',passive:'Stonks: +1% Gold Gain per level; +10% Damage per 1,000 gold held',playstyle:'Gold / Projectile Scaling',
+  {id:'robinette',name:'Robinette',emoji:'🏹',tier:'S',starter:'🏹 Bow',passive:'Stonks: +5% Gold Gain base (v1.0.64) +1% Gold Gain per level; +10% Damage per 1,000 gold held (+3.5%/1k after 1M gold)',playstyle:'Gold / Projectile Scaling',
    weapons:[
     {rank:'S',emoji:'🏹',name:'Bow',desc:'Starter — piercing, high-crit potential. Scales massively with Quantity Tome.',tags:['dmg']},
     {rank:'A',emoji:'🔫',name:'Revolver',desc:'High-damage companion that shares the same projectile stacking benefits.',tags:['dmg']},
@@ -246,16 +246,16 @@ const C=[
    ],
    tips:['DO NOT spend gold on mediocre items — your gold IS your damage source.','1,000 gold held = +10% damage. At 20k gold you have +200% bonus damage.','Greed Shrines are excellent — spending HP for gold is a net positive.','8 of the top 10 world records use Robinette — she\'s that strong.']},
 
-  {id:'vlad',name:'Vlad',emoji:'🧛',tier:'S',starter:'🩸 Blood Magic',passive:'Lifesteal scales with level — heals increasing % of all damage dealt',playstyle:'Lifesteal / Sustain Tank',
+  {id:'vlad',name:'Vlad',emoji:'🧛',tier:'S',starter:'🩸 Blood Magic',passive:'Lifesteal: +5% flat base (v1.0.64); +1% Lifesteal per level — heals % of all damage dealt',playstyle:'Lifesteal / Sustain Tank',
    weapons:[
-    {rank:'S',emoji:'🩸',name:'Blood Magic',desc:'Starter — every hit heals based on damage dealt. Scales with lifesteal passive.',tags:['dmg','def']},
+    {rank:'S',emoji:'🩸',name:'Blood Magic',desc:'Starter — every hit heals based on damage dealt. Core identity weapon, upgrade every level.',tags:['dmg','def']},
     {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'High burst damage = more healing per proc. Natural synergy with lifesteal.',tags:['dmg']},
     {rank:'A',emoji:'✨',name:'Aura',desc:'Passive AoE = constant lifesteal from crowd hits.',tags:['dmg','aoe','def']},
     {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Chain damage to multiple enemies = multiple lifesteal procs simultaneously.',tags:['dmg','aoe']},
     {rank:'B',emoji:'🍌',name:'Bananarang',desc:'Bounces between enemies — more lifesteal opportunities per throw.',tags:['dmg','aoe']},
    ],
    tomes:[
-    {rank:'S',emoji:'🩸',name:'Bloody Tome',desc:'Core tome — maximizes lifesteal percentage from all damage sources.',tags:['def','dmg']},
+    {rank:'S',emoji:'🩸',name:'Lifesteal Tome',desc:'Core tome — maximizes lifesteal percentage from all damage sources.',tags:['def','dmg']},
     {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles = more hits = more lifesteal per second.',tags:['dmg']},
     {rank:'A',emoji:'⏱️',name:'Cooldown Tome',desc:'Faster weapon procs = faster healing cycles.',tags:['dmg','util']},
     {rank:'A',emoji:'📚',name:'XP Tome',desc:'Level faster to scale lifesteal passive — each level increases healing %.',tags:['util']},
@@ -268,7 +268,7 @@ const C=[
     {rank:'A',emoji:'🧀',name:'Moldy Cheese',desc:'Poison DoT = passive lifesteal ticks even between weapon procs.',tags:['dmg','def']},
     {rank:'B',emoji:'🥣',name:'Oats',desc:'HP recovery during early game before lifesteal fully kicks in.',tags:['def']},
    ],
-   tips:['Bloody Tome is MANDATORY — grab it every time it appears.','Leeching Crystal + Bloody Tome makes you nearly unkillable by mid-game.','AoE weapons let you lifesteal from multiple enemies simultaneously.','Don\'t worry about damage taken — worry about having enough DPS to heal back.']},
+   tips:['Lifesteal Tome is MANDATORY — grab it every time it appears.','Leeching Crystal + Lifesteal Tome makes you nearly unkillable by mid-game.','AoE weapons let you lifesteal from multiple enemies simultaneously.','Don\'t worry about damage taken — worry about having enough DPS to heal back.']},
 
   {id:'sirchadwell',name:'Sir Chadwell',emoji:'👑',tier:'S',starter:'⚔️ Cursed Sword',passive:'Auto-increases Difficulty each level — harder enemies but dramatically better loot',playstyle:'Difficulty Scaling / Loot Snowball',
    weapons:[
@@ -294,7 +294,7 @@ const C=[
    ],
    tips:['Difficulty auto-scaling means better chests and vendors — exploit this for free power.','Size Tome + Cooldown Tome on Cursed Sword is the core win condition.','Buy defensive items often — enemies get tougher every single level.','Sir Chadwell and Bandit are currently the best characters in the meta.']},
 
-  {id:'fox',name:'Mr. Fox',emoji:'🦊',tier:'A',starter:'🔥 Firestaff',passive:'RNG Blessing: +1% Luck per level',playstyle:'Luck / Legendary Snowball',
+  {id:'fox',name:'Mr. Fox',emoji:'🦊',tier:'A',starter:'🔥 Firestaff',passive:'RNG Blessing: +1.5% Luck per level (nerfed from +2% in Dec 2025 patch)',playstyle:'Luck / Legendary Snowball',
    weapons:[
     {rank:'S',emoji:'🔥',name:'Firestaff',desc:'Starter — scales massively with Luck/Legendary items. Core AoE ranged damage.',tags:['dmg','aoe']},
     {rank:'S',emoji:'⚡',name:'Lightning Staff',desc:'Chains between enemies, excellent for clearing hordes with Quantity Tome.',tags:['dmg','aoe']},
@@ -324,7 +324,7 @@ const C=[
     {rank:'A',emoji:'🔫',name:'Revolver',desc:'Potent ranged option for elites and bosses from safe distance.',tags:['dmg']},
     {rank:'A',emoji:'🔥',name:'Flamewalker',desc:'Leaves fire trail while you move — passive damage that scales with constant motion.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🏹',name:'Bow',desc:'High-damage ranged weapon to kite safely while dealing DPS.',tags:['dmg']},
-    {rank:'B',emoji:'⚡',name:'Lightning Staff',desc:'Backup AoE for dense enemy clusters.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Bouncing projectile — fires while you move, hitting enemies multiple times per throw without slowing you down.',tags:['dmg','aoe']},
    ],
    tomes:[
     {rank:'S',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles from Bone/Revolver while kiting.',tags:['dmg']},
@@ -348,7 +348,7 @@ const C=[
     {rank:'S',emoji:'🔥',name:'Firestaff',desc:'Excellent secondary that scales with all CL4NK\'s tome upgrades.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Multi-enemy hits — benefits from Quantity and Precision upgrades.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🪃',name:'Axe',desc:'Strong AoE melee for enemies that break through your range.',tags:['dmg','aoe']},
-    {rank:'B',emoji:'⚡',name:'Lightning Staff',desc:'Chain damage for hordes when enemies group faster than Revolver handles.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🦴',name:'Bone',desc:'Bouncing ranged weapon — each ricochet is an independent crit proc. Excellent passive coverage alongside Revolver.',tags:['dmg']},
    ],
    tomes:[
     {rank:'S',emoji:'🎯',name:'Precision Tome',desc:'Almost mandatory — increases Crit Chance and Crit Damage, supercharging the passive.',tags:['dmg']},
@@ -400,7 +400,8 @@ const C=[
    ],
    tomes:[
     {rank:'S',emoji:'⚡',name:'Attack Speed Tome',desc:'Core — makes Sword attacks devastatingly fast. +7.5% attack speed per level.',tags:['dmg']},
-    {rank:'A',emoji:'💨',name:'Agility Tome',desc:'Better movement for early farming and item collection.',tags:['speed','util']},
+    {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Multiplies every Sword hit and ranged weapon — core DPS tome alongside Attack Speed.',tags:['dmg']},
+    {rank:'A',emoji:'📐',name:'Size Tome',desc:'Expands Sword sweep and Aura radius — more enemies hit per attack.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles on Lightning/Firestaff for better ranged coverage.',tags:['dmg']},
     {rank:'A',emoji:'❤️',name:'HP Tome',desc:'Scales Reinforced passive — more HP means armor scales multiplicatively.',tags:['def']},
     {rank:'B',emoji:'🛡️',name:'Armor Tome',desc:'Late-game push toward near-immortality.',tags:['def']},
@@ -447,8 +448,8 @@ const C=[
     {rank:'B',emoji:'🌑',name:'Black Hole',desc:'Groups enemies for massive poison chain explosions.',tags:['aoe','util']},
    ],
    tomes:[
+    {rank:'S',emoji:'🩸',name:'Lifesteal Tome',desc:'#1 absolute priority — need 4-5 stacks to reach 100% lifesteal. At 100%, poison DoT counts as continuous hits and heals you constantly.',tags:['def','dmg']},
     {rank:'S',emoji:'⏳',name:'Duration Tome',desc:'Extends poison tick time — more DoT damage before an enemy dies and explodes.',tags:['dmg','util']},
-    {rank:'S',emoji:'🩸',name:'Bloody Tome',desc:'Lifesteal from poison damage — with poison everywhere you heal constantly.',tags:['def','dmg']},
     {rank:'A',emoji:'📚',name:'XP Tome',desc:'Level fast to unlock more tome slots and scale the poison chain earlier.',tags:['util']},
     {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Increases poison damage per tick and explosion damage.',tags:['dmg']},
     {rank:'B',emoji:'🔢',name:'Quantity Tome',desc:'More poison projectiles to spread status effects faster.',tags:['dmg']},
@@ -460,7 +461,7 @@ const C=[
     {rank:'A',emoji:'🩸',name:'Blood Magic',desc:'Converts HP into damage — risky but massively boosts poison output.',tags:['dmg']},
     {rank:'B',emoji:'⌚',name:'Time Bracelet',desc:'Increases Duration — more tick time, more poison, more explosions.',tags:['util','dmg']},
    ],
-   tips:['Duration Tome is #1 priority — longer poison = more chain explosion potential.','Gas Mask from any source transforms this from a good build to S-tier.','Bloody Tome + lifesteal from poison makes you nearly unkillable mid-game.','Let enemies cluster before firing — chain reactions scale exponentially.']},
+   tips:['Lifesteal Tome is the #1 priority — need 4-5 stacks. At 100% lifesteal, poison DoT heals you constantly and you become near-immortal.','Without Moldy Cheese, Amog is the weakest character. Restart if you haven\'t found it by minute 10.','Gas Mask from any source transforms this from a good build to S-tier.','Let enemies cluster before firing — chain reactions scale exponentially.']},
 
   {id:'noelle',name:'Noelle',emoji:'❄️',tier:'B',starter:'❄️ Frostwalker',passive:'Size & Damage increase each level',playstyle:'AoE / Size Scaling',
    weapons:[
@@ -558,13 +559,13 @@ const C=[
    ],
    tips:['Manual aim Sniper Rifle at bosses for one-shot potential with Precision Tome.','Camouflage passive: stand still occasionally to reduce enemy aggro.','Damage + Quantity on Sniper Rifle = devastating piercing death rays.','Mines around your sniping position create a safe firing line.']},
 
-  {id:'tonymczoom',name:'Tony McZoom',emoji:'🛹',tier:'B',starter:'🛹 Hoverboard Zap',passive:'Hoverboard zaps enemies when charged; higher movement speed = more frequent procs',playstyle:'Speed / Crit / Aggressive',
+  {id:'tonymczoom',name:'Tony McZoom',emoji:'🛹',tier:'B',starter:'🌀 Wireless Dagger',passive:'Hoverboard: moving charges an electric zap that discharges AoE damage; +2% Pickup Range per level',playstyle:'Speed / Homing Projectile',
    weapons:[
-    {rank:'S',emoji:'🍌',name:'Bananarang',desc:'Scales with Quantity Tome — combines with speed for mobile damage machine.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Chain damage that benefits from many projectiles and speed.',tags:['dmg','aoe']},
+    {rank:'S',emoji:'🌀',name:'Wireless Dagger',desc:'Starter — homing projectiles that track enemies. Scales with Quantity and Precision. Core weapon throughout the run.',tags:['dmg']},
+    {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Bouncing projectile pairs well with Wireless Dagger — combined they cover all angles while you move.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Chain damage that fires passively while you maintain movement speed.',tags:['dmg','aoe']},
     {rank:'A',emoji:'✨',name:'Aura',desc:'Passive ring handles enemies that get too close while maintaining speed.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🛡️',name:'Aegis',desc:'Primary defense — blocks shots from ranged enemies while you zoom.',tags:['def']},
-    {rank:'B',emoji:'🔥',name:'Flamewalker',desc:'Fire trails left behind while speeding through the map.',tags:['dmg','aoe']},
+    {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Primary defense — blocks shots from ranged enemies while you zoom.',tags:['def']},
    ],
    tomes:[
     {rank:'S',emoji:'🎯',name:'Precision Tome',desc:'Boosts Crit Chance — McZoom\'s aggressive style generates tons of hits.',tags:['dmg']},
@@ -654,7 +655,7 @@ const C=[
    ],
    tips:['Athena is the BEST character for the Pacifist Challenge — her primary use case.','Athena and Megachad are also best for the AFK Gaming Challenge.','The +150% attack speed window when shields are down is the real damage phase.','Unlock Athena only if aiming for specific challenge completions.']},
 
-  {id:'spaceman',name:'Spaceman',emoji:'🚀',tier:'C',starter:'🌑 Black Hole',passive:'+XP% per level — built-in XP percentage increase for reliable leveling',playstyle:'XP Leveling / Crowd Control',
+  {id:'spaceman',name:'Spaceman',emoji:'🚀',tier:'C',starter:'🌑 Black Hole',passive:'+5% flat XP base (v1.0.64); +XP% per level — fastest leveling in the game',playstyle:'XP Leveling / Crowd Control',
    weapons:[
     {rank:'S',emoji:'🌑',name:'Black Hole',desc:'Starter — pulls all nearby enemies to a point. Devastating with any AoE follow-up.',tags:['aoe','util']},
     {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Enemies grouped by Black Hole = Dexecutioner cleaves the entire cluster.',tags:['dmg']},
@@ -717,9 +718,9 @@ const PROG = {
     {label:'Levels 35+',sublabel:'Untouchable ranged god',weapons:['Bow','Revolver','Sniper Rifle','Dexecutioner'],tomes:['Precision Tome','Cooldown Tome','Damage Tome'],tips:['20,000+ gold = +200% bonus damage. This is when Robinette becomes truly broken.','Add Dexecutioner as a cleanup weapon for anything that survives the arrow storm.','Cooldown Tome lets you fire all ranged weapons near-continuously.']},
   ],
   vlad:[
-    {label:'Levels 1–10',sublabel:'Establish lifesteal base',weapons:['Blood Magic'],tomes:['Bloody Tome'],tips:['Bloody Tome first, no exceptions — without it Blood Magic is just a damage weapon.','Stay in melee range; Blood Magic only heals on direct hits.','Early game is dangerous — be cautious until Bloody Tome has 2+ stacks.']},
-    {label:'Levels 11–20',sublabel:'Build sustain engine',weapons:['Blood Magic','Aura'],tomes:['Bloody Tome','Quantity Tome'],tips:['Aura added now means you\'re lifesteal-ing from every enemy in 360° simultaneously.','Quantity Tome multiplies Blood Magic projectiles — each one heals independently.','With Leeching Crystal + Bloody Tome you should now be nearly unkillable.']},
-    {label:'Levels 21–35',sublabel:'Max damage output',weapons:['Blood Magic','Aura','Lightning Staff','Dexecutioner'],tomes:['Bloody Tome','Quantity Tome','Cooldown Tome'],tips:['Lightning Staff chains mean you heal from every enemy in the chain simultaneously.','Dexecutioner added for burst DPS — lifesteal from one-shot hits is a full heal.','Cooldown Tome makes weapon procs constant — you heal so fast HP bars barely move.']},
+    {label:'Levels 1–10',sublabel:'Establish lifesteal base',weapons:['Blood Magic'],tomes:['Lifesteal Tome'],tips:['Lifesteal Tome first, no exceptions — without it Blood Magic is just a damage weapon.','Stay in melee range; Blood Magic only heals on direct hits.','Early game is dangerous — be cautious until Lifesteal Tome has 2+ stacks.']},
+    {label:'Levels 11–20',sublabel:'Build sustain engine',weapons:['Blood Magic','Aura'],tomes:['Lifesteal Tome','Quantity Tome'],tips:['Aura added now means you\'re lifesteal-ing from every enemy in 360° simultaneously.','Quantity Tome multiplies Blood Magic projectiles — each one heals independently.','With Leeching Crystal + Lifesteal Tome you should now be nearly unkillable.']},
+    {label:'Levels 21–35',sublabel:'Max damage output',weapons:['Blood Magic','Aura','Lightning Staff','Dexecutioner'],tomes:['Lifesteal Tome','Quantity Tome','Cooldown Tome'],tips:['Lightning Staff chains mean you heal from every enemy in the chain simultaneously.','Dexecutioner added for burst DPS — lifesteal from one-shot hits is a full heal.','Cooldown Tome makes weapon procs constant — you heal so fast HP bars barely move.']},
     {label:'Levels 35+',sublabel:'Unkillable & dominant',weapons:['Blood Magic','Aura','Lightning Staff','Dexecutioner','Bananarang'],tomes:['Cooldown Tome','Damage Tome','XP Tome'],tips:['You should be healing faster than any damage can reach you. Be aggressive.','Damage Tome late game amplifies every hit which also amplifies every heal.','Add Bananarang as a fifth weapon — bouncing hits keep the heal cycle constant.']},
   ],
   sirchadwell:[
@@ -765,9 +766,9 @@ const PROG = {
     {label:'Levels 35+',sublabel:'Item-stacked powerhouse',weapons:['Scythe','Aura','Dexecutioner','Lightning Staff','Bananarang'],tomes:['Damage Tome','Cooldown Tome','Luck Tome'],tips:['Item advantage from cursed drops should be significant — you\'re outgearing the run.','Luck Tome in late game makes cursed enemy drops even higher quality.','Bananarang as a fifth weapon bounces between dense groups of cursed enemies — excellent.']},
   ],
   amog:[
-    {label:'Levels 1–10',sublabel:'Poison chain setup',weapons:['Poison Flask'],tomes:['Duration Tome','Bloody Tome'],tips:['Duration Tome first — longer poison ticks means enemies die slower, explode harder.','Bloody Tome second — lifesteal from poison keeps you alive while chains build up.','Let enemies group before firing. Lone targets waste the chain explosion passive.']},
-    {label:'Levels 11–20',sublabel:'Chain reactions online',weapons:['Poison Flask','Frostwalker'],tomes:['Duration Tome','Bloody Tome','XP Tome'],tips:['Frostwalker slows enemies giving poison even more time to tick before they scatter.','By now chain explosions should be clearing entire groups. Stay at the edge of packs.','Moldy Cheese from any source — stack as many as possible for passive DoT layers.']},
-    {label:'Levels 21–35',sublabel:'Full poison coverage',weapons:['Poison Flask','Frostwalker','Axe','Mines'],tomes:['Duration Tome','Bloody Tome','Damage Tome'],tips:['Axe and Mines both get extended duration — they linger longer dealing more damage.','Mines placed on choke points + Poison Flask = everything entering dies before reaching you.','Gas Mask if found at any point — immediately transforms the build to S-tier.']},
+    {label:'Levels 1–10',sublabel:'Poison chain setup',weapons:['Poison Flask'],tomes:['Duration Tome','Lifesteal Tome'],tips:['Duration Tome first — longer poison ticks means enemies die slower, explode harder.','Lifesteal Tome second — lifesteal from poison keeps you alive while chains build up.','Let enemies group before firing. Lone targets waste the chain explosion passive.']},
+    {label:'Levels 11–20',sublabel:'Chain reactions online',weapons:['Poison Flask','Frostwalker'],tomes:['Duration Tome','Lifesteal Tome','XP Tome'],tips:['Frostwalker slows enemies giving poison even more time to tick before they scatter.','By now chain explosions should be clearing entire groups. Stay at the edge of packs.','Moldy Cheese from any source — stack as many as possible for passive DoT layers.']},
+    {label:'Levels 21–35',sublabel:'Full poison coverage',weapons:['Poison Flask','Frostwalker','Axe','Mines'],tomes:['Duration Tome','Lifesteal Tome','Damage Tome'],tips:['Axe and Mines both get extended duration — they linger longer dealing more damage.','Mines placed on choke points + Poison Flask = everything entering dies before reaching you.','Gas Mask if found at any point — immediately transforms the build to S-tier.']},
     {label:'Levels 35+',sublabel:'Poison apocalypse',weapons:['Poison Flask','Frostwalker','Axe','Mines','Black Hole'],tomes:['Damage Tome','Duration Tome','Quantity Tome'],tips:['Black Hole pulls entire screens of enemies into a single point. Fire Poison Flask into it.','Damage Tome amplifies every poison tick and explosion simultaneously.','You should be clearing full screens with one Poison Flask proc at this stage.']},
   ],
   noelle:[
@@ -795,10 +796,10 @@ const PROG = {
     {label:'Levels 35+',sublabel:'Full sniper loadout',weapons:['Sniper Rifle','Bow','Revolver','Mines','Aegis'],tomes:['Precision Tome','Cooldown Tome','Damage Tome'],tips:['Aegis is essential now — enemies at high levels hit hard and you have limited mobility.','Sniper Rifle + Precision + Damage Tome at this level = instant kills on almost anything.','Camouflage passive is best exploited during lulls — stand still to reset aggro radius.']},
   ],
   tonymczoom:[
-    {label:'Levels 1–10',sublabel:'Build speed fast',weapons:['Hoverboard Zap'],tomes:['Agility Tome','Quantity Tome'],tips:['Agility Tome first — higher speed means more Hoverboard passive procs.','Keep moving constantly. The Hoverboard zap procs automatically so just focus on routing.','Circular routes through enemy clusters maximise passive zap hits.']},
-    {label:'Levels 11–20',sublabel:'Add projectile weapons',weapons:['Hoverboard Zap','Bananarang'],tomes:['Agility Tome','Quantity Tome','Precision Tome'],tips:['Bananarang bounces through enemies as you zoom past — excellent value in motion.','Precision Tome now gives crit chance on both Bananarang and Hoverboard procs.','Time Bracelet from a chest is excellent — attack speed boost compounds with speed movement.']},
-    {label:'Levels 21–35',sublabel:'Full speed loadout',weapons:['Hoverboard Zap','Bananarang','Lightning Staff','Aura'],tomes:['Precision Tome','Quantity Tome','Attack Speed Tome'],tips:['Lightning Staff chains between enemies you zoom past — huge passive damage.','Aura handles any enemies that get too close during your movement loops.','Attack Speed Tome adds weapon procs per second on top of movement-based procs.']},
-    {label:'Levels 35+',sublabel:'Speed DPS ceiling',weapons:['Hoverboard Zap','Bananarang','Lightning Staff','Aura','Aegis'],tomes:['Attack Speed Tome','Quantity Tome','Damage Tome'],tips:['Aegis added — even at high speed, boss projectiles can catch you.','Damage Tome amplifies every Hoverboard zap and weapon hit simultaneously.','You should be lapping the map constantly. Enemies die before reaching the centre of your loop.']},
+    {label:'Levels 1–10',sublabel:'Build speed fast',weapons:['Wireless Dagger'],tomes:['Agility Tome','Quantity Tome'],tips:['Agility Tome first — higher speed means more Hoverboard passive procs.','Keep moving constantly. The Wireless Dagger procs automatically so just focus on routing.','Circular routes through enemy clusters maximise passive zap hits.']},
+    {label:'Levels 11–20',sublabel:'Add projectile weapons',weapons:['Wireless Dagger','Bananarang'],tomes:['Agility Tome','Quantity Tome','Precision Tome'],tips:['Bananarang bounces through enemies as you zoom past — excellent value in motion.','Precision Tome now gives crit chance on both Bananarang and Hoverboard passive procs.','Time Bracelet from a chest is excellent — attack speed boost compounds with speed movement.']},
+    {label:'Levels 21–35',sublabel:'Full speed loadout',weapons:['Wireless Dagger','Bananarang','Lightning Staff','Aura'],tomes:['Precision Tome','Quantity Tome','Attack Speed Tome'],tips:['Lightning Staff chains between enemies you zoom past — huge passive damage.','Aura handles any enemies that get too close during your movement loops.','Attack Speed Tome adds weapon procs per second on top of movement-based procs.']},
+    {label:'Levels 35+',sublabel:'Speed DPS ceiling',weapons:['Wireless Dagger','Bananarang','Lightning Staff','Aura','Aegis'],tomes:['Attack Speed Tome','Quantity Tome','Damage Tome'],tips:['Aegis added — even at high speed, boss projectiles can catch you.','Damage Tome amplifies every Wireless Dagger and weapon hit simultaneously.','You should be lapping the map constantly. Enemies die before reaching the centre of your loop.']},
   ],
   monke:[
     {label:'Levels 1–10',sublabel:'Banana foundations',weapons:['Bananarang'],tomes:['Quantity Tome','HP Tome'],tips:['Quantity Tome immediately — more bounces means more hits and faster enemy clears.','HP Tome stacks with the passive HP-per-level for solid early tankiness.','Stand in the middle of groups; Bananarang bounces are most effective with dense packs.']},
@@ -989,20 +990,20 @@ const PO={
 dicehead:[[{n:'XP Tome',l:'max'},{n:'Luck Tome',l:'max'},{n:'Dice',l:'max'}],[{n:'Precision Tome',l:'3'},{n:'Revolver',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Katana',l:'3'},{n:'Bow',l:'2'}],[{n:'Cooldown Tome',l:'max'},{n:'Dexecutioner',l:'max'}]],
 bandit:[[{n:'Dexecutioner',l:'max'},{n:'XP Tome',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Quantity Tome',l:'3'},{n:'Size Tome',l:'3'},{n:'Revolver',l:'3'},{n:'Flamewalker',l:'2'}],[{n:'Damage Tome',l:'max'},{n:'Katana',l:'3'}]],
 robinette:[[{n:'Bow',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'3'}],[{n:'Precision Tome',l:'max'},{n:'Sniper Rifle',l:'max'},{n:'Damage Tome',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Dexecutioner',l:'max'}]],
-vlad:[[{n:'Bloody Tome',l:'max'},{n:'Blood Magic',l:'max'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Dexecutioner',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'},{n:'XP Tome',l:'2'}]],
+vlad:[[{n:'Lifesteal Tome',l:'max'},{n:'Blood Magic',l:'max'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Dexecutioner',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'},{n:'XP Tome',l:'2'}]],
 sirchadwell:[[{n:'Size Tome',l:'max'},{n:'Cursed Sword',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Dexecutioner',l:'3'},{n:'Katana',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aegis',l:'max'}]],
 fox:[[{n:'Luck Tome',l:'max'},{n:'XP Tome',l:'3'},{n:'Firestaff',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Dexecutioner',l:'max'},{n:'Aegis',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'}]],
 calcium:[[{n:'Movement Speed Tome',l:'max'},{n:'Bone',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'3'}],[{n:'Attack Speed Tome',l:'max'},{n:'Flamewalker',l:'3'},{n:'Bow',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Lightning Staff',l:'3'}]],
 cl4nk:[[{n:'Precision Tome',l:'max'},{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Firestaff',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'},{n:'Axe',l:'2'}],[{n:'Lightning Staff',l:'3'}]],
 ninja:[[{n:'Evasion Tome',l:'max'},{n:'Size Tome',l:'max'},{n:'Katana',l:'max'}],[{n:'Damage Tome',l:'3'},{n:'Aura',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Dexecutioner',l:'3'},{n:'Flamewalker',l:'2'}],[{n:'Agility Tome',l:'3'},{n:'Aegis',l:'3'}]],
-siroofie:[[{n:'Attack Speed Tome',l:'max'},{n:'Sword',l:'max'},{n:'HP Tome',l:'3'}],[{n:'Agility Tome',l:'2'},{n:'Aura',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Firestaff',l:'2'}],[{n:'Damage Tome',l:'max'},{n:'Armor Tome',l:'max'},{n:'Bone',l:'2'}]],
+siroofie:[[{n:'Attack Speed Tome',l:'max'},{n:'Sword',l:'max'},{n:'HP Tome',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Size Tome',l:'max'},{n:'Quantity Tome',l:'3'},{n:'Lightning Staff',l:'3'}],[{n:'Armor Tome',l:'max'},{n:'HP Tome',l:'max'},{n:'Bone',l:'2'}]],
 roberto:[[{n:'XP Tome',l:'max'},{n:'Size Tome',l:'max'},{n:'Scythe',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Dexecutioner',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Luck Tome',l:'3'},{n:'Bananarang',l:'3'}]],
-amog:[[{n:'Duration Tome',l:'max'},{n:'Bloody Tome',l:'max'},{n:'Poison Flask',l:'max'}],[{n:'XP Tome',l:'3'},{n:'Frostwalker',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Axe',l:'3'},{n:'Mines',l:'2'}],[{n:'Quantity Tome',l:'max'},{n:'Black Hole',l:'max'}]],
+amog:[[{n:'Duration Tome',l:'max'},{n:'Lifesteal Tome',l:'max'},{n:'Poison Flask',l:'max'}],[{n:'XP Tome',l:'3'},{n:'Frostwalker',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Axe',l:'3'},{n:'Mines',l:'2'}],[{n:'Quantity Tome',l:'max'},{n:'Black Hole',l:'max'}]],
 noelle:[[{n:'XP Tome',l:'max'},{n:'Chaos Tome',l:'max'},{n:'Frostwalker',l:'max'}],[{n:'Cursed Tome',l:'1'},{n:'Dexecutioner',l:'max'}],[{n:'Precision Tome',l:'max'},{n:'Katana',l:'3'},{n:'Flamewalker',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}]],
 megachad:[[{n:'Size Tome',l:'max'},{n:'Aura',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Bananarang',l:'max'},{n:'Revolver',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'}]],
 birdo:[[{n:'Duration Tome',l:'max'},{n:'Size Tome',l:'max'},{n:'Tornado',l:'max'}],[{n:'Damage Tome',l:'3'},{n:'Flamewalker',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'},{n:'Lightning Staff',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Bananarang',l:'3'}]],
 bush:[[{n:'Damage Tome',l:'max'},{n:'Sniper Rifle',l:'max'},{n:'Quantity Tome',l:'3'}],[{n:'Precision Tome',l:'max'},{n:'Bow',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Revolver',l:'3'},{n:'Mines',l:'2'}],[{n:'Aegis',l:'max'}]],
-tonymczoom:[[{n:'Agility Tome',l:'max'},{n:'Quantity Tome',l:'max'},{n:'Hoverboard Zap',l:'max'}],[{n:'Precision Tome',l:'max'},{n:'Bananarang',l:'3'}],[{n:'Attack Speed Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}]],
+tonymczoom:[[{n:'Agility Tome',l:'max'},{n:'Quantity Tome',l:'max'},{n:'Wireless Dagger',l:'max'}],[{n:'Precision Tome',l:'max'},{n:'Bananarang',l:'3'}],[{n:'Attack Speed Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aegis',l:'3'}]],
 monke:[[{n:'Quantity Tome',l:'max'},{n:'Bananarang',l:'max'},{n:'HP Tome',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Size Tome',l:'max'},{n:'Aegis',l:'3'},{n:'Lightning Staff',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Flamewalker',l:'3'}]],
 ogre:[[{n:'Damage Tome',l:'max'},{n:'Axe',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'HP Tome',l:'3'},{n:'Dexecutioner',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Aegis',l:'3'}]],
 athena:[[{n:'Attack Speed Tome',l:'max'},{n:'Size Tome',l:'max'},{n:'Aegis',l:'max'}],[{n:'HP Tome',l:'3'},{n:'Aura',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Dexecutioner',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Flamewalker',l:'3'}]],
