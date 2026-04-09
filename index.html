@@ -39,9 +39,12 @@
     .filter-btn.active-C { background:rgba(126,203,53,.1); border-color:var(--c); color:var(--c); }
     .char-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; }
     .char-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 10px 12px; cursor:pointer; transition:all .2s; text-align:center; position:relative; overflow:hidden; }
+    button.char-card { font-family:inherit; width:100%; color:inherit; }
     .char-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.03)); pointer-events:none; }
     .char-card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 8px 30px rgba(255,77,109,.2); }
+    .char-card:focus-visible { outline:2px solid var(--accent3); outline-offset:2px; border-color:var(--accent3); }
     .char-card.hidden { display:none; }
+    .multi-build-badge { position:absolute; bottom:6px; left:6px; font-size:.52rem; padding:2px 5px; border-radius:4px; background:rgba(0,212,255,.12); color:var(--accent3); border:1px solid rgba(0,212,255,.25); letter-spacing:.3px; }
     .char-emoji { font-size:2.2rem; margin-bottom:6px; display:block; }
     .char-name { font-family:'Russo One',sans-serif; font-size:.75rem; letter-spacing:.5px; }
     .char-starter { font-size:.62rem; color:var(--muted); margin-top:3px; line-height:1.3; }
@@ -178,7 +181,7 @@ const C=[
    weapons:[
     {rank:'S',emoji:'🎲',name:'Dice',desc:'Starter — rolls 1-6 damage. Rolling 6 permanently boosts Crit Chance. Core identity weapon.',tags:['dmg']},
     {rank:'S',emoji:'🔫',name:'Revolver',desc:'Multi-hit ranged weapon — generates more crit opportunities per second.',tags:['dmg']},
-    {rank:'A',emoji:'⚔️',name:'Katana',desc:'High-speed melee that stacks crit damage as Crit Chance climbs.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🔪',name:'Katana',desc:'High-speed melee that stacks crit damage as Crit Chance climbs.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🏹',name:'Bow',desc:'Piercing shots = more crit procs per arrow. Excellent mid-range coverage.',tags:['dmg']},
     {rank:'B',emoji:'💀',name:'Dexecutioner',desc:'Highest DPS weapon — even better once Crit Chance is stacked high.',tags:['dmg']},
    ],
@@ -270,11 +273,11 @@ const C=[
    ],
    tips:['Lifesteal Tome is MANDATORY — grab it every time it appears.','Leeching Crystal + Lifesteal Tome makes you nearly unkillable by mid-game.','AoE weapons let you lifesteal from multiple enemies simultaneously.','Don\'t worry about damage taken — worry about having enough DPS to heal back.']},
 
-  {id:'sirchadwell',name:'Sir Chadwell',emoji:'👑',tier:'S',starter:'⚔️ Cursed Sword',passive:'Auto-increases Difficulty each level — harder enemies but dramatically better loot',playstyle:'Difficulty Scaling / Loot Snowball',
+  {id:'sirchadwell',name:'Sir Chadwell',emoji:'👑',tier:'S',starter:'🔮 Cursed Sword',passive:'Auto-increases Difficulty each level — harder enemies but dramatically better loot',playstyle:'Difficulty Scaling / Loot Snowball',
    weapons:[
-    {rank:'S',emoji:'⚔️',name:'Cursed Sword',desc:'Starter — high damage melee that scales perfectly with Size and Cooldown tomes.',tags:['dmg','aoe']},
+    {rank:'S',emoji:'🔮',name:'Cursed Sword',desc:'Starter — high damage melee that scales perfectly with Size and Cooldown tomes.',tags:['dmg','aoe']},
     {rank:'A',emoji:'✨',name:'Aura',desc:'Wide passive damage ring. Size Tome pushes Aura to cover huge ground.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'⚔️',name:'Katana',desc:'Fast melee attacks that benefit from Cooldown scaling.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🔪',name:'Katana',desc:'Fast melee attacks that benefit from Cooldown scaling.',tags:['dmg','aoe']},
     {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Strong execute weapon that shines with high-difficulty enemy pools.',tags:['dmg']},
     {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defense needed as difficulty ramps up automatically each level.',tags:['def']},
    ],
@@ -368,7 +371,7 @@ const C=[
 
   {id:'ninja',name:'Ninja',emoji:'🥷',tier:'A',starter:'⚔️ Katana',passive:'Shadowstep: +0.5% Evasion per level. Successfully evading an enemy attack instantly executes them.',playstyle:'Evasion Execute / Assassin',
    weapons:[
-    {rank:'S',emoji:'⚔️',name:'Katana',desc:'Starter and best weapon — scales with Size, Damage and Quantity. Short-ranged early but exponentially grows into a screen-wide blade.',tags:['dmg','aoe']},
+    {rank:'S',emoji:'🔪',name:'Katana',desc:'Starter and best weapon — scales with Size, Damage and Quantity. Short-ranged early but exponentially grows into a screen-wide blade.',tags:['dmg','aoe']},
     {rank:'A',emoji:'✨',name:'Aura',desc:'360° passive ring pairs perfectly with Size Tome — damages everything in melee range so you\'re always dealing damage while positioning.',tags:['dmg','aoe']},
     {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Execute chance on tough targets and bosses that can\'t be killed by evasion. Essential for elites.',tags:['dmg']},
     {rank:'A',emoji:'🛡️',name:'Aegis',desc:'Critical defensive layer — blocks projectile hits that evasion can\'t dodge. Lets you stay in melee range safely.',tags:['def']},
@@ -386,7 +389,7 @@ const C=[
     {rank:'A',emoji:'💍',name:'Slippery Ring',desc:'Flat evasion boost — directly improves Shadowstep trigger rate from the first moment you pick it up.',tags:['def','util']},
     {rank:'A',emoji:'👟',name:'Turbo Socks',desc:'Movement speed converts to attack cadence — faster repositioning means more swings per second.',tags:['dmg','speed']},
     {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage that amplifies every Katana and Dexecutioner hit.',tags:['dmg']},
-    {rank:'B',emoji:'⏱️',name:'Time Bracelet',desc:'XP gain boost — reaching key tome levels faster is a strong advantage for Ninja\'s level-scaling passive.',tags:['util']},
+    {rank:'B',emoji:'⏱️',name:'Time Bracelet',desc:'Attack Speed boost — faster Katana swings per second increases Shadowstep trigger rate.',tags:['dmg','util']},
    ],
    tips:['Evasion Tome is always your first priority — it directly powers Shadowstep executes.','Size Tome is the single biggest Katana power spike. First stack is immediately noticeable.','Move constantly — weave around enemy attacks deliberately to proc Shadowstep, not just to survive.','Bosses and elites may be immune to Shadowstep executes. Use Dexecutioner on them.','Phantom Shroud + Slippery Ring early locks in the evasion-execute loop that carries the whole run.']},
 
@@ -413,7 +416,7 @@ const C=[
     {rank:'A',emoji:'🌵',name:'Spiky Shield',desc:'Returns damage to attackers — perfect with stand-and-fight playstyle.',tags:['def','dmg']},
     {rank:'B',emoji:'🍲',name:'Pot (Stainless Steel)',desc:'Defense item that fits the survivability stack.',tags:['def']},
    ],
-   tips:['Max Attack Speed first — fast Sword hits are the cornerstone of this build.','HP Tome + Beefy Ring + Spiky Shield makes you nearly unkillable in mid-game.','Lightning/Firestaff handle everything out of melee reach.','Idle Juice doubles damage while standing still — great for the tank style.']},
+   tips:['Max Attack Speed first — fast Sword hits are the cornerstone of this build.','HP Tome + Beefy Ring + Spiky Shield makes you nearly unkillable in mid-game.','Lightning/Firestaff handle everything out of melee reach.','Spiky Shield is excellent here — every enemy that hits you takes damage back, rewarding the tank style.']},
 
   {id:'roberto',name:'Roberto',emoji:'💀',tier:'A',starter:'🌿 Scythe',passive:'Spooky: Random enemies are cursed; killing them drops bonus XP and items',playstyle:'Curse / XP Acceleration',
    weapons:[
@@ -459,14 +462,14 @@ const C=[
     {rank:'S',emoji:'🧀',name:'Moldy Cheese',desc:'Most common item — stacks on top of Poison Flask for even more DoT sources.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🪣',name:'Toxic Barrel',desc:'Creates a poison pool — keeps areas toxic after you pass through.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🩸',name:'Blood Magic',desc:'Converts HP into damage — risky but massively boosts poison output.',tags:['dmg']},
-    {rank:'B',emoji:'⌚',name:'Time Bracelet',desc:'Increases Duration — more tick time, more poison, more explosions.',tags:['util','dmg']},
+    {rank:'B',emoji:'⌚',name:'Time Bracelet',desc:'Attack speed boost — faster weapon procs mean more hits and more poison chains per second.',tags:['dmg','util']},
    ],
    tips:['Lifesteal Tome is the #1 priority — need 4-5 stacks. At 100% lifesteal, poison DoT heals you constantly and you become near-immortal.','Without Moldy Cheese, Amog is the weakest character. Restart if you haven\'t found it by minute 10.','Gas Mask from any source transforms this from a good build to S-tier.','Let enemies cluster before firing — chain reactions scale exponentially.']},
 
   {id:'noelle',name:'Noelle',emoji:'❄️',tier:'B',starter:'❄️ Frostwalker',passive:'Size & Damage increase each level',playstyle:'AoE / Size Scaling',
    weapons:[
     {rank:'S',emoji:'💀',name:'Dexecutioner',desc:'#1 DPS weapon — Noelle\'s passive makes it even more devastating.',tags:['dmg']},
-    {rank:'S',emoji:'⚔️',name:'Katana',desc:'High melee damage that synergizes with size and damage scaling.',tags:['dmg','aoe']},
+    {rank:'S',emoji:'🔪',name:'Katana',desc:'High melee damage that synergizes with size and damage scaling.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🔥',name:'Flamewalker',desc:'Fire trails scale with Size — covers huge ground as Noelle moves.',tags:['dmg','aoe']},
     {rank:'A',emoji:'❄️',name:'Frostwalker',desc:'Starter — slows enemies and creates a safe damage zone.',tags:['dmg','aoe','def']},
     {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defensive option when boss patterns become dangerous.',tags:['def']},
@@ -682,11 +685,13 @@ const C=[
 
 // Build grid
 const grid=document.getElementById('char-grid');
+const altIds=new Set(['ninja','fox','cl4nk','noelle','megachad']);
 C.forEach(char=>{
-  const card=document.createElement('div');
+  const card=document.createElement('button');
+  card.type='button';
   card.className='char-card';
   card.dataset.tier=char.tier;
-  card.innerHTML=`<span class="char-tier-badge tier-${char.tier}">${char.tier}</span><span class="char-emoji">${char.emoji}</span><div class="char-name">${char.name}</div><div class="char-starter">${char.starter}</div>`;
+  card.innerHTML=`<span class="char-tier-badge tier-${char.tier}">${char.tier}</span><span class="char-emoji">${char.emoji}</span><div class="char-name">${char.name}</div><div class="char-starter">${char.starter}</div>${altIds.has(char.id)?'<span class="multi-build-badge">2 builds</span>':''}`;
   card.addEventListener('click',()=>showBuild(char.id));
   grid.appendChild(card);
 });
@@ -756,7 +761,7 @@ const PROG = {
   siroofie:[
     {label:'Levels 1–10',sublabel:'Fast Sword & tank up',weapons:['Sword'],tomes:['Attack Speed Tome','HP Tome'],tips:['Attack Speed Tome first — fast Sword swings are your entire early damage output.','HP Tome scales the Reinforced passive multiplicatively. Stack it early.','Stand your ground in the centre of packs — you\'re built to absorb hits.']},
     {label:'Levels 11–20',sublabel:'Add passive AoE',weapons:['Sword','Aura'],tomes:['Attack Speed Tome','HP Tome','Agility Tome'],tips:['Aura added now — between fast Sword hits and the passive ring, hordes melt.','Agility Tome lets you collect XP and items faster without taking extra damage.','Spiky Shield from a chest is excellent here — thorns damage while you stand and fight.']},
-    {label:'Levels 21–35',sublabel:'Ranged coverage',weapons:['Sword','Aura','Lightning Staff','Firestaff'],tomes:['Attack Speed Tome','Quantity Tome','Agility Tome'],tips:['Lightning Staff and Firestaff fill the ranged gap that melee leaves.','Quantity Tome boosts both staffs and slightly boosts Aura projectile count.','Gym Sauce from a vendor makes each fast Sword hit noticeably harder.']},
+    {label:'Levels 21–35',sublabel:'Ranged coverage',weapons:['Sword','Aura','Lightning Staff','Firestaff'],tomes:['Attack Speed Tome','Quantity Tome','Size Tome'],tips:['Lightning Staff and Firestaff fill the ranged gap that melee leaves.','Quantity Tome boosts both staffs and slightly boosts Aura projectile count.','Gym Sauce from a vendor makes each fast Sword hit noticeably harder.']},
     {label:'Levels 35+',sublabel:'Near-invincible tank',weapons:['Sword','Aura','Lightning Staff','Firestaff','Bone'],tomes:['Quantity Tome','Damage Tome','Armor Tome'],tips:['Armor Tome in late game pushes armor to near-100% damage reduction.','You should be borderline unkillable — start Cursed Shrine runs for more XP.','Damage Tome at high Sword attack speed is extraordinary DPS output.']},
   ],
   roberto:[
@@ -831,7 +836,7 @@ const BUILDS2={
   ninja:{
     b1name:'Evasion Execute',b2name:'Size Scaling',
     weapons:[
-      {rank:'S',emoji:'⚔️',name:'Katana',desc:'Core — with Size and Quantity stacking it becomes a screen-wide multi-hit blade that clears entire waves per swing.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'🔪',name:'Katana',desc:'Core — with Size and Quantity stacking it becomes a screen-wide multi-hit blade that clears entire waves per swing.',tags:['dmg','aoe']},
       {rank:'S',emoji:'✨',name:'Aura',desc:'Size Tome makes Aura enormous — combined with Katana it creates overlapping AoE coverage across a massive area.',tags:['dmg','aoe']},
       {rank:'A',emoji:'⬛',name:'Black Hole',desc:'Pulls all enemies into one point — swing Katana into the cluster for devastating combined damage.',tags:['dmg','aoe','util']},
       {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Handles elites and bosses that resist the AoE sweep.',tags:['dmg']},
@@ -925,7 +930,7 @@ const BUILDS2={
     b1name:'Holy Trinity Scaling',b2name:'Freeze AoE',
     weapons:[
       {rank:'S',emoji:'❄️',name:'Frostwalker',desc:'Core — with Size Tome stacks the freeze zone becomes enormous. Frozen enemies can\'t escape and take more damage.',tags:['dmg','aoe','def']},
-      {rank:'S',emoji:'⚔️',name:'Katana',desc:'High melee damage on frozen targets. Noelle\'s passive grows Katana size further beyond Size Tome.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'🔪',name:'Katana',desc:'High melee damage on frozen targets. Noelle\'s passive grows Katana size further beyond Size Tome.',tags:['dmg','aoe']},
       {rank:'A',emoji:'✨',name:'Aura',desc:'360° passive ring damages everything inside the freeze zone while you position.',tags:['dmg','aoe']},
       {rank:'A',emoji:'🛡️',name:'Aegis',desc:'Defensive layer when ranged enemies stay outside freeze range.',tags:['def']},
       {rank:'B',emoji:'⚡',name:'Lightning Staff',desc:'Chains between frozen clustered enemies — all targets are slowed so chains connect reliably.',tags:['dmg','aoe']},
@@ -1055,7 +1060,7 @@ function renderProgSection(phases){
           ${newT.length?`<div class="phase-add-label">➕ Get this phase</div><div class="phase-chips">${newT.map(t=>mkChip(t,true,'t')).join('')}</div>`:''}
           ${keepT.length?`<div class="phase-keep-label">↑ Keep upgrading</div><div class="phase-chips">${keepT.map(t=>mkChip(t,false,'t')).join('')}</div>`:''}`;
         return`
-        <div class="phase-block ${phaseColors[i]}" onclick="togglePhase(this)">
+        <div class="phase-block ${phaseColors[i]}${i===0?' open':''}" onclick="togglePhase(this)">
           <div class="phase-header">
             <span class="phase-label">${p.label}</span>
             <span class="phase-sublabel">${p.sublabel}</span>
@@ -1123,14 +1128,14 @@ function showBuild(charId){
         <span class="char-tier-badge tier-${char.tier}" style="position:relative;top:auto;right:auto;display:inline-block;margin-top:4px;">${char.tier}-Tier</span>
         <div class="char-hero-passive" style="margin-top:6px;">${char.passive}</div>
         <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;">
-          <span class="starter-badge">⚔️ ${char.starter}</span>
+          <span class="starter-badge">${char.starter}</span>
           <span class="playstyle-tag">🎮 ${char.playstyle}</span>
         </div>
       </div>
     </div>
     ${tabsHtml}
     <div id="build-tab-content">${renderBuildContent(char,0)}</div>
-    <div class="legend"><div class="legend-item"><span class="legend-rank rank-S">S</span> Must-have</div><div class="legend-item"><span class="legend-rank rank-A">A</span> Excellent</div><div class="legend-item"><span class="legend-rank rank-B">B</span> Strong</div><div class="legend-item"><span class="legend-rank rank-C">C</span> Situational</div></div>
+    <div class="legend"><div class="legend-item"><span class="legend-rank rank-S">S</span> Must-have / Game-breaking</div><div class="legend-item"><span class="legend-rank rank-A">A</span> Excellent pick</div><div class="legend-item"><span class="legend-rank rank-B">B</span> Strong option</div><div class="legend-item"><span class="legend-rank rank-C">C</span> Situational</div></div>
   `;
   document.getElementById('char-select').style.display='none';
   document.getElementById('build-screen').style.display='block';
