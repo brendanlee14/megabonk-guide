@@ -15,7 +15,7 @@
       --bg: #0a0a14; --surface: #12121f; --surface2: #1a1a2e; --border: #2a2a45;
       --accent: #ff4d6d; --accent2: #ffd700; --accent3: #00d4ff;
       --text: #e8e8f5; --muted: #7070a0;
-      --s: #ff4d6d; --a: #ff8c42; --b: #ffd700; --c: #7ecb35;
+      --s: #ff4d6d; --a: #ff8c42; --b: #ffd700; --c: #7ecb35; --d: #9090aa;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:'Exo 2',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
@@ -37,6 +37,7 @@
     .filter-btn.active-A { background:rgba(255,140,66,.15); border-color:var(--a); color:var(--a); }
     .filter-btn.active-B { background:rgba(255,215,0,.1); border-color:var(--b); color:var(--b); }
     .filter-btn.active-C { background:rgba(126,203,53,.1); border-color:var(--c); color:var(--c); }
+    .filter-btn.active-D { background:rgba(144,144,170,.1); border-color:var(--d); color:var(--d); }
     .char-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; }
     .char-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 10px 12px; cursor:pointer; transition:all .2s; text-align:center; position:relative; overflow:hidden; }
     button.char-card { font-family:inherit; width:100%; color:inherit; }
@@ -53,6 +54,7 @@
     .tier-A { background:rgba(255,140,66,.2); color:var(--a); border:1px solid rgba(255,140,66,.4); }
     .tier-B { background:rgba(255,215,0,.15); color:var(--b); border:1px solid rgba(255,215,0,.3); }
     .tier-C { background:rgba(126,203,53,.12); color:var(--c); border:1px solid rgba(126,203,53,.3); }
+    .tier-D { background:rgba(144,144,170,.1); color:var(--d); border:1px solid rgba(144,144,170,.3); }
     .back-btn { display:inline-flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--border); color:var(--muted); padding:8px 16px; border-radius:8px; cursor:pointer; font-family:'Exo 2',sans-serif; font-size:.8rem; margin-bottom:20px; transition:all .2s; }
     .back-btn:hover { color:var(--text); border-color:var(--muted); }
     .char-hero { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; margin-bottom:18px; display:flex; align-items:center; gap:18px; position:relative; overflow:hidden; }
@@ -72,6 +74,7 @@
     .rank-A { color:var(--a); text-shadow:0 0 8px rgba(255,140,66,.5); }
     .rank-B { color:var(--b); text-shadow:0 0 8px rgba(255,215,0,.4); }
     .rank-C { color:var(--c); }
+    .rank-D { color:var(--d); }
     .item-emoji { font-size:1.2rem; min-width:26px; text-align:center; }
     .item-info { flex:1; }
     .item-name { font-weight:600; font-size:.87rem; }
@@ -154,13 +157,14 @@
 <div class="app">
   <div id="char-select">
     <h1 class="screen-title">Choose Your <span>Character</span></h1>
-    <p class="screen-desc">All 21 characters — top weapons, tomes & items ranked S through C</p>
+    <p class="screen-desc">All 21 characters — top weapons, tomes & items ranked S through D</p>
     <div class="filter-bar">
       <button class="filter-btn active-all" onclick="filterTier('all',this)">ALL 21</button>
       <button class="filter-btn" onclick="filterTier('S',this)">⭐ S-Tier</button>
       <button class="filter-btn" onclick="filterTier('A',this)">🔥 A-Tier</button>
       <button class="filter-btn" onclick="filterTier('B',this)">💛 B-Tier</button>
       <button class="filter-btn" onclick="filterTier('C',this)">🟢 C-Tier</button>
+      <button class="filter-btn" onclick="filterTier('D',this)">⬇️ D-Tier</button>
     </div>
     <div class="char-grid" id="char-grid"></div>
     <div class="legend">
@@ -168,6 +172,7 @@
       <div class="legend-item"><span class="legend-rank rank-A">A</span> Excellent pick</div>
       <div class="legend-item"><span class="legend-rank rank-B">B</span> Strong option</div>
       <div class="legend-item"><span class="legend-rank rank-C">C</span> Situational</div>
+      <div class="legend-item"><span class="legend-rank rank-D">D</span> Undertuned / Niche</div>
     </div>
   </div>
   <div id="build-screen">
@@ -201,7 +206,7 @@ const C=[
    ],
    tips:['Early game is weak — survive to minute 15 and you become unstoppable.','Giant Fork transforms the build: without it, Dicehead is B-tier at best.','Never take bad items hoping for better RNG — survive to stack passive rolls.','Luck Tome + Clover = more 6s = permanent Crit Chance snowball.']},
 
-  {id:'bandit',name:'Bandit',emoji:'🤠',tier:'S',starter:'💀 Dexecutioner',passive:'+1% Attack Speed per level',playstyle:'Attack Speed / Execute DPS',
+  {id:'bandit',name:'Bandit',emoji:'🤠',tier:'C',starter:'💀 Dexecutioner',passive:'+1% Attack Speed per level',playstyle:'Attack Speed / Execute DPS',
    weapons:[
     {rank:'S',emoji:'💀',name:'Dexecutioner',desc:'Starter and best DPS weapon in Megabonk. Execute mechanic one-shots any target.',tags:['dmg']},
     {rank:'A',emoji:'✨',name:'Aura',desc:'360° passive damage ring — handles melee range while Dexecutioner handles everything else.',tags:['dmg','aoe']},
@@ -223,7 +228,7 @@ const C=[
     {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage that makes each Dexecutioner execute hit harder.',tags:['dmg']},
     {rank:'B',emoji:'🧀',name:'Moldy Cheese',desc:'Passive DoT that stacks between Dexecutioner procs.',tags:['dmg','aoe']},
    ],
-   tips:['Dexecutioner is S-tier by itself — Bandit makes it even stronger.','Joe\'s Dagger + Time Bracelet + Cooldown Tome = absurd attack speed.','Aura handles close-range while Dexecutioner executes mid-range targets.','Bandit and Sir Chadwell are the best characters in the current meta.']},
+   tips:['Dexecutioner is S-tier by itself — Bandit\'s passive makes it even faster.','Joe\'s Dagger + Time Bracelet + Cooldown Tome = absurd attack speed multiplicatively stacking.','C-tier rating: strong in isolation but outclassed by S-tier characters in late-game scaling.','Alt build (Sweaty Meta Lightning): Dexecutioner + Flamewalker + Lightning Staff with Lightning Orb and Anvil for leaderboard runs.','Cooldown Tome geometrically multiplies the innate passive — this is where Bandit\'s ceiling is.']},
 
   {id:'robinette',name:'Robinette',emoji:'🏹',tier:'S',starter:'🏹 Bow',passive:'Stonks: +5% Gold Gain base (v1.0.64) +1% Gold Gain per level; +10% Damage per 1,000 gold held (+3.5%/1k after 1M gold)',playstyle:'Gold / Projectile Scaling',
    weapons:[
@@ -249,41 +254,41 @@ const C=[
    ],
    tips:['DO NOT spend gold on mediocre items — your gold IS your damage source.','1,000 gold held = +10% damage. At 20k gold you have +200% bonus damage.','Greed Shrines are excellent — spending HP for gold is a net positive.','8 of the top 10 world records use Robinette — she\'s that strong.']},
 
-  {id:'vlad',name:'Vlad',emoji:'🧛',tier:'S',starter:'🩸 Blood Magic',passive:'Lifesteal: +5% flat base (v1.0.64); +1% Lifesteal per level — heals % of all damage dealt',playstyle:'Lifesteal / Sustain Tank',
+  {id:'vlad',name:'Vlad',emoji:'🧛',tier:'C',starter:'🩸 Blood Magic',passive:'Lifesteal: +5% flat base (v1.0.64); +1% Lifesteal per level — heals % of all damage dealt',playstyle:'High-Risk Kevin Stacking / Lifesteal Sustain',
    weapons:[
-    {rank:'S',emoji:'🩸',name:'Blood Magic',desc:'Starter — every hit heals based on damage dealt. Core identity weapon, upgrade every level.',tags:['dmg','def']},
-    {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'High burst damage = more healing per proc. Natural synergy with lifesteal.',tags:['dmg']},
-    {rank:'A',emoji:'✨',name:'Aura',desc:'Passive AoE = constant lifesteal from crowd hits.',tags:['dmg','aoe','def']},
-    {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Chain damage to multiple enemies = multiple lifesteal procs simultaneously.',tags:['dmg','aoe']},
-    {rank:'B',emoji:'🍌',name:'Bananarang',desc:'Bounces between enemies — more lifesteal opportunities per throw.',tags:['dmg','aoe']},
+    {rank:'S',emoji:'🩸',name:'Blood Magic',desc:'Core — lifesteal from every hit. Kevin\'s self-damage is constantly negated by Blood Magic healing.',tags:['dmg','def']},
+    {rank:'S',emoji:'🔪',name:'Katana',desc:'Fast melee hits generate constant lifesteal ticks — synergizes with Kevin\'s self-damage as free healing fuel.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'High burst damage = massive lifesteal spikes per execute proc.',tags:['dmg']},
+    {rank:'A',emoji:'✨',name:'Aura',desc:'Passive AoE = constant lifesteal from crowd hits — keeps you healed while Kevin damages.',tags:['dmg','aoe','def']},
+    {rank:'B',emoji:'🔥',name:'Flamewalker',desc:'Fire trail DoT — lifesteal from fire damage ticks keeps Vlad alive through Kevin\'s self-damage.',tags:['dmg','aoe']},
    ],
    tomes:[
-    {rank:'S',emoji:'🩸',name:'Lifesteal Tome',desc:'Core tome — maximizes lifesteal percentage from all damage sources.',tags:['def','dmg']},
-    {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles = more hits = more lifesteal per second.',tags:['dmg']},
-    {rank:'A',emoji:'⏱️',name:'Cooldown Tome',desc:'Faster weapon procs = faster healing cycles.',tags:['dmg','util']},
-    {rank:'A',emoji:'📚',name:'XP Tome',desc:'Level faster to scale lifesteal passive — each level increases healing %.',tags:['util']},
-    {rank:'B',emoji:'⚔️',name:'Damage Tome',desc:'More damage = more healing even at the same lifesteal percentage.',tags:['dmg']},
+    {rank:'S',emoji:'📚',name:'XP Tome',desc:'Level faster to stack lifesteal passive — each level adds 1% to negate Kevin\'s self-damage faster.',tags:['util']},
+    {rank:'A',emoji:'☠️',name:'Cursed Tome',desc:'Higher difficulty + Kevin stacking = massive silver/damage buff returns. Vlad\'s lifesteal handles the extra damage.',tags:['util','dmg']},
+    {rank:'A',emoji:'⚡',name:'Attack Speed Tome',desc:'More Blood Magic procs per second = more lifesteal = more Kevin self-damage safely absorbed.',tags:['dmg','util']},
+    {rank:'A',emoji:'📐',name:'Size Tome',desc:'Expands Katana and Aura range — more enemies hit = more lifesteal ticks offsetting Kevin.',tags:['dmg','aoe']},
+    {rank:'B',emoji:'🩸',name:'Lifesteal Tome',desc:'Amplifies lifesteal percentage — useful if Kevin stacking isn\'t available.',tags:['def','dmg']},
    ],
    items:[
-    {rank:'S',emoji:'💎',name:'Leeching Crystal',desc:'Amplifies all lifesteal effects — stacks multiplicatively with the passive.',tags:['def']},
-    {rank:'A',emoji:'⚔️',name:'Demonic Blade',desc:'Crit-based healing on top of regular lifesteal — double healing on crits.',tags:['def','dmg']},
-    {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'More damage = more healing from lifesteal. Double benefit per stack.',tags:['dmg']},
-    {rank:'A',emoji:'🧀',name:'Moldy Cheese',desc:'Poison DoT = passive lifesteal ticks even between weapon procs.',tags:['dmg','def']},
-    {rank:'B',emoji:'🥣',name:'Oats',desc:'HP recovery during early game before lifesteal fully kicks in.',tags:['def']},
+    {rank:'S',emoji:'😈',name:'Kevin',desc:'Build-defining — inflicts constant self-damage in exchange for huge silver/damage buffs. Vlad\'s lifesteal negates the cost.',tags:['dmg','util']},
+    {rank:'A',emoji:'📖',name:'Holy Book',desc:'Legendary stat boost — Vlad\'s extreme healing weaponizes the Holy Book\'s multipliers fully.',tags:['dmg','util']},
+    {rank:'A',emoji:'💳',name:'Credit Card (Green)',desc:'Gold and luck boost — more currency means more Kevin upgrades available from vendors.',tags:['luck','dmg']},
+    {rank:'A',emoji:'⚔️',name:'Demonic Blade',desc:'Crit-based healing on top of lifesteal — double healing on crits for aggressive Kevin stacking.',tags:['def','dmg']},
+    {rank:'B',emoji:'🧀',name:'Moldy Cheese',desc:'Poison DoT ticks generate lifesteal — keeps you healed between weapon procs.',tags:['dmg','def']},
    ],
-   tips:['Lifesteal Tome is MANDATORY — grab it every time it appears.','Leeching Crystal + Lifesteal Tome makes you nearly unkillable by mid-game.','AoE weapons let you lifesteal from multiple enemies simultaneously.','Don\'t worry about damage taken — worry about having enough DPS to heal back.']},
+   tips:['Kevin stacking is the identity of this build — Vlad\'s lifesteal absorbs Kevin\'s self-damage as free power.','Stack Kevins aggressively: each one inflicts self-damage in exchange for huge buffs, all negated by Blood Magic healing.','Holy Book weaponizes Vlad\'s extreme healing ceiling — the more you heal the more the Book multiplies.','Alt build: Brutal Vampire Crit — Katana, Flamewalker, Dice with Demonic Blade for guaranteed immortality while attacking.','C-tier rating reflects the high-risk, execution-heavy nature of Kevin stacking — powerful but punishing when misplayed.']},
 
-  {id:'sirchadwell',name:'Sir Chadwell',emoji:'👑',tier:'S',starter:'🔮 Cursed Sword',passive:'Auto-increases Difficulty each level — harder enemies but dramatically better loot',playstyle:'Difficulty Scaling / Loot Snowball',
+  {id:'sirchadwell',name:'Sir Chadwell',emoji:'👑',tier:'D',starter:'🔮 Corrupted Sword',passive:'Auto-increases Difficulty each level — harder enemies but dramatically better loot',playstyle:'Late-Game Corrupted Scaling / Leaderboard Kills',
    weapons:[
-    {rank:'S',emoji:'🔮',name:'Cursed Sword',desc:'Starter — high damage melee that scales perfectly with Size and Cooldown tomes.',tags:['dmg','aoe']},
+    {rank:'S',emoji:'🔮',name:'Corrupted Sword',desc:'Starter — high damage melee that scales perfectly with Size and Cooldown tomes.',tags:['dmg','aoe']},
     {rank:'A',emoji:'✨',name:'Aura',desc:'Wide passive damage ring. Size Tome pushes Aura to cover huge ground.',tags:['dmg','aoe']},
     {rank:'A',emoji:'🔪',name:'Katana',desc:'Fast melee attacks that benefit from Cooldown scaling.',tags:['dmg','aoe']},
     {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Strong execute weapon that shines with high-difficulty enemy pools.',tags:['dmg']},
     {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defense needed as difficulty ramps up automatically each level.',tags:['def']},
    ],
    tomes:[
-    {rank:'S',emoji:'📐',name:'Size Tome',desc:'Critical — expands Cursed Sword and Aura range dramatically. #1 priority.',tags:['dmg','aoe']},
-    {rank:'S',emoji:'⏱️',name:'Cooldown Tome',desc:'Faster Cursed Sword and Aura procs. Both weapons scale massively with this.',tags:['dmg','util']},
+    {rank:'S',emoji:'📐',name:'Size Tome',desc:'Critical — expands Corrupted Sword and Aura range dramatically. #1 priority.',tags:['dmg','aoe']},
+    {rank:'S',emoji:'⏱️',name:'Cooldown Tome',desc:'Faster Corrupted Sword and Aura procs. Both weapons scale massively with this.',tags:['dmg','util']},
     {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Amplifies every weapon in a build that generates excellent loot to fund upgrades.',tags:['dmg']},
     {rank:'A',emoji:'📚',name:'XP Tome',desc:'Levels faster to stack the difficulty passive and unlock better drops sooner.',tags:['util']},
     {rank:'B',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles from Aura and secondary ranged weapons.',tags:['dmg']},
@@ -295,7 +300,7 @@ const C=[
     {rank:'A',emoji:'📖',name:'Holy Book',desc:'Legendary stat boost — with difficulty generating better loot, finding this is common.',tags:['dmg','util']},
     {rank:'B',emoji:'🌵',name:'Spiky Shield',desc:'Thorns damage against harder enemies that deal more damage.',tags:['def','dmg']},
    ],
-   tips:['Difficulty auto-scaling means better chests and vendors — exploit this for free power.','Size Tome + Cooldown Tome on Cursed Sword is the core win condition.','Buy defensive items often — enemies get tougher every single level.','Sir Chadwell and Bandit are currently the best characters in the meta.']},
+   tips:['D-tier rating reflects an incredibly weak early game — you must survive until Anvil is secured before the build comes online.','Difficulty auto-scaling means better chests and vendors — exploit this once you survive the brutal opener.','Size Tome + Cooldown Tome on Corrupted Sword is the win condition — demands surviving to activate it.','Leaderboard build: stack Chaos and Cursed tomes aggressively to multiply difficulty and generate 240k+ kill runs.','Strategy 2 (Leaderboard Kills): Corrupted Sword, Dexecutioner, Blood Magic, Aegis with Demonic Blood and Echo Shards.']},
 
   {id:'fox',name:'Mr. Fox',emoji:'🦊',tier:'A',starter:'🔥 Firestaff',passive:'RNG Blessing: +1.5% Luck per level (nerfed from +2% in Dec 2025 patch)',playstyle:'Luck / Legendary Snowball',
    weapons:[
@@ -345,31 +350,31 @@ const C=[
    ],
    tips:['NEVER stop moving — Calcium\'s entire damage is tied to movement speed.','Turbo Socks + Turbo Skates + Movement Speed Tome is an insane damage spike.','Kite in wide circles so Flamewalker covers the ground with fire.','Prioritize getting hit as little as possible — each hit cuts damage in half.']},
 
-  {id:'cl4nk',name:'CL4NK',emoji:'🤖',tier:'A',starter:'🔫 Revolver',passive:'Crit Happens: +1% Crit Chance per level',playstyle:'Crit / High Precision DPS',
+  {id:'cl4nk',name:'CL4NK',emoji:'🤖',tier:'S',starter:'🔫 Revolver',passive:'Crit Happens: +1% Crit Chance per level',playstyle:'Glass Cannon / Megacrit Screen-Clear',
    weapons:[
-    {rank:'S',emoji:'🔫',name:'Revolver',desc:'Starter — benefits most from Crit synergies. Every upgrade amplifies the passive.',tags:['dmg']},
-    {rank:'S',emoji:'🔥',name:'Firestaff',desc:'Excellent secondary that scales with all CL4NK\'s tome upgrades.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Multi-enemy hits — benefits from Quantity and Precision upgrades.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🪃',name:'Axe',desc:'Strong AoE melee for enemies that break through your range.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🦴',name:'Bone',desc:'Bouncing ranged weapon — each ricochet is an independent crit proc. Excellent passive coverage alongside Revolver.',tags:['dmg']},
+    {rank:'S',emoji:'🔫',name:'Revolver',desc:'Core — hits guaranteed Megacrits with Precision + Giant Fork. Every upgrade amplifies the crit passive.',tags:['dmg']},
+    {rank:'S',emoji:'🦴',name:'Bone',desc:'Bouncing screen-wide coverage — each ricochet is an independent crit proc hitting guaranteed Megacrits.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Multi-enemy bouncing hits — each bounce independently procs crits for massive screen coverage.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'✨',name:'Aura',desc:'Passive 360° ring — each tick can crit from the passive, generating constant Megacrit procs.',tags:['dmg','aoe']},
+    {rank:'B',emoji:'🔥',name:'Firestaff',desc:'Backup AoE option when Bone and Bananarang have full coverage.',tags:['dmg','aoe']},
    ],
    tomes:[
-    {rank:'S',emoji:'🎯',name:'Precision Tome',desc:'Almost mandatory — increases Crit Chance and Crit Damage, supercharging the passive.',tags:['dmg']},
-    {rank:'S',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles means more crits. Multiplies DPS exponentially.',tags:['dmg']},
-    {rank:'A',emoji:'⏱️',name:'Cooldown Tome',desc:'Pull out Revolver more frequently, generating more crit procs per second.',tags:['dmg','util']},
-    {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Flat damage multiplier that amplifies every critical hit harder.',tags:['dmg']},
-    {rank:'B',emoji:'❤️',name:'HP Tome',desc:'CL4NK has low HP — keeps you in the fight if dying early.',tags:['def']},
+    {rank:'S',emoji:'🎯',name:'Precision Tome',desc:'#1 priority — stacks with the passive to reach guaranteed Megacrits via Giant Fork. Every crit becomes x20 damage.',tags:['dmg']},
+    {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Flat damage multiplier that amplifies every Megacrit hit exponentially.',tags:['dmg']},
+    {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles means more crit procs. Bone and Bananarang bounces multiply the Megacrit output.',tags:['dmg']},
+    {rank:'A',emoji:'⏱️',name:'Cooldown Tome',desc:'Weapons proc more frequently, generating more Megacrit opportunities per second.',tags:['dmg','util']},
+    {rank:'B',emoji:'❤️',name:'HP Tome',desc:'CL4NK has only 40HP — keeps you alive before Giant Fork arrives.',tags:['def']},
    ],
    items:[
-    {rank:'S',emoji:'⚔️',name:'Demonic Blade',desc:'Heals on Critical hits — huge sustain given how often CL4NK crits.',tags:['dmg','def']},
-    {rank:'A',emoji:'🔋',name:'Battery',desc:'Reduces all cooldowns — weapons proc more often for more crits.',tags:['util']},
-    {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage boost that scales with percentage multipliers from tomes.',tags:['dmg']},
-    {rank:'B',emoji:'🛡️',name:'Shield',desc:'Compensates for CL4NK\'s low base HP.',tags:['def']},
-    {rank:'B',emoji:'🥣',name:'Oats',desc:'HP recovery to survive the low-HP danger zone.',tags:['def']},
+    {rank:'S',emoji:'🍴',name:'Giant Fork',desc:'Build-defining — converts crits into Megacrits (x20 damage). Combined with the constant crit passive = permanent Megacrit output.',tags:['dmg']},
+    {rank:'S',emoji:'🧃',name:'Forbidden Juice',desc:'Massive Crit Damage scaling — multiplies exponentially with the stacked crit chance passive.',tags:['dmg']},
+    {rank:'A',emoji:'🎯',name:'Boss Buster',desc:'Dramatically increases damage against elite and boss targets — essential for the glass cannon archetype.',tags:['dmg']},
+    {rank:'A',emoji:'⚔️',name:'Demonic Blade',desc:'Heals on crits — critical sustain for the 40HP glass cannon.',tags:['dmg','def']},
+    {rank:'B',emoji:'💉',name:'Gym Sauce',desc:'Flat damage that amplifies every Megacrit hit.',tags:['dmg']},
    ],
-   tips:['Stack Precision + Quantity first — crits are your entire identity.','Demonic Blade from a chest or Moai Shrine is a huge power spike.','Low HP means early-game is risky — stay mobile and keep enemies at range.','Firestaff + Bananarang + Axe all benefit from Quantity, making them strong secondaries.']},
+   tips:['Giant Fork is the build-defining item — without it crits are strong, with it every crit becomes x20 Megacrit damage.','Rely entirely on evasion and screen-wide Bone/Revolver coverage — 40HP means one mistake can kill you.','Precision Tome first — stacks with the passive to reach guaranteed Megacrits from the early game.','Bananarang + Bone bouncing through a crowd triggers dozens of independent Megacrit procs per second.','Alt build: swap Aura for Dexecutioner with Unstable Transfusion for boss melting — executes heavy entities at 15% HP.']},
 
-  {id:'ninja',name:'Ninja',emoji:'🥷',tier:'A',starter:'⚔️ Katana',passive:'Shadowstep: +0.5% Evasion per level. Successfully evading an enemy attack instantly executes them.',playstyle:'Evasion Execute / Assassin',
+  {id:'ninja',name:'Ninja',emoji:'🥷',tier:'B',starter:'⚔️ Katana',passive:'Shadowstep: +0.5% Evasion per level. Successfully evading an enemy attack instantly executes them.',playstyle:'Evasion Execute / Assassin',
    weapons:[
     {rank:'S',emoji:'🔪',name:'Katana',desc:'Starter and best weapon — scales with Size, Damage and Quantity. Short-ranged early but exponentially grows into a screen-wide blade.',tags:['dmg','aoe']},
     {rank:'A',emoji:'✨',name:'Aura',desc:'360° passive ring pairs perfectly with Size Tome — damages everything in melee range so you\'re always dealing damage while positioning.',tags:['dmg','aoe']},
@@ -391,32 +396,31 @@ const C=[
     {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage that amplifies every Katana and Dexecutioner hit.',tags:['dmg']},
     {rank:'B',emoji:'⏱️',name:'Time Bracelet',desc:'Attack Speed boost — faster Katana swings per second increases Shadowstep trigger rate.',tags:['dmg','util']},
    ],
-   tips:['Evasion Tome is always your first priority — it directly powers Shadowstep executes.','Size Tome is the single biggest Katana power spike. First stack is immediately noticeable.','Move constantly — weave around enemy attacks deliberately to proc Shadowstep, not just to survive.','Bosses and elites may be immune to Shadowstep executes. Use Dexecutioner on them.','Phantom Shroud + Slippery Ring early locks in the evasion-execute loop that carries the whole run.']},
+   tips:['B-tier: relies heavily on extreme evasion mechanics and close-range, high-risk executions — rewarding but punishing when misplayed.','Evasion Tome is always first priority — directly powers Shadowstep executes.','Size Tome is the single biggest Katana power spike — first stack is immediately noticeable.','Move constantly — weave around enemy attacks deliberately to proc Shadowstep, not just to survive.','Alt build (Aggressive Evasion): Katana, Dexecutioner, Lightning Staff with XP, Luck, Cursed tomes and Ghostly Cloak.']},
 
-  {id:'siroofie',name:'Sir Oofie',emoji:'🛡️',tier:'A',starter:'⚔️ Sword',passive:'Reinforced: +1% Armor per level',playstyle:'Tank / AoE Melee',
+  {id:'siroofie',name:'Sir Oofie',emoji:'🛡️',tier:'S',starter:'⚔️ Sword',passive:'Reinforced: +1% Armor per level',playstyle:'Unbreakable Tank / Thorns Retaliation',
    weapons:[
-    {rank:'S',emoji:'⚔️',name:'Sword',desc:'Starter — sped up with Attack Speed Tome, mows through hordes. Core melee damage.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'✨',name:'Aura',desc:'360° passive damage ring. Pairs perfectly with the tank playstyle.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Ranged option to handle elites and mini-bosses from a distance.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🔥',name:'Firestaff',desc:'Alternative ranged AoE — scales well with Quantity Tome.',tags:['dmg','aoe']},
-    {rank:'B',emoji:'🦴',name:'Bone',desc:'Ranged projectile that benefits from Quantity and Cooldown upgrades.',tags:['dmg']},
+    {rank:'S',emoji:'⚔️',name:'Sword',desc:'Starter — core melee. Attack Speed Tome makes it devastatingly fast against hordes.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Ranged option for elites and mini-bosses outside melee range.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'✨',name:'Aura',desc:'360° passive damage ring that pairs perfectly with the stand-and-fight tank identity.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🦴',name:'Bone',desc:'Ranged projectile coverage — benefits from Quantity upgrades.',tags:['dmg']},
+    {rank:'B',emoji:'🔥',name:'Firestaff',desc:'Ranged AoE alternative if Lightning Staff isn\'t available.',tags:['dmg','aoe']},
    ],
    tomes:[
-    {rank:'S',emoji:'⚡',name:'Attack Speed Tome',desc:'Core — makes Sword attacks devastatingly fast. +7.5% attack speed per level.',tags:['dmg']},
-    {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Multiplies every Sword hit and ranged weapon — core DPS tome alongside Attack Speed.',tags:['dmg']},
-    {rank:'A',emoji:'📐',name:'Size Tome',desc:'Expands Sword sweep and Aura radius — more enemies hit per attack.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles on Lightning/Firestaff for better ranged coverage.',tags:['dmg']},
-    {rank:'A',emoji:'❤️',name:'HP Tome',desc:'Scales Reinforced passive — more HP means armor scales multiplicatively.',tags:['def']},
-    {rank:'B',emoji:'🛡️',name:'Armor Tome',desc:'Late-game push toward near-immortality.',tags:['def']},
+    {rank:'S',emoji:'❤️',name:'HP Tome',desc:'Core — deeper health pool makes the +1% Armor per level passive scale multiplicatively. More HP = armor scales harder.',tags:['def']},
+    {rank:'S',emoji:'🛡️',name:'Armor Tome',desc:'Direct stacking with the Reinforced passive — pushes toward near-immortality in late game.',tags:['def']},
+    {rank:'A',emoji:'⚡',name:'Attack Speed Tome',desc:'Makes Sword attacks devastatingly fast — primary DPS amplifier for the melee core.',tags:['dmg']},
+    {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles on Lightning Staff, Bone, and Aura for better multi-directional coverage.',tags:['dmg']},
+    {rank:'B',emoji:'⚔️',name:'Damage Tome',desc:'Amplifies each Sword hit and ranged weapon once survivability is established.',tags:['dmg']},
    ],
    items:[
-    {rank:'S',emoji:'💉',name:'Gym Sauce',desc:'Flat damage to complement the Attack Speed-boosted Sword.',tags:['dmg']},
-    {rank:'A',emoji:'🥣',name:'Oats',desc:'HP recovery — synergizes with HP Tome scaling.',tags:['def']},
-    {rank:'A',emoji:'💍',name:'Beefy Ring',desc:'Passive HP boost that makes the armor passive shine.',tags:['def']},
-    {rank:'A',emoji:'🌵',name:'Spiky Shield',desc:'Returns damage to attackers — perfect with stand-and-fight playstyle.',tags:['def','dmg']},
-    {rank:'B',emoji:'🍲',name:'Pot (Stainless Steel)',desc:'Defense item that fits the survivability stack.',tags:['def']},
+    {rank:'S',emoji:'🌵',name:'Spiky Shield',desc:'Core — returns +2 thorns damage per 1% armor. At high Armor stacks this creates a screen-wide retaliation aura.',tags:['def','dmg']},
+    {rank:'A',emoji:'💍',name:'Beefy Ring',desc:'+20% damage per 100 Max HP — converts the massive HP investment directly into offensive multipliers.',tags:['def','dmg']},
+    {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage amplifying every Sword hit and Spiky Shield retaliation.',tags:['dmg']},
+    {rank:'A',emoji:'🥣',name:'Oats',desc:'HP recovery — synergizes with HP Tome and the Beefy Ring loophole.',tags:['def']},
+    {rank:'B',emoji:'🍲',name:'Pot (Stainless Steel)',desc:'Additional defense layer to push the armor passive higher.',tags:['def']},
    ],
-   tips:['Max Attack Speed first — fast Sword hits are the cornerstone of this build.','HP Tome + Beefy Ring + Spiky Shield makes you nearly unkillable in mid-game.','Lightning/Firestaff handle everything out of melee reach.','Spiky Shield is excellent here — every enemy that hits you takes damage back, rewarding the tank style.']},
+   tips:['HP Tome and Armor Tome are the core priorities — deep HP makes armor scale multiplicatively, reaching near-immortality.','Spiky Shield at high armor stacks creates a screen-wide retaliation aura — enemies damage themselves by touching you.','Beefy Ring converts every HP Tome investment into a damage bonus — both defense and offense from one stat.','Stand your ground — the Reinforced passive rewards taking hits and retaliating rather than dodging.','Alt build: Blood Soaked Crusader — Sword, Aegis, Chunkers with Lifesteal, Armor, XP tomes and Chonkplate for offensive overshields.']},
 
   {id:'roberto',name:'Roberto',emoji:'💀',tier:'A',starter:'🌿 Scythe',passive:'Spooky: Random enemies are cursed; killing them drops bonus XP and items',playstyle:'Curse / XP Acceleration',
    weapons:[
@@ -490,31 +494,31 @@ const C=[
    ],
    tips:['Holy Trinity (XP + Cursed + Chaos/Luck) is meta on Noelle above everyone.','Gas Mask turns Moldy Cheese from a minor item into an S-tier damage source.','Dexecutioner + Katana + Flamewalker at max slots is the god-tier loadout.','Noelle is currently ranked lower in the meta but her passive is still very strong.']},
 
-  {id:'megachad',name:'Megachad',emoji:'💪',tier:'B',starter:'✨ Aura',passive:'Flex: Stops damage & stuns enemies; -0.2s cooldown per level',playstyle:'Tank / AoE / Hybrid',
+  {id:'megachad',name:'Megachad',emoji:'💪',tier:'S',starter:'✨ Aura',passive:'Flex: Stops damage & stuns enemies; -0.2s cooldown per level',playstyle:'AFK Stationary Dominance / Elemental Hazard',
    weapons:[
-    {rank:'S',emoji:'✨',name:'Aura',desc:'Starter — 360° passive damage. Becomes overwhelming with Size Tome.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🛡️',name:'Aegis',desc:'Blocks projectiles while Aura handles melee enemies.',tags:['def','aoe']},
-    {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Creates "Banana Tornado" with Quantity — kills enemies before they approach.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🔫',name:'Revolver',desc:'Handles long-range threats that Aura can\'t reach.',tags:['dmg']},
-    {rank:'B',emoji:'⚡',name:'Lightning Staff',desc:'Excellent horde clear when standing in the center of a crowd.',tags:['dmg','aoe']},
+    {rank:'S',emoji:'✨',name:'Aura',desc:'Starter — 360° passive damage. With Size Tome covers the entire screen while you stand completely still.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🔥',name:'Firewalker',desc:'Fire trail hazard zone — stand still and the area around you becomes permanently lethal.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'❄️',name:'Frostwalker',desc:'Slows approaching enemies inside the fire/Aura zone — they die before reaching you.',tags:['dmg','aoe','def']},
+    {rank:'A',emoji:'🛡️',name:'Aegis',desc:'Blocks projectiles while standing completely still — essential defense for the AFK stance.',tags:['def','aoe']},
+    {rank:'B',emoji:'🍌',name:'Bananarang',desc:'Creates "Banana Tornado" with Quantity — kills enemies before they approach the stationary position.',tags:['dmg','aoe']},
    ],
    tomes:[
-    {rank:'S',emoji:'📐',name:'Size Tome',desc:'Expands Aura radius dramatically — single biggest power spike for Megachad.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Amplifies both Aura and all ranged weapons.',tags:['dmg']},
-    {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'Creates the Banana Tornado and boosts Aura/Revolver projectile count.',tags:['dmg']},
-    {rank:'A',emoji:'⏱️',name:'Cooldown Tome',desc:'Stacks with Flex passive to proc Aegis and weapons extremely fast.',tags:['dmg','util']},
+    {rank:'S',emoji:'📐',name:'Size Tome',desc:'Expands Aura and elemental hazard zones dramatically — one stack visibly grows the damage area.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'⏱️',name:'Cooldown Tome',desc:'Stacks with Flex passive to proc weapons faster while standing still.',tags:['dmg','util']},
+    {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Amplifies Aura, Firewalker, and Frostwalker simultaneously.',tags:['dmg']},
+    {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More Aura hits and projectiles — combined with Size creates a screen-wide damage field.',tags:['dmg']},
     {rank:'B',emoji:'📚',name:'XP Tome',desc:'Level faster to reach Flex\'s strong cooldown reduction tiers.',tags:['util']},
    ],
    items:[
-    {rank:'S',emoji:'🧃',name:'Idle Juice',desc:'Damage boost for standing still — perfect for Aura\'s stationary build.',tags:['dmg']},
-    {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage increase that scales with all Damage Tome multipliers.',tags:['dmg']},
-    {rank:'A',emoji:'🧀',name:'Moldy Cheese',desc:'DoT poison on top of Aura for even more passive damage.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'🔨',name:'Anvil',desc:'Legendary that rapidly upgrades all weapons, including Aura.',tags:['util','dmg']},
-    {rank:'B',emoji:'🪞',name:'Mirror',desc:'Reflects damage back at attackers — excellent with the tank playstyle.',tags:['def','dmg']},
+    {rank:'S',emoji:'🧃',name:'Idle Juice',desc:'Doubles damage while standing still — this build literally never moves. Free permanent damage doubler.',tags:['dmg']},
+    {rank:'A',emoji:'🔥',name:'Campfire',desc:'Heals over time while standing still — the stationary playstyle means you heal constantly.',tags:['def']},
+    {rank:'A',emoji:'🧊',name:'Ice Cube',desc:'Freezes nearby enemies — combined with Frostwalker, approaching enemies are permanently immobilized.',tags:['def','util']},
+    {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage that amplifies the massive Aura + hazard zone output.',tags:['dmg']},
+    {rank:'B',emoji:'🔨',name:'Anvil',desc:'Legendary — rapidly upgrades Aura and elemental weapons simultaneously.',tags:['util','dmg']},
    ],
-   tips:['Size Tome is the #1 priority — grab it every time it appears.','Idle Juice + standing in the center of enemies is your win condition.','Banana Tornado (Quantity Tome + Bananarang) makes you untouchable.','Megachad and Athena are the best choices for the AFK Gaming Challenge.']},
+   tips:['Never move — Idle Juice doubles your damage permanently as long as you stand still. Position once and commit.','Size Tome is the #1 priority — Aura + Firewalker + Frostwalker all expand simultaneously.','Campfire heals you constantly while stationary — combined with Aegis blocking projectiles you become unkillable.','Banana Tornado (Quantity Tome + Bananarang) as fallback if enemies break through the hazard zone.','Alt build: Aura, Aegis, Revolver, Bananarang with Brass Knuckles/Demonic Soul/Big Bonk for Tank/DPS Hybrid.']},
 
-  {id:'birdo',name:'Birdo',emoji:'🌪️',tier:'B',starter:'🌪️ Tornado',passive:'Flight ability — can float over obstacles; tornadoes knock enemies back',playstyle:'Knockback / AoE Control',
+  {id:'birdo',name:'Birdo',emoji:'🌪️',tier:'A',starter:'🌪️ Tornado',passive:'Flight ability — can float over obstacles; tornadoes knock enemies back',playstyle:'Knockback / AoE Control',
    weapons:[
     {rank:'S',emoji:'🌪️',name:'Tornado',desc:'Starter — constant knockback keeps enemies at bay. Scales with Duration and Size.',tags:['dmg','aoe','util']},
     {rank:'A',emoji:'🔥',name:'Flamewalker',desc:'Fire trails synergize with knockback — enemies knocked into fire take damage.',tags:['dmg','aoe']},
@@ -538,7 +542,7 @@ const C=[
    ],
    tips:['Think ahead about knockback direction — knock enemies AWAY from your path.','Flight lets you cross obstacles for shortcuts; use it to grab XP gems.','Duration Tome makes Tornado a persistent wall of damage, not just a stun.','Flamewalker + Tornado: enemies knocked into fire trails take continuous damage.']},
 
-  {id:'bush',name:'Bush',emoji:'🌿',tier:'B',starter:'🎯 Sniper Rifle',passive:'Camouflage: enemies lose focus when standing still',playstyle:'Stealth / Long Range Sniper',
+  {id:'bush',name:'Bush',emoji:'🌿',tier:'A',starter:'🎯 Sniper Rifle',passive:'Camouflage: enemies lose focus when standing still',playstyle:'Stealth / Long Range Sniper',
    weapons:[
     {rank:'S',emoji:'🎯',name:'Sniper Rifle',desc:'Highest base damage (22) in the game. Pierces enemies, manually aimable.',tags:['dmg']},
     {rank:'A',emoji:'🏹',name:'Bow',desc:'Fast secondary ranged weapon for enemies that close the gap.',tags:['dmg']},
@@ -562,7 +566,7 @@ const C=[
    ],
    tips:['Manual aim Sniper Rifle at bosses for one-shot potential with Precision Tome.','Camouflage passive: stand still occasionally to reduce enemy aggro.','Damage + Quantity on Sniper Rifle = devastating piercing death rays.','Mines around your sniping position create a safe firing line.']},
 
-  {id:'tonymczoom',name:'Tony McZoom',emoji:'🛹',tier:'B',starter:'🌀 Wireless Dagger',passive:'Hoverboard: moving charges an electric zap that discharges AoE damage; +2% Pickup Range per level',playstyle:'Speed / Homing Projectile',
+  {id:'tonymczoom',name:'Tony McZoom',emoji:'🛹',tier:'A',starter:'🌀 Wireless Dagger',passive:'Hoverboard: moving charges an electric zap that discharges AoE damage; +2% Pickup Range per level',playstyle:'Speed / Homing Projectile',
    weapons:[
     {rank:'S',emoji:'🌀',name:'Wireless Dagger',desc:'Starter — homing projectiles that track enemies. Scales with Quantity and Precision. Core weapon throughout the run.',tags:['dmg']},
     {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Bouncing projectile pairs well with Wireless Dagger — combined they cover all angles while you move.',tags:['dmg','aoe']},
@@ -584,7 +588,7 @@ const C=[
     {rank:'B',emoji:'👟',name:'Turbo Socks',desc:'Speed boost for more Hoverboard passive procs.',tags:['speed']},
     {rank:'B',emoji:'🧀',name:'Moldy Cheese',desc:'Passive DoT that activates even at full zoom speed.',tags:['dmg','aoe']},
    ],
-   tips:['Higher speed directly increases how often the Hoverboard passive zaps enemies.','Precision + Quantity + Agility is the core trio for McZoom.','Run circular routes constantly — enemies die from passive zaps as you loop.','Don\'t stop moving; your damage scales purely with time in motion.']},
+   tips:['A-tier: extreme resource collection efficiency via +1% pickup range per level — sweeps XP gems multiple screens away.','Primary build (High-Speed Harvester): Wireless Dagger, Lightning Staff, Bone, Aura with Luck, Quantity, Damage, Movement Speed tomes and Clover, Gym Sauce, Turbo Socks.','Bypass magnetic items entirely — natural speed picks up XP gems across multiple screens for safe, rapid leveling.','Alt build (Boss Bleed/Kite): Wireless Dagger, Revolver, Bone, Aura with Lifesteal tome and Cursed Doll stacking for percentage-based boss bleeds during high-speed fly-bys.','Don\'t stop moving — the Hoverboard passive zap scales directly with momentum.']},
 
   {id:'monke',name:'Monke',emoji:'🐒',tier:'B',starter:'🍌 Bananarang',passive:'+HP per level; can climb walls during swarms',playstyle:'Durable / AoE Projectile',
    weapons:[
@@ -610,29 +614,29 @@ const C=[
    ],
    tips:['Quantity Tome creates the "Banana Tornado" — it\'s your win condition.','You\'re tanky by nature, so stand in the middle of enemies and let chaos happen.','HP Tome + Beefy Ring + Oats makes you extremely durable by mid-game.','Use wall climbing during Final Swarm for unexpected repositioning.']},
 
-  {id:'ogre',name:'Ogre',emoji:'👹',tier:'C',starter:'🪃 Axe',passive:'+1.5% Damage per level; bonus 10% damage at level milestones',playstyle:'Damage Scaling / Melee Tank',
+  {id:'ogre',name:'Ogre',emoji:'👹',tier:'B',starter:'🪃 Axe',passive:'+1.5% Damage per level; bonus 10% damage at level milestones',playstyle:'Area Denial / Spinning Axe Duration',
    weapons:[
-    {rank:'S',emoji:'🪃',name:'Axe',desc:'Starter — spinning axes benefit from the damage per level passive scaling.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'✨',name:'Aura',desc:'Passive 360° ring complements the high damage output.',tags:['dmg','aoe']},
-    {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Execute weapon that benefits enormously from Ogre\'s damage multipliers.',tags:['dmg']},
-    {rank:'B',emoji:'⚡',name:'Lightning Staff',desc:'AoE chain damage for crowd management while Axe passive builds.',tags:['dmg','aoe']},
-    {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defense for when Ogre\'s low speed becomes a problem.',tags:['def']},
+    {rank:'S',emoji:'🪃',name:'Axe',desc:'Starter — Duration Tome keeps axes spinning endlessly around Ogre for constant area denial.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'✨',name:'Aura',desc:'Passive 360° ring complements the stationary area denial playstyle.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🔥',name:'Flamewalker',desc:'Fire trail coverage — combined with spinning axes creates overlapping permanent damage zones.',tags:['dmg','aoe']},
+    {rank:'B',emoji:'❄️',name:'Frostwalker',desc:'Slows approaching enemies — gives spinning axes more time to proc.',tags:['dmg','aoe','def']},
+    {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defense for when Ogre\'s low speed becomes a problem against ranged enemies.',tags:['def']},
    ],
    tomes:[
-    {rank:'S',emoji:'⚔️',name:'Damage Tome',desc:'Stacks multiplicatively with Ogre\'s +1.5% passive — extremely powerful.',tags:['dmg']},
-    {rank:'A',emoji:'📚',name:'XP Tome',desc:'More levels = more passive damage stacks = faster scaling.',tags:['util']},
-    {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More Axe projectiles for better AoE coverage.',tags:['dmg']},
-    {rank:'B',emoji:'❤️',name:'HP Tome',desc:'Ogre has low base HP for a melee character — this helps survive early.',tags:['def']},
-    {rank:'B',emoji:'⏱️',name:'Cooldown Tome',desc:'Faster Axe procs to apply damage more frequently.',tags:['dmg','util']},
+    {rank:'S',emoji:'⏳',name:'Duration Tome',desc:'Core — keeps axes spinning endlessly around Ogre. Replaces missing mobility with pure area denial.',tags:['dmg','util']},
+    {rank:'A',emoji:'📐',name:'Size Tome',desc:'Expands Axe and Aura hitboxes — wider denial zone covers Ogre\'s low mobility.',tags:['dmg','aoe']},
+    {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'More Axe projectiles for denser AoE coverage.',tags:['dmg']},
+    {rank:'A',emoji:'📚',name:'XP Tome',desc:'More levels = more passive damage stacks = faster scaling of the Duration-enhanced axes.',tags:['util']},
+    {rank:'B',emoji:'⚔️',name:'Damage Tome',desc:'Stacks multiplicatively with Ogre\'s +1.5% passive once Duration and Size are established.',tags:['dmg']},
    ],
    items:[
     {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage that stacks with the passive percentage bonus.',tags:['dmg']},
-    {rank:'A',emoji:'🧀',name:'Moldy Cheese',desc:'DoT fills damage gaps between Axe procs.',tags:['dmg','aoe']},
-    {rank:'B',emoji:'💍',name:'Beefy Ring',desc:'HP boost to compensate for low base HP.',tags:['def']},
-    {rank:'B',emoji:'🥣',name:'Oats',desc:'HP recovery to survive early waves before damage passive scales up.',tags:['def']},
-    {rank:'B',emoji:'🗡️',name:"Joe's Dagger",desc:'Attack speed to proc Axe more often and stack damage faster.',tags:['util','dmg']},
+    {rank:'A',emoji:'🧀',name:'Moldy Cheese',desc:'DoT fills gaps between Axe spins — enemies take damage approaching and retreating.',tags:['dmg','aoe']},
+    {rank:'B',emoji:'💍',name:'Beefy Ring',desc:'HP boost to compensate for low base HP and low mobility.',tags:['def']},
+    {rank:'B',emoji:'🥣',name:'Oats',desc:'HP recovery to survive early waves before Duration axes come online.',tags:['def']},
+    {rank:'B',emoji:'⛸️',name:'Turbo Skates',desc:'Speed boost compensates for Ogre\'s naturally slow movement.',tags:['speed']},
    ],
-   tips:['Patience pays off — Ogre\'s damage passive scales dramatically after level 30.','Damage Tome stacks multiplicatively with the passive — grab it every time.','Ogre needs 15,000 goblin kills to unlock — farm Desert zones specifically.','Early-game is Ogre\'s biggest weakness; play defensively until level 20+.']},
+   tips:['B-tier: requires severe AoE mitigation to compensate for slow movement — Duration Tome is the cornerstone of viability.','Duration Tome keeps axes spinning permanently around Ogre — replaces missing mobility with inescapable area denial.','Alt build (Endless Duration Death): Axe, Flamewalker, Dragon Breath with Duration, Chaos, Luck tomes for permanent fire and spinning axes.','Ogre needs 15,000 goblin kills to unlock — farm Desert zones specifically.','Early-game is Ogre\'s biggest weakness; play defensively until Duration Tome and Size are established.']},
 
   {id:'athena',name:'Athena',emoji:'🏛️',tier:'C',starter:'🛡️ Aegis',passive:'+150% attack speed when no shields are active; damage scales per level',playstyle:'Shield / AFK / Pacifist',
    weapons:[
@@ -658,7 +662,7 @@ const C=[
    ],
    tips:['Athena is the BEST character for the Pacifist Challenge — her primary use case.','Athena and Megachad are also best for the AFK Gaming Challenge.','The +150% attack speed window when shields are down is the real damage phase.','Unlock Athena only if aiming for specific challenge completions.']},
 
-  {id:'spaceman',name:'Spaceman',emoji:'🚀',tier:'C',starter:'🌑 Black Hole',passive:'+5% flat XP base (v1.0.64); +XP% per level — fastest leveling in the game',playstyle:'XP Leveling / Crowd Control',
+  {id:'spaceman',name:'Spaceman',emoji:'🚀',tier:'D',starter:'🌑 Black Hole',passive:'+5% flat XP base (v1.0.64); +XP% per level — fastest leveling but undermined by poor base kit',playstyle:'Black Hole Synergies / Safe Distance Bounce',
    weapons:[
     {rank:'S',emoji:'🌑',name:'Black Hole',desc:'Starter — pulls all nearby enemies to a point. Devastating with any AoE follow-up.',tags:['aoe','util']},
     {rank:'A',emoji:'💀',name:'Dexecutioner',desc:'Enemies grouped by Black Hole = Dexecutioner cleaves the entire cluster.',tags:['dmg']},
@@ -680,7 +684,7 @@ const C=[
     {rank:'B',emoji:'🔋',name:'Battery',desc:'Faster Black Hole cooldown = more frequent crowd control.',tags:['util']},
     {rank:'B',emoji:'🌟',name:'Soul Harvester',desc:'XP from kills stacks with the passive XP bonus for extreme leveling speed.',tags:['util','luck']},
    ],
-   tips:['Black Hole + any AoE weapon = instant clear. Always position before casting.','XP Tome + passive = fastest leveling in the game; exploit it early.','Place Mines on Black Hole\'s pull destination for immediate detonation.','Spaceman\'s aura size reduction is a known bug — may be patched in future updates.']},
+   tips:['D-tier: severely undertuned — slow movement, poor base weapons, and floaty gravity make survival consistently harder than other characters.','The XP passive is excellent but undermined by the weak starting kit; you level fast but can\'t capitalize on it.','Strategy 1 (Black Hole Synergies): add Bananarang, Bone, Wireless Dagger with Projectile Speed and Size tomes.','Strategy 2 (Safe Distance Bounce): secure Soul Harvester immediately — it\'s mandatory early game to survive Stage 1.','Black Hole + Lightning Staff is the best combo available; use Size Tome to turn Black Holes into map-sweeping crowd control.']},
 ];
 
 // Build grid
@@ -729,10 +733,10 @@ const PROG = {
     {label:'Levels 35+',sublabel:'Unkillable & dominant',weapons:['Blood Magic','Aura','Lightning Staff','Dexecutioner','Bananarang'],tomes:['Cooldown Tome','Damage Tome','XP Tome'],tips:['You should be healing faster than any damage can reach you. Be aggressive.','Damage Tome late game amplifies every hit which also amplifies every heal.','Add Bananarang as a fifth weapon — bouncing hits keep the heal cycle constant.']},
   ],
   sirchadwell:[
-    {label:'Levels 1–10',sublabel:'Accept the difficulty',weapons:['Cursed Sword'],tomes:['XP Tome','Size Tome'],tips:['Difficulty auto-scales but so do your drops — trust the process and farm aggressively.','Size Tome on Cursed Sword gives you huge sweep area even at low levels.','Prioritise chest and vendor visits — difficulty means legendary drops appear early.']},
-    {label:'Levels 11–20',sublabel:'Core combo online',weapons:['Cursed Sword','Aura'],tomes:['Size Tome','Cooldown Tome'],tips:['Aura + Cursed Sword is the core synergy. Size Tome makes both reach huge distances.','Cooldown Tome now means Cursed Sword procs extremely fast alongside Aura.','Buy defensive items — enemies are noticeably tougher than other characters face.']},
-    {label:'Levels 21–35',sublabel:'Loot snowball',weapons:['Cursed Sword','Aura','Katana','Dexecutioner'],tomes:['Size Tome','Cooldown Tome','Damage Tome'],tips:['By now difficulty is high enough that chests routinely drop legendary tier items.','Katana adds fast-swing melee between Cursed Sword cooldowns.','Dexecutioner handles the tankier enemies that difficulty has buffed up.']},
-    {label:'Levels 35+',sublabel:'Legendary stacked',weapons:['Cursed Sword','Aura','Katana','Dexecutioner','Aegis'],tomes:['Damage Tome','Quantity Tome','Cooldown Tome'],tips:['You should have 3–4 legendary items by now from the difficulty bonus drops.','Aegis rounds out the build defensively — boss attacks hit harder at this difficulty.','Damage Tome at this stage multiplies a massive base — every level is a huge spike.']},
+    {label:'Levels 1–10',sublabel:'Accept the difficulty',weapons:['Corrupted Sword'],tomes:['XP Tome','Size Tome'],tips:['Difficulty auto-scales but so do your drops — trust the process and farm aggressively.','Size Tome on Corrupted Sword gives you huge sweep area even at low levels.','Prioritise chest and vendor visits — difficulty means legendary drops appear early.']},
+    {label:'Levels 11–20',sublabel:'Core combo online',weapons:['Corrupted Sword','Aura'],tomes:['Size Tome','Cooldown Tome'],tips:['Aura + Corrupted Sword is the core synergy. Size Tome makes both reach huge distances.','Cooldown Tome now means Corrupted Sword procs extremely fast alongside Aura.','Buy defensive items — enemies are noticeably tougher than other characters face.']},
+    {label:'Levels 21–35',sublabel:'Loot snowball',weapons:['Corrupted Sword','Aura','Katana','Dexecutioner'],tomes:['Size Tome','Cooldown Tome','Damage Tome'],tips:['By now difficulty is high enough that chests routinely drop legendary tier items.','Katana adds fast-swing melee between Corrupted Sword cooldowns.','Dexecutioner handles the tankier enemies that difficulty has buffed up.']},
+    {label:'Levels 35+',sublabel:'Legendary stacked',weapons:['Corrupted Sword','Aura','Katana','Dexecutioner','Aegis'],tomes:['Damage Tome','Quantity Tome','Cooldown Tome'],tips:['You should have 3–4 legendary items by now from the difficulty bonus drops.','Aegis rounds out the build defensively — boss attacks hit harder at this difficulty.','Damage Tome at this stage multiplies a massive base — every level is a huge spike.']},
   ],
   fox:[
     {label:'Levels 1–10',sublabel:'Stack Luck early',weapons:['Firestaff'],tomes:['Luck Tome','XP Tome'],tips:['Luck Tome is your #1 priority — stack it immediately every time it appears.','Firestaff starter is reliable AoE. Upgrade it but don\'t chase other weapons yet.','Visit every vendor and Moai Shrine — high Luck means better items appear for sale.']},
@@ -896,34 +900,34 @@ const BUILDS2={
     ],
   },
   cl4nk:{
-    b1name:'Crit Burst',b2name:'Lightning Chain',
+    b1name:'Glass Cannon',b2name:'Spooky Steve',
     weapons:[
-      {rank:'S',emoji:'⚡',name:'Lightning Staff',desc:'Core — chains between multiple enemies simultaneously. With Quantity Tome, chains entire screens at once.',tags:['dmg','aoe']},
-      {rank:'A',emoji:'✨',name:'Aura',desc:'Passive ring — every enemy near CL4NK takes Aura hits which can crit from the passive, each tick triggering Thunder Mitts.',tags:['dmg','aoe']},
-      {rank:'A',emoji:'🔫',name:'Revolver',desc:'Used here as a Thunder Mitts trigger rather than primary damage — each shot fires an extra lightning chain.',tags:['dmg']},
-      {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Each bounce independently triggers Thunder Mitts lightning procs — excellent chain multiplier.',tags:['dmg','aoe']},
-      {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defensive layer — CL4NK is fragile and this build keeps you at mid-range.',tags:['def']},
+      {rank:'S',emoji:'🔫',name:'Revolver',desc:'Core — each shot is a guaranteed Megacrit with Giant Fork + Precision. Boss-melting single target.',tags:['dmg']},
+      {rank:'S',emoji:'💀',name:'Dexecutioner',desc:'Executes heavy entities at 15% HP — Unstable Transfusion marks them so Dexecutioner one-shots on trigger.',tags:['dmg']},
+      {rank:'A',emoji:'🦴',name:'Bone',desc:'Bouncing coverage alongside Revolver — each ricochet is an independent Megacrit proc.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Chain damage handles hordes while Revolver focuses elites and bosses.',tags:['dmg','aoe']},
+      {rank:'B',emoji:'🛡️',name:'Aegis',desc:'Defensive layer — 40HP glass cannon needs projectile protection.',tags:['def']},
     ],
     tomes:[
-      {rank:'S',emoji:'🔢',name:'Quantity Tome',desc:'#1 priority — more Lightning Staff chains, more Aura hits, more Bananarang bounces. Everything multiplies.',tags:['dmg','aoe']},
-      {rank:'S',emoji:'⏱️',name:'Cooldown Tome',desc:'Lightning Staff fires faster, Aura ticks faster — more Thunder Mitts procs per second across all weapons.',tags:['dmg','util']},
-      {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Each chain lightning hit and Aura tick deals more. Amplifies the entire passive damage engine.',tags:['dmg']},
-      {rank:'A',emoji:'🎯',name:'Precision Tome',desc:'CL4NK\'s crit passive means every Lightning chain is a potential crit — Precision amplifies this strongly.',tags:['dmg']},
-      {rank:'B',emoji:'📐',name:'Size Tome',desc:'Increases Aura radius and Lightning Staff reach — more ground covered by chain reactions.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'🎯',name:'Precision Tome',desc:'Core — stacks with the passive for guaranteed crits. Every Revolver shot becomes a Megacrit.',tags:['dmg']},
+      {rank:'A',emoji:'⏱️',name:'Cooldown Tome',desc:'Revolver procs faster, more Megacrit shots per second against bosses.',tags:['dmg','util']},
+      {rank:'A',emoji:'📚',name:'XP Tome',desc:'Fast levelling stacks the Crit Chance passive earlier in the run.',tags:['util']},
+      {rank:'B',emoji:'⚔️',name:'Damage Tome',desc:'Amplifies each Megacrit hit against bosses.',tags:['dmg']},
+      {rank:'B',emoji:'🔢',name:'Quantity Tome',desc:'More projectiles for horde coverage between boss phases.',tags:['dmg']},
     ],
     items:[
-      {rank:'S',emoji:'🥊',name:'Thunder Mitts',desc:'CORE ITEM — lightning proc on every weapon hit. Combined with CL4NK\'s crit passive, every crit fires an extra lightning chain.',tags:['dmg','aoe']},
-      {rank:'A',emoji:'🔌',name:'Electric Plug',desc:'Defensive electric shocks when hit — keeps enemies at range while lightning chains do the work.',tags:['def','dmg']},
-      {rank:'A',emoji:'⚔️',name:'Demonic Blade',desc:'Heals on crit — with crits triggering Thunder Mitts chains, sustain is excellent.',tags:['dmg','def']},
-      {rank:'A',emoji:'🔋',name:'Battery',desc:'Reduces all cooldowns — all weapons fire faster, more Thunder Mitts procs per second.',tags:['util']},
-      {rank:'B',emoji:'💉',name:'Gym Sauce',desc:'Flat damage that amplifies each Lightning chain hit.',tags:['dmg']},
+      {rank:'S',emoji:'💉',name:'Unstable Transfusion',desc:'CORE — applies Bloodmark to enemies. At 15% HP, Bloodmark triggers and Dexecutioner executes instantly.',tags:['dmg']},
+      {rank:'S',emoji:'🎯',name:'Boss Buster',desc:'Massive damage multiplier against bosses and elites — the entire build is tuned for boss melting.',tags:['dmg']},
+      {rank:'A',emoji:'⚔️',name:'Demonic Blade',desc:'Heals on crits — keeps you alive during the 40HP boss fight.',tags:['dmg','def']},
+      {rank:'B',emoji:'💉',name:'Gym Sauce',desc:'Flat damage amplifying every Megacrit hit.',tags:['dmg']},
+      {rank:'B',emoji:'🔋',name:'Battery',desc:'Cooldown reduction for faster Revolver and Dexecutioner procs.',tags:['util']},
     ],
-    tips:['Thunder Mitts is the build-defining item — without it this is just a generic Lightning build. Priority pick.','Quantity Tome first, not Precision — volume of hits matters more than per-hit crits in this build.','Every weapon hit triggers Thunder Mitts — Bananarang bouncing through a crowd fires dozens of lightning procs.','More forgiving than Crit Burst — Lightning chains hit automatically without precise aiming.','At high Quantity + Cooldown stacks with Thunder Mitts active, the screen is permanently lit with chain lightning.'],
+    tips:['Unstable Transfusion + Dexecutioner is the boss kill condition — apply Bloodmark, wait for 15% HP, execute.','Precision Tome first — guaranteed crits from early game via the passive + tome stack.','This build is specifically tuned for boss melting and leaderboard high-kill runs.','Revolver + Bone covers both single-target and multi-target while Lightning Staff handles hordes.','More mechanical than Glass Cannon — requires timing the Bloodmark execute window on bosses.'],
     progression:[
-      {label:'Levels 1–10',sublabel:'Lightning Staff first',weapons:['Revolver','Lightning Staff'],tomes:['Quantity Tome','Cooldown Tome'],tips:['Add Lightning Staff immediately alongside Revolver.','Quantity Tome first — more chains from the start.','Play mobile. You don\'t have Thunder Mitts yet so survivability relies on positioning.']},
-      {label:'Levels 11–20',sublabel:'Thunder Mitts is the spike',weapons:['Lightning Staff','Aura'],tomes:['Quantity Tome','Cooldown Tome','Damage Tome'],tips:['Thunder Mitts is your #1 priority item from any chest or vendor from this point on.','Add Aura now — it ticks constantly and each tick triggers Thunder Mitts independently.','Once Thunder Mitts is active the build transforms immediately — lightning fires from every hit.']},
-      {label:'Levels 21–35',sublabel:'Chain reaction engine online',weapons:['Lightning Staff','Aura','Bananarang','Revolver'],tomes:['Quantity Tome','Cooldown Tome','Precision Tome'],tips:['Bananarang added — each bounce triggers Thunder Mitts independently for chains through entire groups.','Precision Tome now that all weapons are established — CL4NK crits amplify every chain hit.','Electric Plug + Demonic Blade from items — survive mid-range playstyle comfortably.']},
-      {label:'Levels 35+',sublabel:'Permanent lightning storm',weapons:['Lightning Staff','Aura','Bananarang','Revolver','Aegis'],tomes:['Precision Tome','Damage Tome','Quantity Tome'],tips:['Aegis as final slot — mid-range play means boss projectiles are a consistent threat.','Screen should be permanently lit with chain lightning from every weapon firing.','Damage Tome at high Precision — crits multiply enormous base chain damage simultaneously.']},
+      {label:'Levels 1–10',sublabel:'Precision first',weapons:['Revolver'],tomes:['Precision Tome','Cooldown Tome'],tips:['Precision Tome immediately — the passive stacks crit chance per level so every level is a multiplier.','Play mobile. 40HP means you cannot take hits early — stay outside enemy melee range.','Bone from any chest is a priority — it immediately covers ground Revolver misses.']},
+      {label:'Levels 11–20',sublabel:'Hunt for Unstable Transfusion',weapons:['Revolver','Bone','Lightning Staff'],tomes:['Precision Tome','Cooldown Tome','XP Tome'],tips:['Unstable Transfusion is your #1 item priority — Bloodmark + Dexecutioner is the boss kill pattern.','Lightning Staff added for horde control while you focus Revolver on bosses.','XP Tome stacks the Crit Chance passive faster — each level adds 1% crit.']},
+      {label:'Levels 21–35',sublabel:'Boss Buster + execute combo online',weapons:['Revolver','Bone','Lightning Staff','Dexecutioner'],tomes:['Precision Tome','Cooldown Tome','Damage Tome'],tips:['Dexecutioner added — once you have Unstable Transfusion, Bloodmark triggers Dexecutioner executes.','Boss Buster from vendor or chest is the second priority item — massive elite/boss damage.','Damage Tome now that Precision and crits are well established.']},
+      {label:'Levels 35+',sublabel:'Guaranteed boss execution',weapons:['Revolver','Bone','Lightning Staff','Dexecutioner','Aegis'],tomes:['Precision Tome','Damage Tome','Cooldown Tome'],tips:['Aegis final slot — boss projectiles hit hard at this stage with your 40HP pool.','The execute loop: hit boss with Revolver to proc Bloodmark, wait for 15% HP, Dexecutioner finishes it.','Demonic Blade for crit-based healing — keeps you alive during the execute timing window.']},
     ],
   },
   noelle:{
@@ -958,34 +962,34 @@ const BUILDS2={
     ],
   },
   megachad:{
-    b1name:'Aura AFK',b2name:'Kevin+Mirror Immortal',
+    b1name:'AFK Fire God',b2name:'Tank/DPS Hybrid',
     weapons:[
-      {rank:'S',emoji:'✨',name:'Aura',desc:'Core — continues dealing passive damage while you stand completely still during the Kevin+Mirror immortal loop.',tags:['dmg','aoe']},
-      {rank:'S',emoji:'🛡️',name:'Aegis',desc:'Blocks incoming damage — more hits blocked means more Mirror invulnerability procs.',tags:['def','aoe']},
-      {rank:'A',emoji:'❄️',name:'Frostwalker',desc:'Slows approaching enemies — gives more time for Mirror invulnerability to cycle before enemies reach you.',tags:['dmg','aoe','def']},
-      {rank:'A',emoji:'⚡',name:'Lightning Staff',desc:'Passive AoE that fires while you stand completely still in the immortal loop.',tags:['dmg','aoe']},
-      {rank:'B',emoji:'🔫',name:'Revolver',desc:'Long-range coverage for enemies outside Aura range while standing still.',tags:['dmg']},
+      {rank:'S',emoji:'✨',name:'Aura',desc:'Core — passive 360° damage. Combined with Banana Tornado, enemies never reach Megachad\'s position.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'🛡️',name:'Aegis',desc:'Blocks incoming projectiles — essential defense so Megachad can stand his ground in the middle of swarms.',tags:['def','aoe']},
+      {rank:'A',emoji:'🔫',name:'Revolver',desc:'Long-range damage for threats outside Aura reach.',tags:['dmg']},
+      {rank:'A',emoji:'🍌',name:'Bananarang',desc:'Creates "Banana Tornado" with Quantity Tome — a wall of returning projectiles that stops enemy advances.',tags:['dmg','aoe']},
+      {rank:'B',emoji:'⚡',name:'Lightning Staff',desc:'Passive AoE chain damage to supplement Aura coverage.',tags:['dmg','aoe']},
     ],
     tomes:[
-      {rank:'S',emoji:'📚',name:'XP Tome',desc:'Faster levelling to find Kevin sooner — Kevin requires 3 Leeching Crystals which take time to locate.',tags:['util']},
-      {rank:'S',emoji:'🍀',name:'Luck Tome',desc:'Higher Luck means Leeching Crystals and Mirror appear more frequently in chests and vendors.',tags:['luck']},
-      {rank:'A',emoji:'⚡',name:'Attack Speed Tome',desc:'More attacks per second = Kevin procs Mirror faster = invulnerability windows overlap = full immortality.',tags:['dmg','util']},
-      {rank:'A',emoji:'☠️',name:'Cursed Tome',desc:'More enemies means Kevin procs more per second — speeds up the Mirror invulnerability cycle.',tags:['util']},
-      {rank:'B',emoji:'📐',name:'Size Tome',desc:'Expands Aura radius for more passive damage during the immortal loop.',tags:['dmg','aoe']},
+      {rank:'S',emoji:'📐',name:'Size Tome',desc:'Expands both Aura and Banana Tornado range — single biggest power spike for this build.',tags:['dmg','aoe']},
+      {rank:'A',emoji:'⚔️',name:'Damage Tome',desc:'Amplifies Aura, Bananarang, and Revolver simultaneously.',tags:['dmg']},
+      {rank:'A',emoji:'🔢',name:'Quantity Tome',desc:'Creates the Banana Tornado from Bananarang — the defining crowd control of this build.',tags:['dmg']},
+      {rank:'A',emoji:'⏱️',name:'Cooldown Tome',desc:'Faster weapon procs stacking with Flex passive for near-constant Aegis and Bananarang cycles.',tags:['dmg','util']},
+      {rank:'B',emoji:'📚',name:'XP Tome',desc:'Level faster to stack Flex\'s cooldown reduction sooner.',tags:['util']},
     ],
     items:[
-      {rank:'S',emoji:'😈',name:'Kevin',desc:'CORE — requires 3 Leeching Crystals. Constantly damages you (can\'t kill) scaling with attack speed. Activates Mirror loop.',tags:['dmg','util']},
-      {rank:'S',emoji:'🪞',name:'Mirror',desc:'CORE — brief invulnerability when damaged. Kevin\'s constant damage procs Mirror repeatedly. At high speed, windows fully overlap.',tags:['def']},
-      {rank:'S',emoji:'💎',name:'Leeching Crystal',desc:'Collect all 3 — required to unlock Kevin. The entire run goal until acquired.',tags:['def','util']},
-      {rank:'A',emoji:'🧃',name:'Idle Juice',desc:'Damage boost for standing still — this build literally stands still. Free double damage.',tags:['dmg']},
-      {rank:'B',emoji:'💉',name:'Gym Sauce',desc:'Flat damage boost to Aura and Lightning Staff passive damage during the loop.',tags:['dmg']},
+      {rank:'S',emoji:'🥊',name:'Brass Knuckles',desc:'Massive melee damage boost — when enemies get close through the Banana Tornado, Megachad punches back hard.',tags:['dmg']},
+      {rank:'A',emoji:'👻',name:'Demonic Soul',desc:'Damage boost that scales with enemy density — ideal for standing in the middle of swarms.',tags:['dmg']},
+      {rank:'A',emoji:'🔨',name:'Big Bonk',desc:'Massive knockback on Megachad\'s Flex stun — sends staggered enemies flying.',tags:['dmg','util']},
+      {rank:'A',emoji:'💉',name:'Gym Sauce',desc:'Flat damage amplifying every Aura tick and Bananarang bounce.',tags:['dmg']},
+      {rank:'B',emoji:'🧃',name:'Idle Juice',desc:'Bonus damage for standing still — works passively in the stationary Aura position.',tags:['dmg']},
     ],
-    tips:['Kevin requires 3 Leeching Crystals — finding all 3 IS the run until it happens. Every other item is secondary.','Once Kevin + Mirror are both active at high attack speed, you become unkillable. Stand still.','Use Luck Tome specifically to find Leeching Crystals faster from chests and vendors.','This build took players to 22-hour AFK runs. It was patched but remains the strongest Megachad strategy.','Idle Juice doubles damage while standing still — already your default playstyle in the immortal phase.'],
+    tips:['Banana Tornado (Quantity Tome + Bananarang) stops enemies from ever reaching Megachad\'s core Aura.','Size Tome is the #1 priority — Aura + Bananarang tornado both expand, covering more ground.','More aggressive than AFK Fire God — you can reposition when needed rather than being fully stationary.','Brass Knuckles rewards holding position as enemies are stunned by Flex and punched back.','Switch to AFK Fire God build if you want full stationary Idle Juice + Campfire + Ice Cube synergy.'],
     progression:[
-      {label:'Levels 1–10',sublabel:'Farm Leeching Crystals',weapons:['Aura'],tomes:['XP Tome','Luck Tome'],tips:['Your only real goal this phase is finding Leeching Crystals. Open every chest, visit every vendor.','XP + Luck Tomes first — faster levels and better item quality means Crystals appear sooner.','Aura handles early enemies passively. Don\'t get distracted unless the item is a Crystal, Mirror, or Kevin.']},
-      {label:'Levels 11–20',sublabel:'Build the safety net',weapons:['Aura','Aegis','Frostwalker'],tomes:['XP Tome','Luck Tome','Attack Speed Tome'],tips:['Add Aegis and Frostwalker — you need durability before Kevin starts dealing you damage.','Attack Speed Tome is critical — Kevin procs Mirror based on hits per second, not total damage.','Still no Kevin? Keep looking. This is still the priority above all else.']},
-      {label:'Levels 21–35',sublabel:'Kevin+Mirror activation',weapons:['Aura','Aegis','Frostwalker','Lightning Staff'],tomes:['Attack Speed Tome','Luck Tome','Cursed Tome'],tips:['The moment you have Kevin AND Mirror, equip both. The immortal loop begins immediately.','Cursed Tome added — denser spawns mean Kevin procs faster means more Mirror windows.','Lightning Staff as fourth weapon — fires passively while you stand still in the loop.']},
-      {label:'Levels 35+',sublabel:'Literally unkillable',weapons:['Aura','Aegis','Frostwalker','Lightning Staff','Revolver'],tomes:['Attack Speed Tome','Size Tome','Cursed Tome'],tips:['At full Attack Speed stacks + Kevin + Mirror, invulnerability windows fully overlap. You cannot die.','Size Tome expands Aura radius — more passive damage while standing still indefinitely.','You can AFK this run. Aura + Lightning + Revolver kill everything. Kevin+Mirror means nothing kills you.']},
+      {label:'Levels 1–10',sublabel:'Aura core + Size priority',weapons:['Aura'],tomes:['Size Tome','Damage Tome'],tips:['Size Tome first — Aura\'s range grows visibly each stack.','Play near-stationary early. Aura handles close enemies passively.','Aegis from any chest immediately — projectile protection is essential for holding ground.']},
+      {label:'Levels 11–20',sublabel:'Banana Tornado begins',weapons:['Aura','Aegis','Bananarang'],tomes:['Size Tome','Quantity Tome'],tips:['Add Bananarang now — with Quantity Tome it becomes a returning projectile tornado.','Quantity Tome is the power spike for this build. Even 2 stacks visibly transform Bananarang output.','Hold position in center of enemy groups — Aura + Bananarang handles all directions simultaneously.']},
+      {label:'Levels 21–35',sublabel:'Full Area Denial',weapons:['Aura','Aegis','Bananarang','Revolver'],tomes:['Size Tome','Quantity Tome','Damage Tome'],tips:['Revolver added for long-range targets outside Aura+Banana Tornado range.','Damage Tome now — Aura and Bananarang have sufficient base size and quantity to amplify.','Brass Knuckles from vendor or chest — enemies that break through the tornado get punished hard.']},
+      {label:'Levels 35+',sublabel:'Banana Tornado wall',weapons:['Aura','Aegis','Bananarang','Revolver','Lightning Staff'],tomes:['Damage Tome','Cooldown Tome','Quantity Tome'],tips:['Lightning Staff final weapon — chains between enemies Aura and Bananarang are processing.','Cooldown Tome stacks with Flex passive — near-constant Aegis blocks and faster Bananarang cycles.','At full stacks, the Banana Tornado + Aura combination covers most of the visible screen.']},
     ],
   },
 };
@@ -996,7 +1000,7 @@ dicehead:[[{n:'XP Tome',l:'max'},{n:'Luck Tome',l:'max'},{n:'Dice',l:'max'}],[{n
 bandit:[[{n:'Dexecutioner',l:'max'},{n:'XP Tome',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Quantity Tome',l:'3'},{n:'Size Tome',l:'3'},{n:'Revolver',l:'3'},{n:'Flamewalker',l:'2'}],[{n:'Damage Tome',l:'max'},{n:'Katana',l:'3'}]],
 robinette:[[{n:'Bow',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'3'}],[{n:'Precision Tome',l:'max'},{n:'Sniper Rifle',l:'max'},{n:'Damage Tome',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Dexecutioner',l:'max'}]],
 vlad:[[{n:'Lifesteal Tome',l:'max'},{n:'Blood Magic',l:'max'}],[{n:'Quantity Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'},{n:'Dexecutioner',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'},{n:'XP Tome',l:'2'}]],
-sirchadwell:[[{n:'Size Tome',l:'max'},{n:'Cursed Sword',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Dexecutioner',l:'3'},{n:'Katana',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aegis',l:'max'}]],
+sirchadwell:[[{n:'Size Tome',l:'max'},{n:'Corrupted Sword',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Cooldown Tome',l:'max'},{n:'Aura',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Dexecutioner',l:'3'},{n:'Katana',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Aegis',l:'max'}]],
 fox:[[{n:'Luck Tome',l:'max'},{n:'XP Tome',l:'3'},{n:'Firestaff',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Lightning Staff',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Dexecutioner',l:'max'},{n:'Aegis',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'}]],
 calcium:[[{n:'Movement Speed Tome',l:'max'},{n:'Bone',l:'max'},{n:'XP Tome',l:'3'}],[{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'3'}],[{n:'Attack Speed Tome',l:'max'},{n:'Flamewalker',l:'3'},{n:'Bow',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Lightning Staff',l:'3'}]],
 cl4nk:[[{n:'Precision Tome',l:'max'},{n:'Quantity Tome',l:'max'},{n:'Revolver',l:'max'}],[{n:'Cooldown Tome',l:'max'},{n:'Firestaff',l:'3'}],[{n:'Damage Tome',l:'max'},{n:'Bananarang',l:'3'},{n:'Axe',l:'2'}],[{n:'Lightning Staff',l:'3'}]],
